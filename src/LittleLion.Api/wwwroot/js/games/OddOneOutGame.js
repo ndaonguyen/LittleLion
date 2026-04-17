@@ -3,6 +3,9 @@ import { el } from '../core/DomHelpers.js';
 import { pickRandom, pickOne } from '../core/Random.js';
 import { createVocabVisual } from '../screens/VocabVisual.js';
 
+/** CSS class suffixes for tile patterns used in the Colors-lesson mode. */
+const PATTERNS = ['solid', 'dots', 'stripes', 'checkered'];
+
 /**
  * Odd One Out.
  *
@@ -71,6 +74,20 @@ export class OddOneOutGame extends BaseGame {
   }
 
   renderRound() {
+    // The Colors lesson is unique - it teaches a visual attribute,
+    // not a noun category. A cross-lesson intruder ("which of these
+    // isn't a color?") doesn't match what the lesson teaches. For
+    // Colors specifically we show N swatches of one color + 1 swatch
+    // of a different color, with random patterns for visual variety.
+    if (this.lessonId === 'colors') {
+      this._renderColorsRound();
+      return;
+    }
+    this._renderCategoryRound();
+  }
+
+  /** Default behavior for all non-Colors lessons: cross-lesson intruder. */
+  _renderCategoryRound() {
     const { audio, media } = this.context.services;
 
     const correctCount = Math.max(2, this.tileCount - 1);
@@ -83,9 +100,6 @@ export class OddOneOutGame extends BaseGame {
     // lesson items - _loadIntruderPool will re-render once loaded.
     const pool = this._intruderPool ?? [];
     if (pool.length === 0) {
-      // No intruder available yet. Don't render a broken round - show
-      // a brief loading state; onMount will re-trigger after the pool
-      // is ready.
       this.bodyContainer.append(
         el('p', { class: 'game__prompt' }, ['Loading...']),
       );
@@ -94,7 +108,6 @@ export class OddOneOutGame extends BaseGame {
 
     const intruder = pickOne(pool);
     const options = [...correctItems, intruder];
-    // Shuffle so the intruder isn't always at the end
     options.sort(() => Math.random() - 0.5);
 
     let locked = false;
@@ -120,7 +133,6 @@ export class OddOneOutGame extends BaseGame {
             this._showPraise(item.word);
             this.completeRound();
           } else {
-            // Tapped a lesson item - this isn't the intruder
             tile.classList.add('tile--dodge');
             this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
@@ -133,15 +145,87 @@ export class OddOneOutGame extends BaseGame {
       return tile;
     });
 
-    // At 5 tiles (Hard) use the dense grid, same approach as TapGame.
-    const gridClass = options.length >= 5 ? 'tap-grid tap-grid--dense' : 'tap-grid';
+    this._finishRender(tiles, options.length, intruderTile);
+  }
 
-    // Spoken prompt: category name + the question. Using the category
-    // as a sentence tag rather than "These are <title>" avoids grammar
-    // awkwardness on lessons like "My Body" or "Food" (uncountable).
-    // Examples:
-    //   "Animals. Which one doesn't belong?"
-    //   "My Body. Which one doesn't belong?"
+  /**
+   * Colors-specific round. Builds tiles from Colors vocab directly
+   * (not from cross-lesson intruder pool) - (N-1) tiles of one color,
+   * 1 tile of a different color. Each tile gets a randomly-picked
+   * pattern from PATTERNS so the tile grid looks visually rich
+   * rather than 5 identical squares. The child must still solve by
+   * COLOR though - pattern is decorative, not the gameplay variable.
+   */
+  _renderColorsRound() {
+    const { audio } = this.context.services;
+
+    if (this.vocab.length < 2) return; // Defensive; Colors has 12 items.
+
+    // Pick two distinct colors from the Colors vocab: one for the
+    // N-1 "same" tiles, one for the intruder.
+    const [mainColor, intruderColor] = pickRandom(this.vocab, 2);
+
+    // Repeat mainColor (N-1) times + add intruder, shuffle order.
+    const correctCount = Math.max(2, this.tileCount - 1);
+    const options = [
+      ...Array.from({ length: correctCount }, () => mainColor),
+      intruderColor,
+    ];
+    options.sort(() => Math.random() - 0.5);
+
+    let locked = false;
+    let intruderTile = null;
+
+    const tiles = options.map((item, idx) => {
+      const isIntruder = item.id === intruderColor.id;
+      const pattern = PATTERNS[Math.floor(Math.random() * PATTERNS.length)];
+
+      const tile = el('button', {
+        class: `tile tile--entering color-swatch color-swatch--${pattern}`,
+        style: {
+          // Use the raw color directly - we explicitly want to bypass
+          // tileBackground()'s Colors+Hard neutral rule here. The
+          // whole point of this mode is that color IS the signal.
+          '--swatch-color': item.color,
+          background: item.color,
+          animationDelay: `${idx * 90}ms`,
+        },
+        'aria-label': item.word,
+        onclick: () => {
+          if (locked) return;
+          if (isIntruder) {
+            locked = true;
+            tile.classList.add('tile--correct');
+            this.context.services.sfx.play('ding');
+            audio.speak(item.word);
+            this.context.bus.emit('leo:cheer');
+            this._showPraise(item.word);
+            this.completeRound();
+          } else {
+            tile.classList.add('tile--dodge');
+            this.context.services.sfx.play('buzz');
+            this.context.bus.emit('leo:sad');
+            this.noteWrong();
+            setTimeout(() => tile.classList.remove('tile--dodge'), 500);
+          }
+        },
+      });
+      // Note: no vocab-visual on Colors tiles - the tile IS the content.
+      // Putting an emoji inside would re-introduce the object-as-signal
+      // confusion that the user's screenshot flagged.
+      if (isIntruder && !intruderTile) intruderTile = tile;
+      return tile;
+    });
+
+    this._finishRender(tiles, options.length, intruderTile);
+  }
+
+  /** Common tail for both rendering paths: prompt, grid, auto-speak. */
+  _finishRender(tiles, tileCount, intruderTile) {
+    const { audio } = this.context.services;
+
+    const gridClass = tileCount >= 5 ? 'tap-grid tap-grid--dense' : 'tap-grid';
+
     const promptSpoken = `${this.lessonTitle}. Which one doesn't belong?`;
     const playPrompt = () => audio.speak(promptSpoken);
 
@@ -157,13 +241,7 @@ export class OddOneOutGame extends BaseGame {
       el('div', { class: gridClass, style: { marginTop: '24px' } }, tiles),
     );
 
-    // Auto-speak the prompt shortly after render so the child hears
-    // the question without having to tap. The delay lets the
-    // entrance animations settle - speaking over scene transitions
-    // feels rushed.
     setTimeout(playPrompt, 500);
-
-    // Hint watcher - point at the intruder after 8s
     this.startRoundWatch(intruderTile);
   }
 

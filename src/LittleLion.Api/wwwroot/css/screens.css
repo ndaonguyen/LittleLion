@@ -1415,3 +1415,54 @@
   transform: scale(0.94);
   transition: transform 0.08s var(--ease-soft);
 }
+
+/* ============================================================
+   Color-swatch tiles (Odd One Out + Colors lesson only)
+
+   The base background color is set inline from --swatch-color.
+   Pattern classes overlay a gradient/image on top for visual
+   variety. Color remains the gameplay signal; pattern is decorative
+   so the grid doesn't look like 5 identical squares.
+   ============================================================ */
+
+.color-swatch {
+  /* Override any vocab-visual child styling since these tiles have no
+     emoji inside. Also ensures the swatch fills the tile nicely. */
+  position: relative;
+}
+
+/* SOLID: the base color only - no overlay pattern. */
+/* .color-swatch--solid needs no extra rules - the inline background wins */
+
+/* DOTS: small white-ish polka dots scattered across the tile. */
+.color-swatch--dots {
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.5) 10%, transparent 12%),
+    radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.5) 10%, transparent 12%),
+    radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.5) 10%, transparent 12%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.5) 10%, transparent 12%);
+  background-size: 40px 40px, 40px 40px, 40px 40px, 40px 40px;
+  background-color: var(--swatch-color);
+}
+
+/* STRIPES: diagonal white-ish stripes across the tile. */
+.color-swatch--stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.35) 0 8px,
+    transparent 8px 20px
+  );
+  background-color: var(--swatch-color);
+}
+
+/* CHECKERED: 2x2 checkerboard with alternating lighter/darker shade. */
+.color-swatch--checkered {
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.3) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.3) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.3) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.3) 75%);
+  background-size: 24px 24px;
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  background-color: var(--swatch-color);
+}
