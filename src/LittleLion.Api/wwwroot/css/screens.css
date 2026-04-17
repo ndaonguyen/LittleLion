@@ -202,6 +202,17 @@
   justify-content: center;
   font-size: 40px;
   box-shadow: inset -6px -8px 12px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s var(--ease-soft);
+}
+/* Hard mode: 8 balloons on screen - shrink bodies so they don't overlap
+   as much during the rise. Applied via a class on .balloon-field. */
+.balloon-field--crowded .balloon__body {
+  width: 58px;
+  height: 70px;
+  font-size: 30px;
+}
+.balloon-field--crowded .balloon__string {
+  height: 36px;
 }
 .balloon__tie {
   width: 0;

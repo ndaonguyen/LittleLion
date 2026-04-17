@@ -14,8 +14,16 @@ export class DragGame extends BaseGame {
   get gameName()    { return 'drag'; }
   get totalRounds() { return 1; }
 
+  /**
+   * Match-It scales differently from Tap/Balloon. Pictures + word chips
+   * on a phone screen stop being tappable past ~5-6 items, so Hard keeps
+   * the same count as Medium. The 'hard' part is coming from there being
+   * more possible target words (15-word lessons vs the old 6-8), not from
+   * more tiles on screen. Shuffling a 5-pick from 15 makes every session
+   * different even at the same difficulty.
+   */
   get pairCount() {
-    return { Easy: 3, Medium: 4, Hard: 5 }[this.difficulty] ?? 4;
+    return { Easy: 3, Medium: 5, Hard: 5 }[this.difficulty] ?? 5;
   }
 
   renderRound() {
