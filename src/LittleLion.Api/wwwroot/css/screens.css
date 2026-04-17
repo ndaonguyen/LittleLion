@@ -129,6 +129,11 @@
   width: 100%;
   max-width: 380px;
 }
+/* Hard mode: 8 tiles - drop to 3 columns so 3+3+2 fits without overflow */
+.tap-grid--dense {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
 
 /* ---------- Drag game ---------- */
 .drag-grid {

@@ -27,7 +27,7 @@ export class TapGame extends BaseGame {
       const tile = el('button', {
         class: 'tile tile--entering',
         style: {
-          background: item.color,
+          background: this.tileBackground(item),
           animationDelay: `${idx * 90}ms`,
         },
         'aria-label': item.word,
@@ -55,6 +55,9 @@ export class TapGame extends BaseGame {
       return tile;
     });
 
+    // At 7+ tiles a 2-column grid overflows the viewport; 3 columns fits.
+    const gridClass = n >= 7 ? 'tap-grid tap-grid--dense' : 'tap-grid';
+
     this.bodyContainer.append(
       el('p', { class: 'game__prompt' }, ['Listen and tap']),
       el('button', {
@@ -64,7 +67,7 @@ export class TapGame extends BaseGame {
         el('span', { class: 'sound-button__icon' }, ['🔊']),
         el('span', {}, ['Play sound']),
       ]),
-      el('div', { class: 'tap-grid', style: { marginTop: '24px' } }, tiles),
+      el('div', { class: gridClass, style: { marginTop: '24px' } }, tiles),
     );
 
     // Auto-play the target word shortly after render
