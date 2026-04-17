@@ -13,6 +13,9 @@ export class HomeScreen extends Component {
 
     this._starsLabel = el('span', {}, [String(progress.totalStars)]);
     this._streakLabel = this._buildStreak(progress.streakDays);
+    this._stickerCount = el('span', { class: 'home__sticker-link__count' }, [
+      `${progress.unlockedItems?.length ?? 0}`,
+    ]);
     this._lessonGrid  = el('div', { class: 'lesson-grid' });
 
     this.listen('progress:changed', () => this._refreshHeader());
@@ -21,8 +24,15 @@ export class HomeScreen extends Component {
       this._buildHeader(),
       this._buildHeroBanner(),
       this._lessonGrid,
-      el('p', { class: 'home__footer' }, [
-        'Tap a topic to start learning 🦁',
+      el('div', { class: 'home__footer', style: { display: 'flex', justifyContent: 'center' } }, [
+        el('button', {
+          class: 'home__sticker-link',
+          onclick: () => this.context.router.navigate('stickerBook'),
+        }, [
+          '📖',
+          'Sticker Book',
+          this._stickerCount,
+        ]),
       ]),
     ]);
 
@@ -41,6 +51,12 @@ export class HomeScreen extends Component {
       console.error('Failed to load lessons', err);
       this._lessonGrid.textContent = 'Oops, could not load lessons.';
     }
+
+    // If the reward catalog / progress hadn't loaded yet when we rendered,
+    // once they finish loading the header listener below will refresh
+    // everything including the costume. Do it now too in case they were
+    // already loaded.
+    this._refreshHeader();
   }
 
   _renderLessons(lessons) {
@@ -109,6 +125,31 @@ export class HomeScreen extends Component {
     this._streakLabel.textContent = progress.streakDays > 0
       ? `🔥 ${progress.streakDays}`
       : '🔥 0';
+    if (this._stickerCount) {
+      this._stickerCount.textContent = String(progress.unlockedItems?.length ?? 0);
+    }
+    this._applyCostumeToLeo();
+  }
+
+  /**
+   * Pick the highest-tier costume the player has unlocked and put it
+   * on Leo. Order is by streak-days descending - throne beats crown
+   * beats cape beats scarf beats hat.
+   */
+  _applyCostumeToLeo() {
+    if (!this._leo) return;
+    const { rewards, progress } = this.context.services;
+    if (!rewards.all || rewards.all.length === 0) {
+      this.context.bus.emit('leo:costume', { emoji: null });
+      return;
+    }
+
+    const costumes = rewards.byCategory('Costume')
+      .filter(r => progress.hasUnlocked(r.id))
+      .sort((a, b) => (b.streakDays ?? 0) - (a.streakDays ?? 0));
+
+    const best = costumes[0];
+    this.context.bus.emit('leo:costume', { emoji: best?.emoji ?? null });
   }
 }
 

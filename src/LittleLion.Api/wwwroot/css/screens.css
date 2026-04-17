@@ -646,3 +646,172 @@
 .lesson-card:hover .lesson-card__emoji {
   transform: rotate(-8deg) scale(1.15);
 }
+
+/* ============================================================
+   Sticker Book
+   ============================================================ */
+.sticker-book {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--space-4) var(--space-6);
+}
+.sticker-book__section-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: var(--space-5) 0 var(--space-3);
+  padding-left: var(--space-2);
+}
+.sticker-book__section-title:first-child {
+  margin-top: var(--space-3);
+}
+.sticker-book__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.sticker-card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  animation: slide-up 0.4s var(--ease-soft) both;
+  font-family: var(--font-display);
+  transition: transform 0.15s var(--ease-soft);
+}
+.sticker-card:hover { transform: translateY(-2px); }
+
+.sticker-card__emoji {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+}
+.sticker-card__name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+.sticker-card__hint {
+  font-size: 10px;
+  color: var(--color-mist);
+  margin-top: 2px;
+  min-height: 1.2em;
+}
+
+.sticker-card--locked {
+  background: #F1EEF5;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.sticker-card--locked .sticker-card__emoji {
+  filter: grayscale(1) opacity(0.5);
+}
+.sticker-card--locked .sticker-card__name {
+  color: var(--color-mist);
+}
+
+/* ============================================================
+   Unlock Toast
+   ============================================================ */
+.unlock-toast-host {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.unlock-toast {
+  position: relative;
+  background: linear-gradient(135deg, #fffbe0 0%, #fff0c2 100%);
+  border: 3px solid #FFB84C;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6) var(--space-4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 280px;
+  font-family: var(--font-display);
+  animation: unlock-toast-enter 0.5s var(--ease-bounce);
+}
+.unlock-toast--leaving {
+  animation: unlock-toast-leave 0.45s var(--ease-soft) forwards;
+}
+.unlock-toast__ribbon {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-pink);
+  color: var(--color-white);
+  padding: 3px 14px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.unlock-toast__emoji {
+  font-size: 72px;
+  line-height: 1;
+  margin: var(--space-2) 0;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.15));
+  animation: unlock-toast-pop 0.7s var(--ease-bounce);
+}
+.unlock-toast__name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+.unlock-toast__sub {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+@keyframes unlock-toast-enter {
+  0%   { transform: scale(0.6) translateY(30px); opacity: 0; }
+  60%  { transform: scale(1.08) translateY(0);   opacity: 1; }
+  100% { transform: scale(1) translateY(0);      opacity: 1; }
+}
+@keyframes unlock-toast-leave {
+  0%   { transform: scale(1) translateY(0);    opacity: 1; }
+  100% { transform: scale(0.95) translateY(-10px); opacity: 0; }
+}
+@keyframes unlock-toast-pop {
+  0%   { transform: scale(0) rotate(-20deg); }
+  60%  { transform: scale(1.25) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* ============================================================
+   Home sticker book button + costume indicator
+   ============================================================ */
+.home__sticker-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-white);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-soft);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-ink);
+  transition: transform 0.1s var(--ease-soft);
+}
+.home__sticker-link:active { transform: translateY(2px); }
+.home__sticker-link__count {
+  color: var(--color-orange);
+}
+
+/* Costume on home-screen Leo - show highest-tier unlocked costume */
+.home__lesson-banner-emoji {
+  position: relative;
+}
