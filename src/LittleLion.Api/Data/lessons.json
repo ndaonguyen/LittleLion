@@ -39,5 +39,59 @@
       { "id": "strawberry", "word": "Strawberry", "emoji": "🍓", "color": "#EC4899" },
       { "id": "watermelon", "word": "Watermelon", "emoji": "🍉", "color": "#10B981" }
     ]
+  },
+  {
+    "id": "vehicles",
+    "title": "Vehicles",
+    "theme": "transport",
+    "items": [
+      { "id": "car",        "word": "Car",        "emoji": "🚗", "color": "#EF4444" },
+      { "id": "bus",        "word": "Bus",        "emoji": "🚌", "color": "#FACC15" },
+      { "id": "plane",      "word": "Plane",      "emoji": "✈️", "color": "#5B9EFF" },
+      { "id": "bike",       "word": "Bike",       "emoji": "🚲", "color": "#22C55E" },
+      { "id": "train",      "word": "Train",      "emoji": "🚂", "color": "#A855F7" },
+      { "id": "boat",       "word": "Boat",       "emoji": "⛵", "color": "#4ECDC4" },
+      { "id": "truck",      "word": "Truck",      "emoji": "🚚", "color": "#FF8C42" },
+      { "id": "helicopter", "word": "Helicopter", "emoji": "🚁", "color": "#FF6B9D" }
+    ]
+  },
+  {
+    "id": "body",
+    "title": "My Body",
+    "theme": "body",
+    "items": [
+      { "id": "eye",   "word": "Eye",   "emoji": "👁️", "color": "#5B9EFF" },
+      { "id": "ear",   "word": "Ear",   "emoji": "👂", "color": "#FFB3D9" },
+      { "id": "nose",  "word": "Nose",  "emoji": "👃", "color": "#FF8C42" },
+      { "id": "mouth", "word": "Mouth", "emoji": "👄", "color": "#EF4444" },
+      { "id": "hand",  "word": "Hand",  "emoji": "✋", "color": "#FFB84C" },
+      { "id": "foot",  "word": "Foot",  "emoji": "🦶", "color": "#A78BFA" }
+    ]
+  },
+  {
+    "id": "clothes",
+    "title": "Clothes",
+    "theme": "clothes",
+    "items": [
+      { "id": "shirt",  "word": "Shirt",  "emoji": "👕", "color": "#4ECDC4" },
+      { "id": "pants",  "word": "Pants",  "emoji": "👖", "color": "#5B9EFF" },
+      { "id": "shoes",  "word": "Shoes",  "emoji": "👟", "color": "#EF4444" },
+      { "id": "hat",    "word": "Hat",    "emoji": "🎩", "color": "#2B2A33" },
+      { "id": "socks",  "word": "Socks",  "emoji": "🧦", "color": "#FF6B9D" },
+      { "id": "jacket", "word": "Jacket", "emoji": "🧥", "color": "#A78BFA" }
+    ]
+  },
+  {
+    "id": "weather",
+    "title": "Weather",
+    "theme": "weather",
+    "items": [
+      { "id": "sun",     "word": "Sun",     "emoji": "☀️", "color": "#FACC15" },
+      { "id": "rain",    "word": "Rain",    "emoji": "🌧️", "color": "#5B9EFF" },
+      { "id": "cloud",   "word": "Cloud",   "emoji": "☁️", "color": "#A7A3AF" },
+      { "id": "snow",    "word": "Snow",    "emoji": "❄️", "color": "#4ECDC4" },
+      { "id": "wind",    "word": "Wind",    "emoji": "💨", "color": "#87CEEB" },
+      { "id": "rainbow", "word": "Rainbow", "emoji": "🌈", "color": "#FF6B9D" }
+    ]
   }
 ]

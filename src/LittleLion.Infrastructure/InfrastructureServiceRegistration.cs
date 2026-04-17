@@ -1,7 +1,11 @@
+using LittleLion.Application.Common;
 using LittleLion.Application.Lessons.Abstractions;
+using LittleLion.Application.Progress.Abstractions;
 using LittleLion.Infrastructure.Configuration;
 using LittleLion.Infrastructure.Lessons.Audio;
 using LittleLion.Infrastructure.Lessons.Persistence;
+using LittleLion.Infrastructure.Progress.Persistence;
+using LittleLion.Infrastructure.Time;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,12 +20,21 @@ public static class InfrastructureServiceRegistration
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // Options
         services.Configure<LessonStorageOptions>(
             configuration.GetSection(LessonStorageOptions.SectionName));
+        services.Configure<ProgressStorageOptions>(
+            configuration.GetSection(ProgressStorageOptions.SectionName));
 
-        // Singleton - the JSON file is static, repository caches internally
+        // Lessons - singleton because lessons.json is static
         services.AddSingleton<ILessonRepository, JsonFileLessonRepository>();
         services.AddSingleton<IAudioUrlFactory, LocalAudioUrlFactory>();
+
+        // Progress - singleton so the SemaphoreSlim serializes writes across requests
+        services.AddSingleton<IProgressRepository, JsonFileProgressRepository>();
+
+        // Clock
+        services.AddSingleton<IClock, SystemClock>();
 
         return services;
     }

@@ -1,16 +1,22 @@
 import { Component } from '../core/Component.js';
 import { el } from '../core/DomHelpers.js';
 import { createTopBar } from '../screens/TopBar.js';
+import { Leo } from '../screens/Leo.js';
 
 /**
  * Base class for all games. Handles the boring shared parts:
  *   - loading the active lesson
  *   - top bar with progress + stars
+ *   - Leo the Lion watching from a corner, reacting to events
  *   - win condition and star crediting
  *
  * Subclasses implement:
  *   - totalRounds  (how many rounds for this game)
- *   - renderGameBody(vocab) -> DOM element
+ *   - renderRound()
+ *
+ * Subclasses should call:
+ *   - this.context.bus.emit('leo:cheer') on correct answers
+ *   - this.context.bus.emit('leo:sad')   on wrong answers
  */
 export class BaseGame extends Component {
   constructor(context, params = {}) {
@@ -21,6 +27,7 @@ export class BaseGame extends Component {
     this.vocab = [];
     this.topBar = null;
     this.bodyContainer = null;
+    this.leo = null;
   }
 
   get totalRounds() { return 5; }
@@ -33,9 +40,15 @@ export class BaseGame extends Component {
 
     this.bodyContainer = el('div', { class: 'game__body' });
 
+    // Leo watches from the bottom-left corner while the child plays
+    this.leo = new Leo(this.context.bus, { size: 'small' });
+    this.onDispose(() => this.leo.destroy());
+    const leoCorner = el('div', { class: 'game__leo' }, [this.leo.element]);
+
     return el('div', { class: 'screen game' }, [
       this.topBar.element,
       this.bodyContainer,
+      leoCorner,
     ]);
   }
 
@@ -84,10 +97,13 @@ export class BaseGame extends Component {
   }
 
   _finish() {
-    this.context.services.progress.addStars(this.stars);
+    // Fire-and-forget - the Win screen doesn't block on the server response.
+    // ProgressService falls back to optimistic local update if the call fails.
+    this.context.services.progress.recordSession(this.lessonId, this.stars);
     this.context.router.navigate('win', {
       stars: this.stars,
       playedGame: this.gameName,
+      lessonId: this.lessonId,
     });
   }
 }

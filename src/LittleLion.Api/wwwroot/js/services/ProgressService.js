@@ -1,36 +1,67 @@
 /**
- * Persists accumulated stars locally so progress survives reloads.
- * When you add a real backend user model, swap this implementation
- * for one that POSTs to /api/progress.
+ * Progress state, backed by the backend API.
+ * - On construction, optimistically reports 0 stars / 0 streak until the
+ *   first load() resolves.
+ * - recordSession() POSTs to the server, which is the authoritative source
+ *   of truth for stars, streak, and per-lesson best scores.
+ * - Emits 'progress:changed' whenever state updates so UI can react.
  */
-const STORAGE_KEY = 'little-lion.progress.v1';
-
 export class ProgressService {
-  constructor(bus) {
+  constructor(apiClient, bus) {
+    this.api = apiClient;
     this.bus = bus;
-    this._state = this._load();
+    this._state = this._emptyState();
+    this._loaded = false;
   }
 
-  get totalStars() { return this._state.totalStars; }
+  get totalStars()    { return this._state.totalStars; }
+  get streakDays()    { return this._state.streakDays; }
+  get lessons()       { return this._state.lessons; }
+  get isLoaded()      { return this._loaded; }
 
-  addStars(n) {
-    this._state.totalStars += n;
-    this._save();
-    this.bus.emit('progress:changed', { totalStars: this._state.totalStars });
+  /** Best stars the player has ever earned on a given lesson, or 0. */
+  getBestStars(lessonId) {
+    const lesson = this._state.lessons.find(l => l.lessonId === lessonId);
+    return lesson?.bestStars ?? 0;
   }
 
-  _load() {
+  /** Fetch the latest state from the server. */
+  async refresh() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { totalStars: 0 };
-      return JSON.parse(raw);
-    } catch {
-      return { totalStars: 0 };
+      const data = await this.api.get('/api/progress');
+      this._applyState(data);
+      this._loaded = true;
+    } catch (err) {
+      console.error('ProgressService.refresh failed', err);
     }
   }
 
-  _save() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(this._state)); }
-    catch { /* quota / private-mode - silently ignore */ }
+  /** Record a completed session. Server returns the updated state. */
+  async recordSession(lessonId, starsEarned) {
+    try {
+      const result = await this.api.post('/api/progress/sessions', {
+        lessonId, starsEarned,
+      });
+      this._applyState(result.playerProgress);
+    } catch (err) {
+      console.error('ProgressService.recordSession failed', err);
+      // Fall back to local-only optimistic update so the UI still reacts
+      this._state.totalStars += starsEarned;
+      this.bus.emit('progress:changed', { ...this._state });
+    }
+  }
+
+  _applyState(dto) {
+    this._state = {
+      totalStars: dto.totalStars ?? 0,
+      streakDays: dto.streakDays ?? 0,
+      lastActiveDate: dto.lastActiveDate ?? null,
+      lessons: Array.isArray(dto.lessons) ? dto.lessons : [],
+    };
+    this.bus.emit('progress:changed', { ...this._state });
+  }
+
+  _emptyState() {
+    return { totalStars: 0, streakDays: 0, lastActiveDate: null, lessons: [] };
   }
 }
