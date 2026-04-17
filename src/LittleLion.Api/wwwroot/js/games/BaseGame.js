@@ -105,6 +105,7 @@ export class BaseGame extends Component {
     try {
       const lesson = await this.context.services.lessons.getLesson(this.lessonId);
       this.vocab = lesson.items;
+      this.lessonTitle = lesson.title;
       this.sceneContainer.appendChild(createSceneBackground(lesson.theme));
       this._updateTopBar();
       this._renderRound();
