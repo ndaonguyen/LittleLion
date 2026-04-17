@@ -7,16 +7,22 @@ import { createVocabVisual } from '../screens/VocabVisual.js';
  * Drag-to-match game. Drag a word chip onto its matching animal tile.
  * Uses pointer events for unified mouse + touch handling.
  *
- * Single-round game: one round == all 4 items matched.
+ * Single-round game: one round == all pairs matched. Difficulty scales
+ * the pair count: Easy 3, Medium 4 (legacy), Hard 5.
  */
 export class DragGame extends BaseGame {
   get gameName()    { return 'drag'; }
   get totalRounds() { return 1; }
 
+  get pairCount() {
+    return { Easy: 3, Medium: 4, Hard: 5 }[this.difficulty] ?? 4;
+  }
+
   renderRound() {
     const { audio } = this.context.services;
 
-    const items = pickRandom(this.vocab, 4);
+    const n = Math.min(this.pairCount, this.vocab.length);
+    const items = pickRandom(this.vocab, n);
     const wordOrder = shuffled(items.map(i => i.id));
     const matched = new Set();
 
@@ -87,8 +93,14 @@ export class DragGame extends BaseGame {
         if (matched.size === items.length) {
           setTimeout(() => {
             this.round = this.totalRounds;
-            this.context.services.progress.recordSession(this.lessonId, this.stars);
-            this.context.router.navigate('win', { stars: this.stars, playedGame: 'drag', lessonId: this.lessonId });
+            this.context.services.progress.recordSession(
+              this.lessonId, this.stars, this.difficulty);
+            this.context.router.navigate('win', {
+              stars: this.stars,
+              playedGame: 'drag',
+              lessonId: this.lessonId,
+              difficulty: this.difficulty,
+            });
           }, 900);
         }
       } else if (slot) {

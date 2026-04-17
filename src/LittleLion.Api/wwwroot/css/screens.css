@@ -406,14 +406,13 @@
   grid-template-rows: 1fr auto;
   padding: var(--space-3);
   border-radius: var(--radius-lg);
-  aspect-ratio: 1 / 0.95;
   text-align: left;
   box-shadow: var(--shadow-card);
   transition: transform 0.1s var(--ease-soft);
   animation: slide-up 0.5s var(--ease-soft) both;
   color: var(--color-white);
   position: relative;
-  min-height: 140px;
+  min-height: 165px;
 }
 .lesson-card:active { transform: translateY(2px); }
 
@@ -873,3 +872,38 @@
 .home__lesson-banner-emoji {
   position: relative;
 }
+
+/* ============================================================
+   Difficulty dots on lesson cards
+   ============================================================ */
+.difficulty-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+.difficulty-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.12s var(--ease-soft), background 0.15s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.difficulty-dot:hover { transform: scale(1.15); }
+.difficulty-dot:active { transform: scale(0.95); }
+
+.difficulty-dot--active {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Size hints: Easy = small, Medium = medium, Hard = big - readable at a glance */
+.difficulty-dot--easy   { width: 10px; height: 10px; border-width: 1.5px; }
+.difficulty-dot--medium { width: 14px; height: 14px; }
+.difficulty-dot--hard   { width: 17px; height: 17px; }

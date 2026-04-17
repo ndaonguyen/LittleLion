@@ -6,6 +6,16 @@ import { createVocabVisual } from '../screens/VocabVisual.js';
 export class BalloonGame extends BaseGame {
   get gameName() { return 'balloon'; }
 
+  // Balloon rounds take longer than tap rounds, so fewer per session.
+  get roundsByDifficulty() { return { Easy: 3, Medium: 5, Hard: 6 }; }
+  get balloonCount() {
+    return { Easy: 3, Medium: 4, Hard: 5 }[this.difficulty] ?? 4;
+  }
+  /** Seconds for a balloon to rise across the screen - lower = faster = harder */
+  get baseRiseSeconds() {
+    return { Easy: 7.5, Medium: 5.5, Hard: 4 }[this.difficulty] ?? 5.5;
+  }
+
   render() {
     const root = super.render();
 
@@ -21,7 +31,8 @@ export class BalloonGame extends BaseGame {
   renderRound() {
     const { audio } = this.context.services;
 
-    const choices = pickRandom(this.vocab, 4);
+    const n = Math.min(this.balloonCount, this.vocab.length);
+    const choices = pickRandom(this.vocab, n);
     const target  = pickOne(choices);
     let locked = false;
 
@@ -39,7 +50,8 @@ export class BalloonGame extends BaseGame {
 
     let correctBalloon = null;
     choices.forEach((item, idx) => {
-      const duration = 5.5 + Math.random() * 3;
+      // Rise speed derived from difficulty; small jitter so balloons don't sync
+      const duration = this.baseRiseSeconds + Math.random() * 2;
       const swayName = `balloon-sway-${idx % 3}`;
 
       const balloon = el('button', {

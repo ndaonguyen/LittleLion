@@ -6,9 +6,17 @@ import { createVocabVisual } from '../screens/VocabVisual.js';
 export class TapGame extends BaseGame {
   get gameName() { return 'tap'; }
 
+  // Easy: 3 rounds of 3 options. Medium: 5 of 4 (legacy). Hard: 7 of 6.
+  get roundsByDifficulty() { return { Easy: 3, Medium: 5, Hard: 7 }; }
+  get optionCount() {
+    return { Easy: 3, Medium: 4, Hard: 6 }[this.difficulty] ?? 4;
+  }
+
   renderRound() {
     const { audio, media } = this.context.services;
-    const options = pickRandom(this.vocab, 4);
+    // Cap options at vocab length in case a lesson has fewer items than Hard wants
+    const n = Math.min(this.optionCount, this.vocab.length);
+    const options = pickRandom(this.vocab, n);
     const target = pickOne(options);
     let locked = false;
 
