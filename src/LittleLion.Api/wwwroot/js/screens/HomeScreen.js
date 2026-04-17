@@ -132,8 +132,9 @@ export class HomeScreen extends Component {
       el('div', { class: 'home__lesson-banner-emoji' }, [this._leo.element]),
       el('div', { class: 'home__lesson-banner-text' }, [
         el('strong', {}, [`Hi friend!`]),
-        this._buildGlobalDifficultyPicker(),
+        el('span', {}, ['Pick a topic below to start']),
       ]),
+      this._buildGlobalDifficultyPicker(),
     ]);
   }
 
