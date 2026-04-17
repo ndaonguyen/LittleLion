@@ -2,13 +2,14 @@ import { Component } from '../core/Component.js';
 import { el } from '../core/DomHelpers.js';
 
 /**
- * Game picker: shown after choosing a lesson. Lists the 3 available
- * game modes, all scoped to the selected lesson.
+ * Game picker: shown after choosing a lesson. Lists the available game
+ * modes, all scoped to the selected lesson.
  */
 const GAMES = [
   { id: 'tap',     title: 'Tap & Learn',  subtitle: 'Hear the word, tap the picture', emoji: '👆', color: '#FFB84C' },
   { id: 'drag',    title: 'Match It!',    subtitle: 'Drag words to pictures',         emoji: '🎯', color: '#4ECDC4' },
   { id: 'balloon', title: 'Balloon Pop',  subtitle: 'Pop the right balloon',          emoji: '🎈', color: '#FF6B9D' },
+  { id: 'memory',  title: 'Memory Match', subtitle: 'Flip cards, find the pairs',     emoji: '🧠', color: '#A78BFA' },
 ];
 
 export class GamePickerScreen extends Component {
