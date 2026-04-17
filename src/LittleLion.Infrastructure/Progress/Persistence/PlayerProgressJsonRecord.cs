@@ -19,7 +19,8 @@ internal sealed record LessonProgressJsonRecord(
     string LessonId,
     int BestStars,
     int TotalPlays,
-    DateTimeOffset LastPlayedAt);
+    DateTimeOffset LastPlayedAt,
+    string? Difficulty);
 
 internal sealed record UnlockedItemJsonRecord(
     string Id,

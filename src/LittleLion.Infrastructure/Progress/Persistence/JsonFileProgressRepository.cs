@@ -96,7 +96,20 @@ public sealed class JsonFileProgressRepository : IProgressRepository
     {
         var streak = new Streak(record.StreakDays, record.LastActiveDate);
         var lessons = record.Lessons.Select(l =>
-            new LessonProgress(l.LessonId, l.BestStars, l.TotalPlays, l.LastPlayedAt));
+        {
+            // Legacy records (written before difficulty existed) have no
+            // Difficulty string. Treat them as Medium so the player's
+            // existing best-stars carry over to the Medium slot.
+            var difficulty = Difficulty.Medium;
+            if (!string.IsNullOrWhiteSpace(l.Difficulty)
+                && Enum.TryParse<Difficulty>(l.Difficulty, ignoreCase: true, out var parsed))
+            {
+                difficulty = parsed;
+            }
+
+            return new LessonProgress(
+                l.LessonId, difficulty, l.BestStars, l.TotalPlays, l.LastPlayedAt);
+        });
 
         var unlocked = (record.UnlockedItems ?? []).Select(u =>
         {
@@ -116,7 +129,11 @@ public sealed class JsonFileProgressRepository : IProgressRepository
             LastActiveDate: progress.Streak.LastActiveDate,
             Lessons: progress.LessonHistory
                 .Select(l => new LessonProgressJsonRecord(
-                    l.LessonId, l.BestStars, l.TotalPlays, l.LastPlayedAt))
+                    l.LessonId,
+                    l.BestStars,
+                    l.TotalPlays,
+                    l.LastPlayedAt,
+                    l.Difficulty.ToString()))
                 .ToList(),
             UnlockedItems: progress.UnlockedItems
                 .Select(u => new UnlockedItemJsonRecord(
