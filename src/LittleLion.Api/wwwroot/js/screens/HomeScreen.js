@@ -237,8 +237,15 @@ export class HomeScreen extends Component {
   }
 }
 
-// Visual styling per lesson id - falls back to DEFAULT_META for unknown lessons.
+// Visual styling per lesson id - cover emoji and background color on
+// the home-screen card. Falls back to DEFAULT_META for unknown lessons.
+//
+// NOTE: this is hardcoded here rather than loaded from lessons.json
+// which makes adding a new lesson a two-file change. It's the pragmatic
+// option for now - a future refactor should promote coverEmoji and
+// coverColor into the lesson JSON + DTO so content owns its own cover.
 const LESSON_META = {
+  // Original 7
   animals:  { emoji: '🦁', color: '#FFB84C' },
   colors:   { emoji: '🎨', color: '#FF6B9D' },
   fruits:   { emoji: '🍎', color: '#FF8C42' },
@@ -246,6 +253,20 @@ const LESSON_META = {
   body:     { emoji: '👶', color: '#FFB3D9' },
   clothes:  { emoji: '👕', color: '#5B9EFF' },
   weather:  { emoji: '☀️', color: '#A78BFA' },
+
+  // 10 new lessons (colors chosen to avoid clashing with adjacent cards
+  // on the home screen - the 2-column grid pairs odd/even positions
+  // so we alternate warm/cool/neutral hues down the list)
+  family:   { emoji: '👨‍👩‍👧', color: '#06B6D4' },  // teal - warmth via emoji, calm via color
+  food:     { emoji: '🍕', color: '#EF4444' },  // classic pizza red
+  numbers:  { emoji: '🔢', color: '#8B5CF6' },  // violet - stands apart from rainbow
+  toys:     { emoji: '🧸', color: '#FB923C' },  // teddy orange
+  actions:  { emoji: '🏃', color: '#14B8A6' },  // teal - action/energy vibe
+  feelings: { emoji: '💖', color: '#EC4899' },  // pink heart
+  house:    { emoji: '🏠', color: '#6366F1' },  // indigo like blueprints
+  nature:   { emoji: '🌳', color: '#16A34A' },  // forest green
+  bugs:     { emoji: '🐞', color: '#84CC16' },  // lime green
+  sea:      { emoji: '🐋', color: '#0284C7' },  // ocean deep blue
 };
 
 const DEFAULT_META = { emoji: '📚', color: '#A78BFA' };
