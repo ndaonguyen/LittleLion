@@ -44,9 +44,14 @@ export class StickerBookScreen extends Component {
 
   _summaryLine() {
     const { rewards, progress } = this.context.services;
-    const total    = rewards.all.length;
-    const unlocked = progress.unlockedItems.length;
-    return total > 0 ? `${unlocked} of ${total} collected` : 'Loading...';
+    const total = rewards.all.length;
+    if (total === 0) return 'Loading...';
+
+    // Only count unlocks that still exist in the current catalog,
+    // so the total and numerator can never disagree.
+    const catalogIds = new Set(rewards.all.map(r => r.id));
+    const unlocked = progress.unlockedItems.filter(u => catalogIds.has(u.id)).length;
+    return `${unlocked} of ${total} collected`;
   }
 
   _renderSections() {
