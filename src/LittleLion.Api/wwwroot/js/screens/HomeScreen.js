@@ -14,10 +14,11 @@ export class HomeScreen extends Component {
     this._starsLabel = el('span', {}, [String(progress.totalStars)]);
     this._streakLabel = this._buildStreak(progress.streakDays);
     this._stickerCount = el('span', { class: 'home__sticker-link__count' }, [
-      `${progress.unlockedItems?.length ?? 0}`,
+      String(this._countValidUnlocks()),
     ]);
     this._lessonGrid  = el('div', { class: 'lesson-grid' });
 
+    // Refresh on either progress OR rewards changing (rewards refresh is async)
     this.listen('progress:changed', () => this._refreshHeader());
 
     const root = el('div', { class: 'screen home' }, [
@@ -126,7 +127,7 @@ export class HomeScreen extends Component {
       ? `🔥 ${progress.streakDays}`
       : '🔥 0';
     if (this._stickerCount) {
-      this._stickerCount.textContent = String(progress.unlockedItems?.length ?? 0);
+      this._stickerCount.textContent = String(this._countValidUnlocks());
     }
     this._applyCostumeToLeo();
   }
@@ -150,6 +151,31 @@ export class HomeScreen extends Component {
 
     const best = costumes[0];
     this.context.bus.emit('leo:costume', { emoji: best?.emoji ?? null });
+  }
+
+  /**
+   * How many currently-valid rewards the player has unlocked.
+   *
+   * We cross-reference against the current catalog rather than just
+   * counting progress.unlockedItems, because the catalog can shrink
+   * between releases (e.g. we removed badges and costumes in commit
+   * b23550b). Previously-earned unlocks remain in the player's
+   * progress.json but should not inflate the sticker book count once
+   * their catalog entries are gone.
+   *
+   * If the catalog hasn't loaded yet, fall back to the raw count so
+   * the number isn't confusingly zero.
+   */
+  _countValidUnlocks() {
+    const { progress, rewards } = this.context.services;
+    const unlocked = progress.unlockedItems ?? [];
+
+    if (!rewards.all || rewards.all.length === 0) {
+      return unlocked.length;
+    }
+
+    const catalogIds = new Set(rewards.all.map(r => r.id));
+    return unlocked.filter(u => catalogIds.has(u.id)).length;
   }
 }
 
