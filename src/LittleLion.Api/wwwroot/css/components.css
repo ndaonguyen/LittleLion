@@ -2,15 +2,17 @@
    Reusable components - top bar, buttons, cards, feedback
    ============================================================ */
 
-/* ---------- Top bar (home + progress + stars) ---------- */
+/* ---------- Top bar (back? + home + progress + stars) ---------- */
 .topbar {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   padding: var(--space-4);
 }
 
-.topbar__home {
+/* Shared pill-shaped button used for back AND home - keeps them
+   visually consistent so the two-button cluster reads as one group. */
+.topbar__btn {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-pill);
@@ -21,6 +23,36 @@
   justify-content: center;
   font-size: 22px;
   transition: transform 0.1s var(--ease-soft);
+  flex-shrink: 0;
+}
+.topbar__btn:active { transform: translateY(2px); }
+
+/* Back arrow is a bit larger and bolder than the house emoji so it
+   carries the same visual weight on a small button. */
+.topbar__back {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-slate, #334155);
+}
+
+/* Legacy selector kept so existing consumers (e.g. GamePickerScreen's
+   ← arrow that also uses .topbar__home) still render correctly. */
+.topbar__home {
+  /* All sizing now comes from .topbar__btn. This block is intentionally
+     left thin to preserve backwards-compat with places that still use
+     just .topbar__home without .topbar__btn. */
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform 0.1s var(--ease-soft);
+  flex-shrink: 0;
 }
 .topbar__home:active { transform: translateY(2px); }
 
