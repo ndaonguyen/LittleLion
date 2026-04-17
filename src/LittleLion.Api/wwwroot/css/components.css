@@ -191,93 +191,193 @@
 }
 
 /* ============================================================
-   Leo the Lion mascot
+   Leo the Lion mascot (SVG)
    ============================================================ */
 .leo {
   position: relative;
   display: inline-block;
+  pointer-events: none;
   transform-origin: 50% 80%;
-  pointer-events: none;
 }
-.leo__body {
+
+/* Size variants - we scale the SVG, everything else follows */
+.leo--small  .leo__svg { width: 48px;  height: 48px; }
+.leo--medium .leo__svg { width: 96px;  height: 96px; }
+.leo--large  .leo__svg { width: 160px; height: 160px; }
+
+.leo__svg {
   display: block;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.15));
+  overflow: visible;
+}
+
+/* Costume emoji sits above the mane */
+.leo__costume {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  transform: translateX(-50%);
+  font-size: 28px;
   line-height: 1;
-  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.15));
-}
-.leo__sparkles {
-  position: absolute;
-  inset: -20% -20% -20% -20%;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s var(--ease-soft);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  z-index: 2;
 }
-.leo__sparkles span {
-  position: absolute;
-  font-size: 20px;
-}
-.leo__sparkles span:nth-child(1) { top: 4%; left: -5%; }
-.leo__sparkles span:nth-child(2) { top: 12%; right: 0%; }
-.leo__sparkles span:nth-child(3) { bottom: 6%; right: -6%; }
+.leo--small  .leo__costume { font-size: 16px; top: -6px; }
+.leo--medium .leo__costume { font-size: 28px; top: -10px; }
+.leo--large  .leo__costume { font-size: 46px; top: -18px; }
 
-/* Size variants */
-.leo--small  .leo__body { font-size: 40px; }
-.leo--medium .leo__body { font-size: 64px; }
-.leo--large  .leo__body { font-size: 96px; }
+/* --- Subparts used by state animations --- */
+.leo__mane,
+.leo__face,
+.leo__eyes,
+.leo__mouth,
+.leo__arm {
+  transform-origin: 70px 70px;
+  transform-box: view-box;
+}
+.leo__arm--left  { transform-origin: 22px 92px;  transform-box: view-box; }
+.leo__arm--right { transform-origin: 118px 92px; transform-box: view-box; }
 
-/* States */
-.leo--idle .leo__body {
-  animation: leo-idle 3.2s var(--ease-soft) infinite;
+/* Arms hidden by default - each state reveals them as needed */
+.leo__arm { opacity: 0; transition: opacity 0.15s linear; }
+
+/* ===== Idle: gentle breathing + occasional blink ===== */
+.leo--idle .leo__svg {
+  animation: leo-breathe 3.2s ease-in-out infinite;
 }
-.leo--cheer .leo__body {
-  animation: leo-cheer 0.9s var(--ease-bounce);
+.leo--idle .leo__eyes {
+  animation: leo-blink 5s ease-in-out infinite;
 }
-.leo--cheer .leo__sparkles {
-  opacity: 1;
-  animation: sparkle-pop 0.9s var(--ease-soft);
+@keyframes leo-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-2px) scale(1.02); }
 }
-.leo--sad .leo__body {
-  animation: leo-sad 0.6s var(--ease-soft);
-}
-.leo--celebrate .leo__body {
-  animation: leo-celebrate 1.6s var(--ease-bounce);
-}
-.leo--celebrate .leo__sparkles {
-  opacity: 1;
-  animation: sparkle-loop 1.6s var(--ease-soft);
+@keyframes leo-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%, 97%      { transform: scaleY(0.1); }
 }
 
-@keyframes leo-idle {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  25%      { transform: rotate(-4deg) translateY(-2px); }
-  75%      { transform: rotate(4deg)  translateY(-2px); }
+/* ===== Cheer: bounce + smile wider ===== */
+.leo--cheer .leo__svg {
+  animation: leo-cheer 1s var(--ease-bounce);
+}
+.leo--cheer .leo__mouth {
+  animation: leo-smile-big 1s var(--ease-bounce);
 }
 @keyframes leo-cheer {
   0%   { transform: translateY(0) scale(1) rotate(0); }
-  40%  { transform: translateY(-18px) scale(1.12) rotate(-6deg); }
-  70%  { transform: translateY(-6px)  scale(1.05) rotate(6deg); }
+  40%  { transform: translateY(-14px) scale(1.1) rotate(-5deg); }
+  70%  { transform: translateY(-4px)  scale(1.04) rotate(5deg); }
   100% { transform: translateY(0) scale(1) rotate(0); }
 }
+@keyframes leo-smile-big {
+  0%, 100% { d: path("M64 86 Q70 92 76 86"); }
+  50%      { d: path("M60 84 Q70 98 80 84"); }
+}
+
+/* ===== Sad: head tilt, eyes droop ===== */
+.leo--sad .leo__svg {
+  animation: leo-sad 0.7s ease-in-out;
+}
+.leo--sad .leo__eyes {
+  transform: scaleY(0.5) translateY(6px);
+  transform-origin: 70px 64px;
+  transform-box: view-box;
+}
+.leo--sad .leo__mouth {
+  animation: leo-frown 0.7s ease-in-out;
+}
 @keyframes leo-sad {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  30%      { transform: translateY(4px) rotate(-6deg); }
-  70%      { transform: translateY(4px) rotate(6deg); }
+  0%, 100% { transform: rotate(0); }
+  30%      { transform: rotate(-8deg) translateY(3px); }
+  70%      { transform: rotate(6deg)  translateY(3px); }
+}
+@keyframes leo-frown {
+  0%, 100% { d: path("M64 86 Q70 92 76 86"); }
+  50%      { d: path("M64 92 Q70 84 76 92"); }
+}
+
+/* ===== Celebrate: dance loop, wave right arm ===== */
+.leo--celebrate .leo__svg {
+  animation: leo-celebrate 1.8s var(--ease-bounce);
+}
+.leo--celebrate .leo__arm--right {
+  opacity: 1;
+  animation: leo-wave-arm 0.6s ease-in-out infinite;
 }
 @keyframes leo-celebrate {
   0%   { transform: translateY(0) rotate(0) scale(1); }
-  15%  { transform: translateY(-24px) rotate(-12deg) scale(1.15); }
-  30%  { transform: translateY(-10px) rotate(12deg)  scale(1.08); }
-  50%  { transform: translateY(-18px) rotate(-8deg)  scale(1.12); }
-  70%  { transform: translateY(-4px)  rotate(6deg)   scale(1.05); }
+  15%  { transform: translateY(-20px) rotate(-10deg) scale(1.12); }
+  30%  { transform: translateY(-8px)  rotate(10deg)  scale(1.05); }
+  50%  { transform: translateY(-16px) rotate(-6deg)  scale(1.1); }
+  70%  { transform: translateY(-2px)  rotate(4deg)   scale(1.03); }
   100% { transform: translateY(0) rotate(0) scale(1); }
 }
-@keyframes sparkle-pop {
-  0%   { transform: scale(0.4); }
-  50%  { transform: scale(1.2); }
-  100% { transform: scale(0.8); opacity: 0; }
+@keyframes leo-wave-arm {
+  0%, 100% { transform: rotate(-20deg); }
+  50%      { transform: rotate(20deg); }
 }
-@keyframes sparkle-loop {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.3); opacity: 0.7; }
+
+/* ===== Wave: one-shot greeting wave with right arm ===== */
+.leo--wave .leo__arm--right {
+  opacity: 1;
+  animation: leo-wave-hello 1.4s ease-in-out;
+}
+.leo--wave .leo__svg {
+  animation: leo-wave-body 1.4s ease-in-out;
+}
+@keyframes leo-wave-hello {
+  0%   { transform: rotate(-30deg); }
+  25%  { transform: rotate(20deg); }
+  50%  { transform: rotate(-15deg); }
+  75%  { transform: rotate(15deg); }
+  100% { transform: rotate(-30deg) scale(0.9); }
+}
+@keyframes leo-wave-body {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ===== Point: extend one arm sideways, hold, retract ===== */
+.leo--point-right .leo__arm--right {
+  opacity: 1;
+  animation: leo-point-out 2s var(--ease-bounce);
+}
+.leo--point-left .leo__arm--left {
+  opacity: 1;
+  animation: leo-point-out-left 2s var(--ease-bounce);
+}
+@keyframes leo-point-out {
+  0%   { transform: rotate(0) translateX(0); }
+  20%  { transform: rotate(70deg) translateX(8px) translateY(-8px); }
+  80%  { transform: rotate(70deg) translateX(8px) translateY(-8px); }
+  100% { transform: rotate(0) translateX(0); }
+}
+@keyframes leo-point-out-left {
+  0%   { transform: rotate(0) translateX(0); }
+  20%  { transform: rotate(-70deg) translateX(-8px) translateY(-8px); }
+  80%  { transform: rotate(-70deg) translateX(-8px) translateY(-8px); }
+  100% { transform: rotate(0) translateX(0); }
+}
+
+/* ===== Shrug: both arms up, held briefly ===== */
+.leo--shrug .leo__arm--left  { opacity: 1; animation: leo-shrug-left  1.5s ease-in-out; }
+.leo--shrug .leo__arm--right { opacity: 1; animation: leo-shrug-right 1.5s ease-in-out; }
+.leo--shrug .leo__mouth {
+  d: path("M64 89 Q70 85 76 89");
+}
+@keyframes leo-shrug-left {
+  0%   { transform: rotate(0); }
+  30%  { transform: rotate(-40deg) translateY(-6px); }
+  70%  { transform: rotate(-40deg) translateY(-6px); }
+  100% { transform: rotate(0); }
+}
+@keyframes leo-shrug-right {
+  0%   { transform: rotate(0); }
+  30%  { transform: rotate(40deg) translateY(-6px); }
+  70%  { transform: rotate(40deg) translateY(-6px); }
+  100% { transform: rotate(0); }
 }
 
 /* ============================================================
