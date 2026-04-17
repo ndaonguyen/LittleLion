@@ -31,7 +31,7 @@ export class SoundEffectService {
     if (!ctx) return;
 
     const playMap = {
-      pop:     () => this._tone(ctx, { freq: 660, endFreq: 220, dur: 0.12, type: 'square', gain: 0.4 }),
+      pop:     () => this._partyPop(ctx),
       ding:    () => this._chord(ctx, [880, 1320], 0.35, 'sine', 0.35),
       buzz:    () => this._sadTrombone(ctx),
       whoosh:  () => this._tone(ctx, { freq: 800, endFreq: 120, dur: 0.28, type: 'sine', gain: 0.3 }),
@@ -112,5 +112,22 @@ export class SoundEffectService {
       this._tone(ctx, { freq: 196, endFreq: 165, dur: 0.45, type: 'triangle', gain: 0.45 });
       this._tone(ctx, { freq: 196, endFreq: 165, dur: 0.45, type: 'sawtooth', gain: 0.15 });
     }, 200);
+  }
+
+  /**
+   * Punchy balloon burst: a sharp square-wave "pop" followed by a
+   * rising sparkle trail so it feels celebratory, not just a click.
+   */
+  _partyPop(ctx) {
+    // The pop itself - quick, punchy, slightly higher pitch than old buzz
+    this._tone(ctx, { freq: 880, endFreq: 200, dur: 0.1, type: 'square', gain: 0.5 });
+
+    // Sparkle trail - three rising sine blips
+    const notes = [1320, 1760, 2200];
+    notes.forEach((freq, i) => {
+      setTimeout(() => {
+        this._tone(ctx, { freq, dur: 0.08, type: 'sine', gain: 0.25 });
+      }, 60 + i * 50);
+    });
   }
 }

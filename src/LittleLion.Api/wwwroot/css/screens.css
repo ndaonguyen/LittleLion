@@ -191,6 +191,7 @@
   animation: balloon-rise 7s linear infinite;
 }
 .balloon--popped { animation: balloon-pop 0.4s forwards; }
+.balloon--burst  { animation: balloon-burst 0.7s forwards; }
 
 .balloon__body {
   width: 80px;
@@ -224,6 +225,55 @@
   0%   { transform: scale(1); opacity: 1; }
   50%  { transform: scale(1.4); opacity: 0.8; }
   100% { transform: scale(0); opacity: 0; }
+}
+
+/* Balloon BURST (correct answer) - expands, flashes, then the body
+   disappears leaving the particle burst in place. The scale-out is
+   sharper than the wrong-answer pop. */
+@keyframes balloon-burst {
+  0%   { transform: scale(1);   opacity: 1; filter: brightness(1); }
+  30%  { transform: scale(1.35); opacity: 1; filter: brightness(1.4); }
+  45%  { transform: scale(1.6); opacity: 0.5; }
+  100% { transform: scale(0);   opacity: 0; }
+}
+
+/* Individual streamer that flies outward during a burst.
+   --dx / --dy / --rot are set per-piece from JavaScript. */
+.balloon-burst-piece {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: balloon-burst-fly 0.9s var(--ease-soft) forwards;
+  z-index: 4;
+  box-shadow: 0 0 8px currentColor;
+}
+@keyframes balloon-burst-fly {
+  0%   {
+    transform: translate(-50%, -50%) scale(0.5) rotate(0);
+    opacity: 0;
+  }
+  15%  {
+    transform: translate(-50%, -50%) scale(1.1) rotate(calc(var(--rot) * 0.2));
+    opacity: 1;
+  }
+  60%  {
+    transform:
+      translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      scale(1)
+      rotate(calc(var(--rot) * 0.7));
+    opacity: 1;
+  }
+  100% {
+    /* Final position adds a downward gravity offset on top of the outward arc */
+    transform:
+      translate(calc(-50% + var(--dx) * 0.9), calc(-50% + var(--dy) + 60px))
+      scale(0.4)
+      rotate(var(--rot));
+    opacity: 0;
+  }
 }
 
 .balloon-feedback {
