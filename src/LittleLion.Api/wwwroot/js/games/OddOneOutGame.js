@@ -136,10 +136,32 @@ export class OddOneOutGame extends BaseGame {
     // At 5 tiles (Hard) use the dense grid, same approach as TapGame.
     const gridClass = options.length >= 5 ? 'tap-grid tap-grid--dense' : 'tap-grid';
 
+    // Spoken prompt: category name + the question. Using the category
+    // as a sentence tag rather than "These are <title>" avoids grammar
+    // awkwardness on lessons like "My Body" or "Food" (uncountable).
+    // Examples:
+    //   "Animals. Which one doesn't belong?"
+    //   "My Body. Which one doesn't belong?"
+    const promptSpoken = `${this.lessonTitle}. Which one doesn't belong?`;
+    const playPrompt = () => audio.speak(promptSpoken);
+
     this.bodyContainer.append(
       el('p', { class: 'game__prompt' }, [`Which one doesn't belong?`]),
+      el('button', {
+        class: 'sound-button',
+        onclick: playPrompt,
+      }, [
+        el('span', { class: 'sound-button__icon' }, ['🔊']),
+        el('span', {}, ['Play sound']),
+      ]),
       el('div', { class: gridClass, style: { marginTop: '24px' } }, tiles),
     );
+
+    // Auto-speak the prompt shortly after render so the child hears
+    // the question without having to tap. The delay lets the
+    // entrance animations settle - speaking over scene transitions
+    // feels rushed.
+    setTimeout(playPrompt, 500);
 
     // Hint watcher - point at the intruder after 8s
     this.startRoundWatch(intruderTile);
