@@ -12,6 +12,7 @@ import { AudioService }       from './services/AudioService.js';
 import { SoundEffectService } from './services/SoundEffectService.js';
 import { LessonService }      from './services/LessonService.js';
 import { ProgressService }    from './services/ProgressService.js';
+import { MediaService }       from './services/MediaService.js';
 
 import { HomeScreen }       from './screens/HomeScreen.js';
 import { GamePickerScreen } from './screens/GamePickerScreen.js';
@@ -29,6 +30,7 @@ function bootstrap() {
     sfx:      new SoundEffectService(),
     lessons:  new LessonService(api),
     progress: new ProgressService(api, bus),
+    media:    new MediaService(),
   };
 
   // Kick off initial progress load (non-blocking - UI renders immediately)

@@ -62,7 +62,7 @@ public sealed class JsonFileLessonRepository : ILessonRepository
     private static Lesson MapToDomain(LessonJsonRecord record)
     {
         var items = record.Items.Select(i =>
-            new VocabularyItem(i.Id, i.Word, i.Emoji, i.Color));
+            new VocabularyItem(i.Id, i.Word, i.Emoji, i.Color, i.FluentName));
 
         return new Lesson(
             id: LessonId.From(record.Id),

@@ -16,7 +16,8 @@ public static class LessonMapper
             Word: item.Word,
             Emoji: item.Emoji,
             Color: item.Color,
-            AudioUrl: audioUrls.BuildUrl(item.Word));
+            AudioUrl: audioUrls.BuildUrl(item.Word),
+            FluentName: item.FluentName);
 
     public static LessonSummaryDto ToSummary(Lesson lesson)
         => new(

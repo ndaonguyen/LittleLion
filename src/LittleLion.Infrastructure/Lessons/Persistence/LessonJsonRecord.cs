@@ -14,4 +14,5 @@ internal sealed record VocabularyItemJsonRecord(
     string Id,
     string Word,
     string Emoji,
-    string Color);
+    string Color,
+    string? FluentName);
