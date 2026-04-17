@@ -6,10 +6,12 @@ import { el } from '../core/DomHelpers.js';
  * modes, all scoped to the selected lesson.
  */
 const GAMES = [
-  { id: 'tap',     title: 'Tap & Learn',  subtitle: 'Hear the word, tap the picture', emoji: '👆', color: '#FFB84C' },
-  { id: 'drag',    title: 'Match It!',    subtitle: 'Drag words to pictures',         emoji: '🎯', color: '#4ECDC4' },
-  { id: 'balloon', title: 'Balloon Pop',  subtitle: 'Pop the right balloon',          emoji: '🎈', color: '#FF6B9D' },
-  { id: 'memory',  title: 'Memory Match', subtitle: 'Flip cards, find the pairs',     emoji: '🧠', color: '#A78BFA' },
+  { id: 'tap',     title: 'Tap & Learn',  subtitle: 'Hear the word, tap the picture',    emoji: '👆', color: '#FFB84C' },
+  { id: 'drag',    title: 'Match It!',    subtitle: 'Drag words to pictures',            emoji: '🎯', color: '#4ECDC4' },
+  { id: 'balloon', title: 'Balloon Pop',  subtitle: 'Pop the right balloon',             emoji: '🎈', color: '#FF6B9D' },
+  { id: 'memory',  title: 'Memory Match', subtitle: 'Flip cards, find the pairs',        emoji: '🧠', color: '#A78BFA' },
+  { id: 'odd',     title: 'Odd One Out',  subtitle: 'Find the one that doesn\'t belong', emoji: '🔍', color: '#F59E0B' },
+  { id: 'find',    title: 'Find the Word',subtitle: 'Listen carefully, words sound alike',emoji: '👂', color: '#10B981' },
 ];
 
 export class GamePickerScreen extends Component {
