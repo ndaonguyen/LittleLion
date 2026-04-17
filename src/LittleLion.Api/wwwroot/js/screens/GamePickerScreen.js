@@ -11,7 +11,6 @@ const GAMES = [
   { id: 'balloon', title: 'Balloon Pop',  subtitle: 'Pop the right balloon',             emoji: '🎈', color: '#FF6B9D' },
   { id: 'memory',  title: 'Memory Match', subtitle: 'Flip cards, find the pairs',        emoji: '🧠', color: '#A78BFA' },
   { id: 'odd',     title: 'Odd One Out',  subtitle: 'Find the one that doesn\'t belong', emoji: '🔍', color: '#F59E0B' },
-  { id: 'find',    title: 'Find the Word',subtitle: 'Listen carefully, words sound alike',emoji: '👂', color: '#10B981' },
 ];
 
 export class GamePickerScreen extends Component {

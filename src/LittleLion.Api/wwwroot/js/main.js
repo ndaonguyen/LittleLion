@@ -26,7 +26,6 @@ import { DragGame }         from './games/DragGame.js';
 import { BalloonGame }      from './games/BalloonGame.js';
 import { MemoryGame }       from './games/MemoryGame.js';
 import { OddOneOutGame }    from './games/OddOneOutGame.js';
-import { FindTheWordGame }  from './games/FindTheWordGame.js';
 
 function bootstrap() {
   const bus = new EventBus();
@@ -63,7 +62,6 @@ function bootstrap() {
     .register('balloon',     (ctx, params) => new BalloonGame(ctx, params))
     .register('memory',      (ctx, params) => new MemoryGame(ctx, params))
     .register('odd',         (ctx, params) => new OddOneOutGame(ctx, params))
-    .register('find',        (ctx, params) => new FindTheWordGame(ctx, params))
     .register('win',         (ctx, params) => new WinScreen(ctx, params))
     .register('stickerBook', (ctx)         => new StickerBookScreen(ctx));
 
