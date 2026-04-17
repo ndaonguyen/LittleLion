@@ -611,3 +611,38 @@
 .scene__sparkle--1 { top: 12%; left: 14%; }
 .scene__sparkle--2 { top: 28%; right: 12%; animation-delay: 0.6s; }
 .scene__sparkle--3 { bottom: 18%; left: 22%; animation-delay: 1.2s; }
+
+/* ============================================================
+   Home screen lesson-card micro-interactions
+   ============================================================ */
+.lesson-card {
+  position: relative;
+  overflow: hidden;
+}
+.lesson-card::after {
+  /* Soft shimmer that drifts across the card */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s var(--ease-soft);
+  pointer-events: none;
+}
+.lesson-card:hover::after {
+  transform: translateX(120%);
+}
+.lesson-card:active {
+  transform: translateY(2px) scale(0.98);
+}
+.lesson-card__emoji {
+  transition: transform 0.3s var(--ease-bounce);
+}
+.lesson-card:hover .lesson-card__emoji {
+  transform: rotate(-8deg) scale(1.15);
+}
