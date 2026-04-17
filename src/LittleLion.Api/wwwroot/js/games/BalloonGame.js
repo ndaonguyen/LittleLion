@@ -37,8 +37,8 @@ export class BalloonGame extends BaseGame {
     const field = el('div', { class: 'balloon-field' });
     const { media } = this.context.services;
 
+    let correctBalloon = null;
     choices.forEach((item, idx) => {
-      // Randomize duration and sway so no two balloons rise the same way
       const duration = 5.5 + Math.random() * 3;
       const swayName = `balloon-sway-${idx % 3}`;
 
@@ -68,6 +68,7 @@ export class BalloonGame extends BaseGame {
             balloon.classList.add('balloon--popped');
             this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
+            this.noteWrong();
             setTimeout(() => balloon.classList.remove('balloon--popped'), 400);
           }
         },
@@ -82,11 +83,13 @@ export class BalloonGame extends BaseGame {
         el('div', { class: 'balloon__tie', style: { color: item.color } }),
         el('div', { class: 'balloon__string' }),
       ]);
+      if (item.id === target.id) correctBalloon = balloon;
       field.appendChild(balloon);
     });
 
     this.bodyContainer.append(promptBtn, field);
 
     setTimeout(() => audio.speak(target.word), 500);
+    this.startRoundWatch(correctBalloon);
   }
 }

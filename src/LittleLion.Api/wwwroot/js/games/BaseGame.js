@@ -10,15 +10,21 @@ import { createSceneBackground } from '../screens/SceneBackground.js';
  *   - top bar with progress + stars
  *   - Leo the Lion watching from a corner, reacting to events
  *   - win condition and star crediting
+ *   - character moments: hint-pointing after 8s of hesitation,
+ *     comfort shrug + voice line after 3 wrong answers in a row
  *
  * Subclasses implement:
  *   - totalRounds  (how many rounds for this game)
  *   - renderRound()
  *
  * Subclasses should call:
- *   - this.context.bus.emit('leo:cheer') on correct answers
- *   - this.context.bus.emit('leo:sad')   on wrong answers
+ *   - this.startRoundWatch(correctTileElement) at the top of renderRound
+ *   - this.noteWrong() on wrong answers
+ *   - this.noteCorrect() on correct answers (cancels hint timers)
  */
+const HINT_AFTER_MS = 8000;
+const COMFORT_AFTER_WRONG = 3;
+
 export class BaseGame extends Component {
   constructor(context, params = {}) {
     super(context);
@@ -29,6 +35,11 @@ export class BaseGame extends Component {
     this.topBar = null;
     this.bodyContainer = null;
     this.leo = null;
+
+    // Character-moment state
+    this._wrongStreak = 0;
+    this._hintTimer = null;
+    this._hintTargetTile = null;
   }
 
   get totalRounds() { return 5; }
@@ -61,7 +72,6 @@ export class BaseGame extends Component {
     try {
       const lesson = await this.context.services.lessons.getLesson(this.lessonId);
       this.vocab = lesson.items;
-      // Inject the themed scene background now that we know the theme
       this.sceneContainer.appendChild(createSceneBackground(lesson.theme));
       this._updateTopBar();
       this._renderRound();
@@ -71,14 +81,42 @@ export class BaseGame extends Component {
     }
   }
 
+  onUnmount() {
+    this._clearHintTimer();
+  }
+
   /** Subclasses override to render a single round's UI inside `this.bodyContainer`. */
   renderRound() {
     throw new Error(`${this.constructor.name} must implement renderRound().`);
   }
 
+  /**
+   * Called by subclasses at the start of each round. Arms the hint timer
+   * so Leo will point at the correct tile if the child hesitates too long.
+   */
+  startRoundWatch(correctTileElement) {
+    this._clearHintTimer();
+    this._hintTargetTile = correctTileElement;
+    this._hintTimer = setTimeout(() => this._triggerHint(), HINT_AFTER_MS);
+  }
+
+  noteCorrect() {
+    this._wrongStreak = 0;
+    this._clearHintTimer();
+  }
+
+  noteWrong() {
+    this._wrongStreak += 1;
+    if (this._wrongStreak >= COMFORT_AFTER_WRONG) {
+      this._wrongStreak = 0;
+      this._triggerComfort();
+    }
+  }
+
   /** Subclasses call this to award a star and advance. */
   completeRound() {
     this.stars += 1;
+    this.noteCorrect();
     this._updateTopBar();
 
     setTimeout(() => {
@@ -103,9 +141,40 @@ export class BaseGame extends Component {
     });
   }
 
+  _clearHintTimer() {
+    if (this._hintTimer) {
+      clearTimeout(this._hintTimer);
+      this._hintTimer = null;
+    }
+    if (this._hintTargetTile) {
+      this._hintTargetTile.classList.remove('tile--hint');
+      this._hintTargetTile = null;
+    }
+  }
+
+  _triggerHint() {
+    if (!this._hintTargetTile) return;
+
+    // Glow the correct tile + Leo points at it. Direction picked from
+    // whether the tile is on the left or right half of the viewport.
+    const tile = this._hintTargetTile;
+    tile.classList.add('tile--hint');
+
+    const rect = tile.getBoundingClientRect();
+    const midX = window.innerWidth / 2;
+    const direction = rect.left + rect.width / 2 < midX ? 'left' : 'right';
+    this.context.bus.emit('leo:point', { direction });
+  }
+
+  _triggerComfort() {
+    this.context.bus.emit('leo:shrug');
+    // Small encouraging voice line - kids this age respond to warm tones
+    this.context.services.audio.speak(`It's OK, let's try again!`, 0.9);
+  }
+
   _finish() {
+    this._clearHintTimer();
     // Fire-and-forget - the Win screen doesn't block on the server response.
-    // ProgressService falls back to optimistic local update if the call fails.
     this.context.services.progress.recordSession(this.lessonId, this.stars);
     this.context.router.navigate('win', {
       stars: this.stars,

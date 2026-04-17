@@ -30,6 +30,10 @@ export class HomeScreen extends Component {
   }
 
   async onMount() {
+    // Leo waves hello - delayed slightly so it runs after the screen
+    // finishes entering, not during the transition
+    setTimeout(() => this.context.bus.emit('leo:wave'), 350);
+
     try {
       const lessons = await this.context.services.lessons.getAllSummaries();
       this._renderLessons(lessons);

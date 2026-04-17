@@ -14,6 +14,7 @@ export class TapGame extends BaseGame {
 
     const playSound = () => audio.speak(target.word);
 
+    let correctTile = null;
     const tiles = options.map((item, idx) => {
       const tile = el('button', {
         class: 'tile tile--entering',
@@ -37,10 +38,12 @@ export class TapGame extends BaseGame {
             tile.classList.add('tile--dodge');
             this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
+            this.noteWrong();
             setTimeout(() => tile.classList.remove('tile--dodge'), 500);
           }
         },
       }, [createVocabVisual(item, media, { size: 'medium' })]);
+      if (item.id === target.id) correctTile = tile;
       return tile;
     });
 
@@ -58,6 +61,10 @@ export class TapGame extends BaseGame {
 
     // Auto-play the target word shortly after render
     setTimeout(playSound, 400);
+
+    // Arm the hint watcher - Leo will point at the correct tile if the
+    // child hesitates more than 8 seconds
+    this.startRoundWatch(correctTile);
   }
 
   _showPraise(word) {
