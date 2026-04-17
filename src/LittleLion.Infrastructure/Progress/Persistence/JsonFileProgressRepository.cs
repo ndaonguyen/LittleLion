@@ -1,6 +1,7 @@
 using System.Text.Json;
 using LittleLion.Application.Progress.Abstractions;
 using LittleLion.Domain.Progress;
+using LittleLion.Domain.Rewards;
 using LittleLion.Infrastructure.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -96,7 +97,16 @@ public sealed class JsonFileProgressRepository : IProgressRepository
         var streak = new Streak(record.StreakDays, record.LastActiveDate);
         var lessons = record.Lessons.Select(l =>
             new LessonProgress(l.LessonId, l.BestStars, l.TotalPlays, l.LastPlayedAt));
-        return new PlayerProgress(record.TotalStars, streak, lessons);
+
+        var unlocked = (record.UnlockedItems ?? []).Select(u =>
+        {
+            // Unknown categories from future versions shouldn't crash load - default to Sticker.
+            if (!Enum.TryParse<RewardCategory>(u.Category, ignoreCase: true, out var cat))
+                cat = RewardCategory.Sticker;
+            return new UnlockedItem(u.Id, cat, u.UnlockedAt);
+        });
+
+        return new PlayerProgress(record.TotalStars, streak, lessons, unlocked);
     }
 
     private static PlayerProgressJsonRecord MapToJson(PlayerProgress progress)
@@ -107,5 +117,9 @@ public sealed class JsonFileProgressRepository : IProgressRepository
             Lessons: progress.LessonHistory
                 .Select(l => new LessonProgressJsonRecord(
                     l.LessonId, l.BestStars, l.TotalPlays, l.LastPlayedAt))
+                .ToList(),
+            UnlockedItems: progress.UnlockedItems
+                .Select(u => new UnlockedItemJsonRecord(
+                    u.Id, u.Category.ToString(), u.UnlockedAt))
                 .ToList());
 }

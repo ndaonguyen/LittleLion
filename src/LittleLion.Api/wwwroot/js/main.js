@@ -13,10 +13,13 @@ import { SoundEffectService } from './services/SoundEffectService.js';
 import { LessonService }      from './services/LessonService.js';
 import { ProgressService }    from './services/ProgressService.js';
 import { MediaService }       from './services/MediaService.js';
+import { RewardService }      from './services/RewardService.js';
 
-import { HomeScreen }       from './screens/HomeScreen.js';
-import { GamePickerScreen } from './screens/GamePickerScreen.js';
-import { WinScreen }        from './screens/WinScreen.js';
+import { HomeScreen }        from './screens/HomeScreen.js';
+import { GamePickerScreen }  from './screens/GamePickerScreen.js';
+import { WinScreen }         from './screens/WinScreen.js';
+import { StickerBookScreen } from './screens/StickerBookScreen.js';
+import { UnlockToast }       from './screens/UnlockToast.js';
 import { TapGame }     from './games/TapGame.js';
 import { DragGame }    from './games/DragGame.js';
 import { BalloonGame } from './games/BalloonGame.js';
@@ -31,10 +34,12 @@ function bootstrap() {
     lessons:  new LessonService(api),
     progress: new ProgressService(api, bus),
     media:    new MediaService(),
+    rewards:  new RewardService(api),
   };
 
-  // Kick off initial progress load (non-blocking - UI renders immediately)
+  // Kick off initial loads in parallel - UI renders before these resolve
   services.progress.refresh();
+  services.rewards.refresh();
 
   const rootEl = document.getElementById('app');
   const router = new Router(rootEl, null);
@@ -42,13 +47,17 @@ function bootstrap() {
   const context = { bus, services, router };
   router.context = context; // complete the circular reference intentionally
 
+  // Global unlock toast - mounted once, reacts to 'rewards:unlocked' events
+  new UnlockToast(bus, { sfx: services.sfx, audio: services.audio });
+
   router
-    .register('home',       (ctx)         => new HomeScreen(ctx))
-    .register('gamePicker', (ctx, params) => new GamePickerScreen(ctx, params))
-    .register('tap',        (ctx, params) => new TapGame(ctx, params))
-    .register('drag',       (ctx, params) => new DragGame(ctx, params))
-    .register('balloon',    (ctx, params) => new BalloonGame(ctx, params))
-    .register('win',        (ctx, params) => new WinScreen(ctx, params));
+    .register('home',        (ctx)         => new HomeScreen(ctx))
+    .register('gamePicker',  (ctx, params) => new GamePickerScreen(ctx, params))
+    .register('tap',         (ctx, params) => new TapGame(ctx, params))
+    .register('drag',        (ctx, params) => new DragGame(ctx, params))
+    .register('balloon',     (ctx, params) => new BalloonGame(ctx, params))
+    .register('win',         (ctx, params) => new WinScreen(ctx, params))
+    .register('stickerBook', (ctx)         => new StickerBookScreen(ctx));
 
   router.navigate('home');
 }

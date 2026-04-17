@@ -4,6 +4,8 @@ using LittleLion.Application.Lessons.Queries;
 using LittleLion.Application.Progress.Commands;
 using LittleLion.Application.Progress.Dtos;
 using LittleLion.Application.Progress.Queries;
+using LittleLion.Application.Rewards;
+using LittleLion.Application.Rewards.Queries;
 using LittleLion.Domain.Common;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,6 +36,12 @@ public static class ApplicationServiceRegistration
         services.AddScoped<
             ICommandHandler<RecordSessionCommand, Result<RecordSessionResultDto>>,
             RecordSessionCommandHandler>();
+
+        // Reward handlers
+        services.AddScoped<RewardEvaluator>();
+        services.AddScoped<
+            IQueryHandler<GetRewardCatalogQuery, IReadOnlyList<RewardDto>>,
+            GetRewardCatalogQueryHandler>();
 
         return services;
     }

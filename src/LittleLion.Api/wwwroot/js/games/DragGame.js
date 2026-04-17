@@ -86,6 +86,7 @@ export class DragGame extends BaseGame {
         slot.classList.add('tile--wrong');
         this.context.services.sfx.play('buzz');
         this.context.bus.emit('leo:sad');
+        this.noteWrong();
         setTimeout(() => slot.classList.remove('tile--wrong'), 400);
       }
 
