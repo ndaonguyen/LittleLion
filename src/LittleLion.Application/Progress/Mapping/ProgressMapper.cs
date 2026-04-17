@@ -7,7 +7,7 @@ namespace LittleLion.Application.Progress.Mapping;
 public static class ProgressMapper
 {
     public static LessonProgressDto ToDto(LessonProgress lp)
-        => new(lp.LessonId, lp.BestStars, lp.TotalPlays, lp.LastPlayedAt);
+        => new(lp.LessonId, lp.Difficulty.ToString(), lp.BestStars, lp.TotalPlays, lp.LastPlayedAt);
 
     public static UnlockedItemDto ToDto(UnlockedItem ui)
         => new(ui.Id, ui.Category.ToString(), ui.UnlockedAt);

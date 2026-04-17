@@ -41,13 +41,19 @@ public sealed class RewardEvaluator
     {
         return reward.Category switch
         {
-            // Sticker: unlocks the first time the lesson is played (any stars).
+            // Sticker: unlocks the first time the lesson is played at ANY
+            // difficulty (any stars). An Easy play counts just as much as
+            // a Hard one for sticker-book completion - the goal of stickers
+            // is "you tried this topic", not "you mastered it".
             RewardCategory.Sticker when reward.LessonId is not null
-                => progress.GetLessonProgress(reward.LessonId) is not null,
+                => progress.LessonHistory.Any(l =>
+                    string.Equals(l.LessonId, reward.LessonId, StringComparison.OrdinalIgnoreCase)),
 
-            // Badge: unlocks when best-stars for the lesson reaches the threshold.
+            // Badge: unlocks when best-stars for the lesson (across any
+            // difficulty) reaches the threshold. So a 5-star Easy run can
+            // grant a gold badge - intentional, keeps younger kids included.
             RewardCategory.Badge when reward.LessonId is not null && reward.RequiredBestStars > 0
-                => (progress.GetLessonProgress(reward.LessonId)?.BestStars ?? 0) >= reward.RequiredBestStars,
+                => progress.GetBestStarsAcrossDifficulties(reward.LessonId) >= reward.RequiredBestStars,
 
             // Costume: unlocks when streak days reach the threshold.
             RewardCategory.Costume when reward.StreakDays > 0
