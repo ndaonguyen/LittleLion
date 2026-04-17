@@ -476,3 +476,39 @@
   0%, 100% { box-shadow: var(--shadow-card), 0 0 0 0 rgba(255, 216, 77, 0); }
   50%      { box-shadow: var(--shadow-card), 0 0 0 8px rgba(255, 216, 77, 0.55); }
 }
+
+/* Match-It: matched slot is "locked in" - dimmed, no longer a drop target */
+.tile--matched {
+  filter: saturate(0.55) brightness(1.05);
+  box-shadow: var(--shadow-soft);
+  animation: tile-match-settle 0.5s var(--ease-bounce);
+}
+.tile--matched::before {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  background: #22C55E;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  animation: match-check-pop 0.5s var(--ease-bounce) 0.1s both;
+}
+@keyframes tile-match-settle {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes match-check-pop {
+  0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+  60%  { transform: scale(1.2) rotate(10deg);  opacity: 1; }
+  100% { transform: scale(1)   rotate(0);      opacity: 1; }
+}

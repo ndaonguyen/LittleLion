@@ -64,10 +64,19 @@ export class DragGame extends BaseGame {
       if (slotId && slotId === draggingId) {
         matched.add(slotId);
         const item = items.find(i => i.id === slotId);
+        const slotTile = tileById.get(slotId);
+
         chipById.get(slotId).classList.add('word-chip--used');
-        tileById.get(slotId).appendChild(
+        slotTile.appendChild(
           el('div', { class: 'tile__label' }, [item.word])
         );
+
+        // Lock this slot in: mark it done, dim it, remove the data-slot
+        // attribute so it can't be a drop target any more. The remaining
+        // unmatched slots visually 'stand out' which helps the child focus.
+        slotTile.classList.add('tile--matched');
+        slotTile.removeAttribute('data-slot');
+
         this.context.services.sfx.play('ding');
         audio.speak(item.word);
         this.context.bus.emit('leo:cheer');

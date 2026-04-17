@@ -33,7 +33,7 @@ export class SoundEffectService {
     const playMap = {
       pop:     () => this._tone(ctx, { freq: 660, endFreq: 220, dur: 0.12, type: 'square', gain: 0.4 }),
       ding:    () => this._chord(ctx, [880, 1320], 0.35, 'sine', 0.35),
-      buzz:    () => this._tone(ctx, { freq: 180, endFreq: 120, dur: 0.25, type: 'sawtooth', gain: 0.3 }),
+      buzz:    () => this._sadTrombone(ctx),
       whoosh:  () => this._tone(ctx, { freq: 800, endFreq: 120, dur: 0.28, type: 'sine', gain: 0.3 }),
       fanfare: () => this._fanfare(ctx),
     };
@@ -94,5 +94,23 @@ export class SoundEffectService {
         this._tone(ctx, { freq, dur: 0.28, type: 'triangle', gain: 0.4 });
       }, i * 90);
     });
+  }
+
+  /**
+   * "Wah-waaah" - the classic cartoon disappointment sound.
+   * Two descending notes with a small slide on the second for the
+   * comedic droopy effect. Triangle wave reads as brass-ish; sawtooth
+   * layer underneath gives it body.
+   */
+  _sadTrombone(ctx) {
+    // Note 1: short "wah" at A3
+    this._tone(ctx, { freq: 220, endFreq: 210, dur: 0.18, type: 'triangle', gain: 0.45 });
+    this._tone(ctx, { freq: 220, endFreq: 210, dur: 0.18, type: 'sawtooth', gain: 0.15 });
+
+    // Note 2: longer "waaaah" sliding down from G3 to E3
+    setTimeout(() => {
+      this._tone(ctx, { freq: 196, endFreq: 165, dur: 0.45, type: 'triangle', gain: 0.45 });
+      this._tone(ctx, { freq: 196, endFreq: 165, dur: 0.45, type: 'sawtooth', gain: 0.15 });
+    }, 200);
   }
 }
