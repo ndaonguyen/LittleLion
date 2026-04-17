@@ -5,12 +5,13 @@
  * This is the ONLY file that knows about concrete classes.
  * Everything else depends on abstractions passed via `context`.
  */
-import { ApiClient }       from './api/ApiClient.js';
-import { EventBus }        from './core/EventBus.js';
-import { Router }          from './core/Router.js';
-import { AudioService }    from './services/AudioService.js';
-import { LessonService }   from './services/LessonService.js';
-import { ProgressService } from './services/ProgressService.js';
+import { ApiClient }          from './api/ApiClient.js';
+import { EventBus }           from './core/EventBus.js';
+import { Router }             from './core/Router.js';
+import { AudioService }       from './services/AudioService.js';
+import { SoundEffectService } from './services/SoundEffectService.js';
+import { LessonService }      from './services/LessonService.js';
+import { ProgressService }    from './services/ProgressService.js';
 
 import { HomeScreen }       from './screens/HomeScreen.js';
 import { GamePickerScreen } from './screens/GamePickerScreen.js';
@@ -25,6 +26,7 @@ function bootstrap() {
 
   const services = {
     audio:    new AudioService(),
+    sfx:      new SoundEffectService(),
     lessons:  new LessonService(api),
     progress: new ProgressService(api, bus),
   };

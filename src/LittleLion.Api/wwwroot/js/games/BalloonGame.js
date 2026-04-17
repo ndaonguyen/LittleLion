@@ -49,6 +49,7 @@ export class BalloonGame extends BaseGame {
           if (item.id === target.id) {
             locked = true;
             balloon.classList.add('balloon--popped');
+            this.context.services.sfx.play('pop');
             audio.speak(item.word);
             this.context.bus.emit('leo:cheer');
             const praise = el('div', { class: 'balloon-feedback' }, [`POP! ${target.word}! ✨`]);
@@ -56,6 +57,7 @@ export class BalloonGame extends BaseGame {
             this.completeRound();
           } else {
             balloon.classList.add('balloon--popped');
+            this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
             setTimeout(() => balloon.classList.remove('balloon--popped'), 400);
           }

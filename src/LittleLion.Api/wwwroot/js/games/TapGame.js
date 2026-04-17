@@ -23,12 +23,14 @@ export class TapGame extends BaseGame {
           if (item.id === target.id) {
             locked = true;
             tile.classList.add('tile--correct');
+            this.context.services.sfx.play('ding');
             audio.speak(item.word);
             this.context.bus.emit('leo:cheer');
             this._showPraise(target.word);
             this.completeRound();
           } else {
             tile.classList.add('tile--wrong');
+            this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
             setTimeout(() => tile.classList.remove('tile--wrong'), 400);
           }

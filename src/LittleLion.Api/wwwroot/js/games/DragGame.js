@@ -45,6 +45,7 @@ export class DragGame extends BaseGame {
         tileById.get(slotId).appendChild(
           el('div', { class: 'tile__label' }, [item.word])
         );
+        this.context.services.sfx.play('ding');
         audio.speak(item.word);
         this.context.bus.emit('leo:cheer');
 
@@ -60,6 +61,7 @@ export class DragGame extends BaseGame {
         }
       } else if (slot) {
         slot.classList.add('tile--wrong');
+        this.context.services.sfx.play('buzz');
         this.context.bus.emit('leo:sad');
         setTimeout(() => slot.classList.remove('tile--wrong'), 400);
       }

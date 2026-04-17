@@ -42,6 +42,7 @@ export class WinScreen extends Component {
   }
 
   onMount() {
+    this.context.services.sfx.play('fanfare');
     this.context.services.audio.speak('Great job!');
     // Trigger Leo's big celebration after the DOM settles
     setTimeout(() => this.context.bus.emit('leo:celebrate'), 150);
