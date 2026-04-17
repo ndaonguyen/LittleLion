@@ -9,10 +9,9 @@ export class BalloonGame extends BaseGame {
   render() {
     const root = super.render();
 
-    // The sky background sits behind game content
-    root.insertBefore(el('div', { class: 'balloon-sky' }), this.bodyContainer);
-
-    // Swap the default body for our balloon-specific layout class
+    // Swap the default body for our balloon-specific layout class.
+    // The scene background from BaseGame already covers the sky, so we
+    // don't need the old balloon-sky layer any more.
     this.bodyContainer.classList.remove('game__body');
     this.bodyContainer.classList.add('balloon-game-body');
 

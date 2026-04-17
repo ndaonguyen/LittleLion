@@ -2,6 +2,7 @@ import { Component } from '../core/Component.js';
 import { el } from '../core/DomHelpers.js';
 import { createTopBar } from '../screens/TopBar.js';
 import { Leo } from '../screens/Leo.js';
+import { createSceneBackground } from '../screens/SceneBackground.js';
 
 /**
  * Base class for all games. Handles the boring shared parts:
@@ -45,7 +46,11 @@ export class BaseGame extends Component {
     this.onDispose(() => this.leo.destroy());
     const leoCorner = el('div', { class: 'game__leo' }, [this.leo.element]);
 
+    // Scene placeholder - actual theme injected in onMount once lesson loads
+    this.sceneContainer = el('div', { class: 'scene-slot' });
+
     return el('div', { class: 'screen game' }, [
+      this.sceneContainer,
       this.topBar.element,
       this.bodyContainer,
       leoCorner,
@@ -56,6 +61,8 @@ export class BaseGame extends Component {
     try {
       const lesson = await this.context.services.lessons.getLesson(this.lessonId);
       this.vocab = lesson.items;
+      // Inject the themed scene background now that we know the theme
+      this.sceneContainer.appendChild(createSceneBackground(lesson.theme));
       this._updateTopBar();
       this._renderRound();
     } catch (err) {
