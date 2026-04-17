@@ -27,6 +27,7 @@ app.UseStaticFiles();
 // API
 app.MapLessonEndpoints();
 app.MapProgressEndpoints();
+app.MapRewardEndpoints();
 
 // Redirect root to the SPA entry point (safety net if UseDefaultFiles misses)
 app.MapGet("/", () => Results.Redirect("/index.html"));
