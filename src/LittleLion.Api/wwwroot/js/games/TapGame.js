@@ -24,10 +24,12 @@ export class TapGame extends BaseGame {
             locked = true;
             tile.classList.add('tile--correct');
             audio.speak(item.word);
+            this.context.bus.emit('leo:cheer');
             this._showPraise(target.word);
             this.completeRound();
           } else {
             tile.classList.add('tile--wrong');
+            this.context.bus.emit('leo:sad');
             setTimeout(() => tile.classList.remove('tile--wrong'), 400);
           }
         },

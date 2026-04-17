@@ -399,3 +399,12 @@
   font-size: 13px;
   color: var(--color-ink);
 }
+
+/* Leo watching from the corner during games */
+.game__leo {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 5;
+  pointer-events: none;
+}

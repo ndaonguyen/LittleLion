@@ -1,5 +1,6 @@
 import { Component } from '../core/Component.js';
 import { el, clear } from '../core/DomHelpers.js';
+import { Leo } from './Leo.js';
 
 /**
  * Home screen: lists all available lessons so the child (or parent)
@@ -80,8 +81,11 @@ export class HomeScreen extends Component {
   }
 
   _buildHeroBanner() {
+    this._leo = new Leo(this.context.bus, { size: 'medium' });
+    this.onDispose(() => this._leo.destroy());
+
     return el('div', { class: 'home__lesson-banner' }, [
-      el('div', { class: 'home__lesson-banner-emoji' }, ['🦁']),
+      el('div', { class: 'home__lesson-banner-emoji' }, [this._leo.element]),
       el('div', { class: 'home__lesson-banner-text' }, [
         el('strong', {}, [`Hi friend!`]),
         el('span', {}, ['Pick a topic below to start']),

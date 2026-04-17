@@ -1,5 +1,6 @@
 import { Component } from '../core/Component.js';
 import { el } from '../core/DomHelpers.js';
+import { Leo } from './Leo.js';
 
 const CONFETTI_COLORS = ['#FFB84C', '#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#FF8C42'];
 
@@ -12,13 +13,16 @@ export class WinScreen extends Component {
   }
 
   render() {
+    this._leo = new Leo(this.context.bus, { size: 'large' });
+    this.onDispose(() => this._leo.destroy());
+
     const starRow = el('div', { class: 'win__stars' },
       Array.from({ length: Math.min(this.stars, 5) }).map(() => el('span', {}, ['⭐']))
     );
 
     const root = el('div', { class: 'screen win' }, [
       this._renderConfetti(),
-      el('div', { class: 'win__trophy' }, ['🏆']),
+      el('div', { class: 'win__trophy' }, [this._leo.element]),
       el('h2', { class: 'win__title' }, ['Great Job!']),
       el('p',  { class: 'win__subtitle' }, [`You earned ${this.stars} star${this.stars === 1 ? '' : 's'}!`]),
       starRow,
@@ -39,6 +43,8 @@ export class WinScreen extends Component {
 
   onMount() {
     this.context.services.audio.speak('Great job!');
+    // Trigger Leo's big celebration after the DOM settles
+    setTimeout(() => this.context.bus.emit('leo:celebrate'), 150);
   }
 
   _renderConfetti() {

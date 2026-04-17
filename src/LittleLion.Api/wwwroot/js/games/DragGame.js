@@ -46,6 +46,7 @@ export class DragGame extends BaseGame {
           el('div', { class: 'tile__label' }, [item.word])
         );
         audio.speak(item.word);
+        this.context.bus.emit('leo:cheer');
 
         this.stars = matched.size;
         this.topBar.update({ progress: matched.size / items.length, stars: this.stars });
@@ -59,6 +60,7 @@ export class DragGame extends BaseGame {
         }
       } else if (slot) {
         slot.classList.add('tile--wrong');
+        this.context.bus.emit('leo:sad');
         setTimeout(() => slot.classList.remove('tile--wrong'), 400);
       }
 

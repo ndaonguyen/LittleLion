@@ -50,11 +50,13 @@ export class BalloonGame extends BaseGame {
             locked = true;
             balloon.classList.add('balloon--popped');
             audio.speak(item.word);
+            this.context.bus.emit('leo:cheer');
             const praise = el('div', { class: 'balloon-feedback' }, [`POP! ${target.word}! ✨`]);
             field.appendChild(praise);
             this.completeRound();
           } else {
             balloon.classList.add('balloon--popped');
+            this.context.bus.emit('leo:sad');
             setTimeout(() => balloon.classList.remove('balloon--popped'), 400);
           }
         },

@@ -189,3 +189,93 @@
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   Leo the Lion mascot
+   ============================================================ */
+.leo {
+  position: relative;
+  display: inline-block;
+  transform-origin: 50% 80%;
+  pointer-events: none;
+}
+.leo__body {
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.15));
+}
+.leo__sparkles {
+  position: absolute;
+  inset: -20% -20% -20% -20%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-soft);
+}
+.leo__sparkles span {
+  position: absolute;
+  font-size: 20px;
+}
+.leo__sparkles span:nth-child(1) { top: 4%; left: -5%; }
+.leo__sparkles span:nth-child(2) { top: 12%; right: 0%; }
+.leo__sparkles span:nth-child(3) { bottom: 6%; right: -6%; }
+
+/* Size variants */
+.leo--small  .leo__body { font-size: 40px; }
+.leo--medium .leo__body { font-size: 64px; }
+.leo--large  .leo__body { font-size: 96px; }
+
+/* States */
+.leo--idle .leo__body {
+  animation: leo-idle 3.2s var(--ease-soft) infinite;
+}
+.leo--cheer .leo__body {
+  animation: leo-cheer 0.9s var(--ease-bounce);
+}
+.leo--cheer .leo__sparkles {
+  opacity: 1;
+  animation: sparkle-pop 0.9s var(--ease-soft);
+}
+.leo--sad .leo__body {
+  animation: leo-sad 0.6s var(--ease-soft);
+}
+.leo--celebrate .leo__body {
+  animation: leo-celebrate 1.6s var(--ease-bounce);
+}
+.leo--celebrate .leo__sparkles {
+  opacity: 1;
+  animation: sparkle-loop 1.6s var(--ease-soft);
+}
+
+@keyframes leo-idle {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25%      { transform: rotate(-4deg) translateY(-2px); }
+  75%      { transform: rotate(4deg)  translateY(-2px); }
+}
+@keyframes leo-cheer {
+  0%   { transform: translateY(0) scale(1) rotate(0); }
+  40%  { transform: translateY(-18px) scale(1.12) rotate(-6deg); }
+  70%  { transform: translateY(-6px)  scale(1.05) rotate(6deg); }
+  100% { transform: translateY(0) scale(1) rotate(0); }
+}
+@keyframes leo-sad {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  30%      { transform: translateY(4px) rotate(-6deg); }
+  70%      { transform: translateY(4px) rotate(6deg); }
+}
+@keyframes leo-celebrate {
+  0%   { transform: translateY(0) rotate(0) scale(1); }
+  15%  { transform: translateY(-24px) rotate(-12deg) scale(1.15); }
+  30%  { transform: translateY(-10px) rotate(12deg)  scale(1.08); }
+  50%  { transform: translateY(-18px) rotate(-8deg)  scale(1.12); }
+  70%  { transform: translateY(-4px)  rotate(6deg)   scale(1.05); }
+  100% { transform: translateY(0) rotate(0) scale(1); }
+}
+@keyframes sparkle-pop {
+  0%   { transform: scale(0.4); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+@keyframes sparkle-loop {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.3); opacity: 0.7; }
+}
