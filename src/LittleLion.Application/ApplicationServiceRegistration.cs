@@ -1,6 +1,9 @@
 using LittleLion.Application.Common;
 using LittleLion.Application.Lessons.Dtos;
 using LittleLion.Application.Lessons.Queries;
+using LittleLion.Application.Progress.Commands;
+using LittleLion.Application.Progress.Dtos;
+using LittleLion.Application.Progress.Queries;
 using LittleLion.Domain.Common;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +17,7 @@ public static class ApplicationServiceRegistration
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        // Lesson handlers
         services.AddScoped<
             IQueryHandler<GetAllLessonsQuery, IReadOnlyList<LessonSummaryDto>>,
             GetAllLessonsQueryHandler>();
@@ -21,6 +25,15 @@ public static class ApplicationServiceRegistration
         services.AddScoped<
             IQueryHandler<GetLessonByIdQuery, Result<LessonDetailDto>>,
             GetLessonByIdQueryHandler>();
+
+        // Progress handlers
+        services.AddScoped<
+            IQueryHandler<GetPlayerProgressQuery, PlayerProgressDto>,
+            GetPlayerProgressQueryHandler>();
+
+        services.AddScoped<
+            ICommandHandler<RecordSessionCommand, Result<RecordSessionResultDto>>,
+            RecordSessionCommandHandler>();
 
         return services;
     }
