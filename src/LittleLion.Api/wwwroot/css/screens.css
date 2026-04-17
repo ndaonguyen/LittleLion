@@ -1273,14 +1273,28 @@
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
-  gap: var(--space-3);
+  gap: var(--space-2);
   padding: var(--space-2);
 }
 
-/* Layouts per pair-count for visual balance */
-.memory-grid--pairs-3 { grid-template-columns: repeat(2, 1fr); /* 2x3 */ }
-.memory-grid--pairs-5 { grid-template-columns: repeat(2, 1fr); /* 2x5 */ }
-.memory-grid--pairs-6 { grid-template-columns: repeat(3, 1fr); /* 3x4 */ gap: var(--space-2); }
+/* Layouts per pair-count - tuned for phone portrait viewport.
+   Rule of thumb: the grid area above Leo + top bar is ~520px tall on
+   most phones, so we keep the grid to 3 rows max and let cards be
+   ~80-95px each. 2-column layouts make cards huge and the 4th/5th
+   rows scroll off-screen. */
+.memory-grid--pairs-3 {
+  /* 6 cards: 3 cols x 2 rows - wider feels better than 2x3 */
+  grid-template-columns: repeat(3, 1fr);
+}
+.memory-grid--pairs-5 {
+  /* 10 cards: 4 cols x 3 rows (last row has 2 cards, centered via the
+     empty spaces on the sides - still reads as intentional). */
+  grid-template-columns: repeat(4, 1fr);
+}
+.memory-grid--pairs-6 {
+  /* 12 cards: 4 cols x 3 rows - perfect fit, no empty slots */
+  grid-template-columns: repeat(4, 1fr);
+}
 
 .memory-card {
   aspect-ratio: 1 / 1;
@@ -1323,7 +1337,7 @@
   color: var(--color-white);
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 48px;
+  font-size: 32px;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   /* subtle tile pattern so the back isn't just a flat gradient */
   background-image:

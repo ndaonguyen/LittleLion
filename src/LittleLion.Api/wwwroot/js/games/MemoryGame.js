@@ -65,7 +65,7 @@ export class MemoryGame extends BaseGame {
         el('div', { class: 'memory-card__inner' }, [
           el('div', { class: 'memory-card__back' }, ['?']),
           el('div', { class: 'memory-card__front' }, [
-            createVocabVisual(cardDef.item, media, { size: 'medium' }),
+            createVocabVisual(cardDef.item, media, { size: 'small' }),
           ]),
         ]),
       ]);
