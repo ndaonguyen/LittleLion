@@ -80,6 +80,10 @@ export class BaseGame extends Component {
 
   render() {
     this.topBar = createTopBar({
+      onBack: () => this.context.router.navigate('gamePicker', {
+        lessonId:   this.lessonId,
+        difficulty: this.difficulty,
+      }),
       onHome: () => this.context.router.navigate('home'),
     });
 
