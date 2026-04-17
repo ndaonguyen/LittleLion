@@ -77,7 +77,7 @@ export class BalloonGame extends BaseGame {
           if (locked) return;
           if (item.id === target.id) {
             locked = true;
-            this._spawnPartyBurst(balloon, field, item.color);
+            this._spawnPartyBurst(balloon, field, item);
             balloon.classList.add('balloon--burst');
             this.context.services.sfx.play('pop');
             audio.speak(item.word);
@@ -115,45 +115,92 @@ export class BalloonGame extends BaseGame {
   }
 
   /**
-   * Explode a balloon like a little party: 10 colored streamers shoot out
-   * radially from the balloon's current on-screen position, then the DOM
-   * cleans them up after 1.1s.
+   * Layered party-burst effect for a correct pop. Total duration ~1.2s.
+   *
+   * Timeline:
+   *   0ms    balloon starts scaling (balloon--burst keyframe)
+   *   0ms    flash appears - bright radial gradient at pop center
+   *   0ms    shockwave ring starts expanding outward
+   *   20ms   streamers launch (mix of circles + stars + sparkles)
+   *   0ms    emoji detaches from balloon and floats upward with wiggle
+   *   1200ms all pieces removed from DOM
+   *
+   * The flash is the peak moment - it reads as "POP". Everything else
+   * is celebratory afterglow.
    */
-  _spawnPartyBurst(balloonEl, fieldEl, balloonColor) {
+  _spawnPartyBurst(balloonEl, fieldEl, item) {
     const balloonRect = balloonEl.getBoundingClientRect();
     const fieldRect = fieldEl.getBoundingClientRect();
 
-    // Center of the balloon's BODY (top of the balloon element, not the string)
-    const cx = (balloonRect.left - fieldRect.left) + balloonRect.width / 2;
-    const cy = (balloonRect.top  - fieldRect.top)  + 48; // ~balloon body center
+    // Center of the balloon body - measure the body, not the whole balloon
+    // (which includes the string, pulling the "center" downward).
+    const body = balloonEl.querySelector('.balloon__body');
+    const bodyRect = (body ?? balloonEl).getBoundingClientRect();
+    const cx = (bodyRect.left - fieldRect.left) + bodyRect.width / 2;
+    const cy = (bodyRect.top  - fieldRect.top)  + bodyRect.height / 2;
 
+    // 1. Flash - bright white radial burst, the "pop" moment
+    const flash = el('div', {
+      class: 'burst-flash',
+      style: { left: `${cx}px`, top: `${cy}px` },
+    });
+    fieldEl.appendChild(flash);
+    setTimeout(() => flash.remove(), 450);
+
+    // 2. Shockwave ring in the balloon's color - expands outward, fades
+    const ring = el('div', {
+      class: 'burst-ring',
+      style: {
+        left: `${cx}px`,
+        top:  `${cy}px`,
+        borderColor: item.color,
+      },
+    });
+    fieldEl.appendChild(ring);
+    setTimeout(() => ring.remove(), 700);
+
+    // 3. Emoji float-up - the pedagogical bit. The word's emoji floats
+    // out of the balloon, wiggles slightly, then fades. Visually links
+    // the pop action with the thing the child just learned.
+    const emojiFloat = el('div', {
+      class: 'burst-emoji-float',
+      style: { left: `${cx}px`, top: `${cy}px` },
+    }, [item.emoji ?? '✨']);
+    fieldEl.appendChild(emojiFloat);
+    setTimeout(() => emojiFloat.remove(), 1500);
+
+    // 4. Streamer particles - mix of shapes for visual richness
+    this._spawnStreamers(fieldEl, cx, cy, item.color);
+  }
+
+  _spawnStreamers(fieldEl, cx, cy, balloonColor) {
     const colors = ['#FFB84C', '#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#FF8C42', balloonColor];
-    const PIECES = 12;
+    const SHAPES = ['circle', 'star', 'sparkle', 'rect'];
+    const PIECES = 14;
 
     for (let i = 0; i < PIECES; i++) {
-      const angle = (i / PIECES) * Math.PI * 2;   // evenly spread 360 degrees
-      const distance = 70 + Math.random() * 40;    // 70-110px outward
+      const angle = (i / PIECES) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+      const distance = 80 + Math.random() * 60;   // 80-140px outward
       const dx = Math.cos(angle) * distance;
       const dy = Math.sin(angle) * distance;
       const rotate = (Math.random() - 0.5) * 720;
+      const shape = SHAPES[i % SHAPES.length];
 
       const piece = el('div', {
-        class: 'balloon-burst-piece',
+        class: `burst-piece burst-piece--${shape}`,
         style: {
           left: `${cx}px`,
           top:  `${cy}px`,
-          background: colors[i % colors.length],
-          // custom props consumed by keyframes below
+          color: colors[i % colors.length],
           '--dx': `${dx}px`,
           '--dy': `${dy}px`,
           '--rot': `${rotate}deg`,
-          animationDelay: `${i * 10}ms`,
+          animationDelay: `${20 + i * 8}ms`,
         },
-      });
+      }, shape === 'star' ? ['★'] : shape === 'sparkle' ? ['✦'] : []);
       fieldEl.appendChild(piece);
 
-      // Clean up after the animation completes so the DOM stays small
-      setTimeout(() => piece.remove(), 1200);
+      setTimeout(() => piece.remove(), 1300);
     }
   }
 }
