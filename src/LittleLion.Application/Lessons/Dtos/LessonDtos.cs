@@ -9,7 +9,8 @@ public sealed record VocabularyItemDto(
     string Word,
     string Emoji,
     string Color,
-    string AudioUrl);
+    string AudioUrl,
+    string? FluentName);
 
 public sealed record LessonSummaryDto(
     string Id,

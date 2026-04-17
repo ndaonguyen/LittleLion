@@ -1,6 +1,7 @@
 import { BaseGame } from './BaseGame.js';
 import { el } from '../core/DomHelpers.js';
 import { shuffled, pickRandom } from '../core/Random.js';
+import { createVocabVisual } from '../screens/VocabVisual.js';
 
 /**
  * Drag-to-match game. Drag a word chip onto its matching animal tile.
@@ -25,11 +26,33 @@ export class DragGame extends BaseGame {
 
     let draggingId = null;
     let ghost = null;
+    let lastTrailAt = 0;
+
+    const spawnTrail = (x, y) => {
+      // Throttle so we don't spawn hundreds of particles per second
+      const now = performance.now();
+      if (now - lastTrailAt < 40) return;
+      lastTrailAt = now;
+
+      const item = items.find(i => i.id === draggingId);
+      const dot = el('div', {
+        class: 'drag-trail',
+        style: {
+          left: `${x}px`,
+          top: `${y}px`,
+          background: item.color,
+        },
+      });
+      document.body.appendChild(dot);
+      // Auto-clean after the fade-out animation
+      setTimeout(() => dot.remove(), 500);
+    };
 
     const onPointerMove = (e) => {
       if (!ghost) return;
       ghost.style.left = `${e.clientX - 50}px`;
       ghost.style.top  = `${e.clientY - 25}px`;
+      spawnTrail(e.clientX, e.clientY);
     };
 
     const onPointerUp = (e) => {
@@ -88,13 +111,17 @@ export class DragGame extends BaseGame {
     };
 
     // Tiles (drop targets)
+    const { media } = this.context.services;
     const tilesWrapper = el('div', { class: 'drag-grid' },
-      items.map(item => {
+      items.map((item, idx) => {
         const tile = el('div', {
-          class: 'tile',
-          style: { background: item.color },
+          class: 'tile tile--entering',
+          style: {
+            background: item.color,
+            animationDelay: `${idx * 90}ms`,
+          },
           dataset: { slot: item.id },
-        }, [item.emoji]);
+        }, [createVocabVisual(item, media, { size: 'medium' })]);
         tileById.set(item.id, tile);
         return tile;
       })

@@ -1,6 +1,7 @@
 import { BaseGame } from './BaseGame.js';
 import { el } from '../core/DomHelpers.js';
 import { pickRandom, pickOne } from '../core/Random.js';
+import { createVocabVisual } from '../screens/VocabVisual.js';
 
 export class BalloonGame extends BaseGame {
   get gameName() { return 'balloon'; }
@@ -35,13 +36,22 @@ export class BalloonGame extends BaseGame {
     ]);
 
     const field = el('div', { class: 'balloon-field' });
+    const { media } = this.context.services;
 
     choices.forEach((item, idx) => {
+      // Randomize duration and sway so no two balloons rise the same way
+      const duration = 5.5 + Math.random() * 3;
+      const swayName = `balloon-sway-${idx % 3}`;
+
       const balloon = el('button', {
         class: 'balloon',
         style: {
           left: `${8 + idx * 22 + Math.random() * 4}%`,
-          animationDelay: `${idx * 0.3}s`,
+          animationName: `balloon-rise, ${swayName}`,
+          animationDuration: `${duration}s, ${2.1 + Math.random()}s`,
+          animationTimingFunction: 'linear, ease-in-out',
+          animationIterationCount: 'infinite, infinite',
+          animationDelay: `${idx * 0.25}s, 0s`,
         },
         'aria-label': item.word,
         onclick: () => {
@@ -69,7 +79,7 @@ export class BalloonGame extends BaseGame {
             background: `radial-gradient(circle at 30% 30%, ${item.color}dd, ${item.color})`,
             color: item.color,
           },
-        }, [item.emoji]),
+        }, [createVocabVisual(item, media, { size: 'small' })]),
         el('div', { class: 'balloon__tie', style: { color: item.color } }),
         el('div', { class: 'balloon__string' }),
       ]);

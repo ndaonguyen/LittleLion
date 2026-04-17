@@ -1,22 +1,26 @@
 import { BaseGame } from './BaseGame.js';
 import { el } from '../core/DomHelpers.js';
 import { pickRandom, pickOne } from '../core/Random.js';
+import { createVocabVisual } from '../screens/VocabVisual.js';
 
 export class TapGame extends BaseGame {
   get gameName() { return 'tap'; }
 
   renderRound() {
-    const { audio } = this.context.services;
+    const { audio, media } = this.context.services;
     const options = pickRandom(this.vocab, 4);
     const target = pickOne(options);
     let locked = false;
 
     const playSound = () => audio.speak(target.word);
 
-    const tiles = options.map(item => {
+    const tiles = options.map((item, idx) => {
       const tile = el('button', {
-        class: 'tile',
-        style: { background: item.color },
+        class: 'tile tile--entering',
+        style: {
+          background: item.color,
+          animationDelay: `${idx * 90}ms`,
+        },
         'aria-label': item.word,
         onclick: () => {
           if (locked) return;
@@ -29,13 +33,14 @@ export class TapGame extends BaseGame {
             this._showPraise(target.word);
             this.completeRound();
           } else {
-            tile.classList.add('tile--wrong');
+            // Dodge: tile jumps back like it's avoiding the touch
+            tile.classList.add('tile--dodge');
             this.context.services.sfx.play('buzz');
             this.context.bus.emit('leo:sad');
-            setTimeout(() => tile.classList.remove('tile--wrong'), 400);
+            setTimeout(() => tile.classList.remove('tile--dodge'), 500);
           }
         },
-      }, [item.emoji]);
+      }, [createVocabVisual(item, media, { size: 'medium' })]);
       return tile;
     });
 
