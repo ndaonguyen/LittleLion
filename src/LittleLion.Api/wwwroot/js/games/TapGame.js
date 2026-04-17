@@ -14,8 +14,8 @@ export class TapGame extends BaseGame {
 
   /**
    * Pick the options to show for this round. Default is a random
-   * sample plus a random target. Subclasses (e.g. FindTheWordGame)
-   * override this to use smarter distractor selection.
+   * sample plus a random target. Exposed as a hook so subclasses
+   * can implement smarter distractor selection if needed.
    *
    * Returns { options: VocabItem[], target: VocabItem }.
    */
