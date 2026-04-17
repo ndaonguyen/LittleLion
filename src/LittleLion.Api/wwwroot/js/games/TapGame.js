@@ -12,12 +12,27 @@ export class TapGame extends BaseGame {
     return { Easy: 3, Medium: 5, Hard: 8 }[this.difficulty] ?? 5;
   }
 
+  /**
+   * Pick the options to show for this round. Default is a random
+   * sample plus a random target. Subclasses (e.g. FindTheWordGame)
+   * override this to use smarter distractor selection.
+   *
+   * Returns { options: VocabItem[], target: VocabItem }.
+   */
+  pickOptions(n) {
+    const options = pickRandom(this.vocab, n);
+    const target = pickOne(options);
+    return { options, target };
+  }
+
+  /** Prompt text shown above the tile grid. Subclasses may override. */
+  get promptText() { return 'Listen and tap'; }
+
   renderRound() {
     const { audio, media } = this.context.services;
     // Cap options at vocab length in case a lesson has fewer items than Hard wants
     const n = Math.min(this.optionCount, this.vocab.length);
-    const options = pickRandom(this.vocab, n);
-    const target = pickOne(options);
+    const { options, target } = this.pickOptions(n);
     let locked = false;
 
     const playSound = () => audio.speak(target.word);
@@ -59,7 +74,7 @@ export class TapGame extends BaseGame {
     const gridClass = n >= 7 ? 'tap-grid tap-grid--dense' : 'tap-grid';
 
     this.bodyContainer.append(
-      el('p', { class: 'game__prompt' }, ['Listen and tap']),
+      el('p', { class: 'game__prompt' }, [this.promptText]),
       el('button', {
         class: 'sound-button',
         onclick: playSound,
