@@ -57,7 +57,8 @@ export class BalloonGame extends BaseGame {
           if (locked) return;
           if (item.id === target.id) {
             locked = true;
-            balloon.classList.add('balloon--popped');
+            this._spawnPartyBurst(balloon, field, item.color);
+            balloon.classList.add('balloon--burst');
             this.context.services.sfx.play('pop');
             audio.speak(item.word);
             this.context.bus.emit('leo:cheer');
@@ -91,5 +92,48 @@ export class BalloonGame extends BaseGame {
 
     setTimeout(() => audio.speak(target.word), 500);
     this.startRoundWatch(correctBalloon);
+  }
+
+  /**
+   * Explode a balloon like a little party: 10 colored streamers shoot out
+   * radially from the balloon's current on-screen position, then the DOM
+   * cleans them up after 1.1s.
+   */
+  _spawnPartyBurst(balloonEl, fieldEl, balloonColor) {
+    const balloonRect = balloonEl.getBoundingClientRect();
+    const fieldRect = fieldEl.getBoundingClientRect();
+
+    // Center of the balloon's BODY (top of the balloon element, not the string)
+    const cx = (balloonRect.left - fieldRect.left) + balloonRect.width / 2;
+    const cy = (balloonRect.top  - fieldRect.top)  + 48; // ~balloon body center
+
+    const colors = ['#FFB84C', '#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#FF8C42', balloonColor];
+    const PIECES = 12;
+
+    for (let i = 0; i < PIECES; i++) {
+      const angle = (i / PIECES) * Math.PI * 2;   // evenly spread 360 degrees
+      const distance = 70 + Math.random() * 40;    // 70-110px outward
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      const rotate = (Math.random() - 0.5) * 720;
+
+      const piece = el('div', {
+        class: 'balloon-burst-piece',
+        style: {
+          left: `${cx}px`,
+          top:  `${cy}px`,
+          background: colors[i % colors.length],
+          // custom props consumed by keyframes below
+          '--dx': `${dx}px`,
+          '--dy': `${dy}px`,
+          '--rot': `${rotate}deg`,
+          animationDelay: `${i * 10}ms`,
+        },
+      });
+      fieldEl.appendChild(piece);
+
+      // Clean up after the animation completes so the DOM stays small
+      setTimeout(() => piece.remove(), 1200);
+    }
   }
 }
