@@ -20,10 +20,23 @@ export class ProgressService {
   get unlockedItems()  { return this._state.unlockedItems; }
   get isLoaded()       { return this._loaded; }
 
-  /** Best stars the player has ever earned on a given lesson, or 0. */
-  getBestStars(lessonId) {
-    const lesson = this._state.lessons.find(l => l.lessonId === lessonId);
-    return lesson?.bestStars ?? 0;
+  /**
+   * Best stars on a given (lesson, difficulty), or 0.
+   * If difficulty is omitted, returns the best across any difficulty -
+   * useful for "have they ever beaten this lesson" style queries.
+   */
+  getBestStars(lessonId, difficulty = null) {
+    const records = this._state.lessons.filter(l => l.lessonId === lessonId);
+    if (records.length === 0) return 0;
+
+    if (difficulty == null) {
+      return Math.max(...records.map(l => l.bestStars ?? 0));
+    }
+
+    const match = records.find(
+      l => (l.difficulty ?? 'Medium').toLowerCase() === difficulty.toLowerCase()
+    );
+    return match?.bestStars ?? 0;
   }
 
   hasUnlocked(rewardId) {
@@ -40,10 +53,10 @@ export class ProgressService {
     }
   }
 
-  async recordSession(lessonId, starsEarned) {
+  async recordSession(lessonId, starsEarned, difficulty = 'Medium') {
     try {
       const result = await this.api.post('/api/progress/sessions', {
-        lessonId, starsEarned,
+        lessonId, starsEarned, difficulty,
       });
       this._applyState(result.playerProgress);
 

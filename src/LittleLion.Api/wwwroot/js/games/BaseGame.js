@@ -25,10 +25,18 @@ import { createSceneBackground } from '../screens/SceneBackground.js';
 const HINT_AFTER_MS = 8000;
 const COMFORT_AFTER_WRONG = 3;
 
+/**
+ * Default round count per difficulty. Subclasses can override
+ * roundsByDifficulty for game-specific tuning (e.g. Balloon wants
+ * fewer rounds since each round is longer).
+ */
+const DEFAULT_ROUNDS_BY_DIFFICULTY = { Easy: 3, Medium: 5, Hard: 7 };
+
 export class BaseGame extends Component {
   constructor(context, params = {}) {
     super(context);
     this.lessonId = params.lessonId ?? 'animals';
+    this.difficulty = params.difficulty ?? 'Medium';
     this.stars = 0;
     this.round = 0;
     this.vocab = [];
@@ -42,8 +50,16 @@ export class BaseGame extends Component {
     this._hintTargetTile = null;
   }
 
-  get totalRounds() { return 5; }
-  get gameName()    { return 'base'; }
+  /** Subclasses override to change the round schedule per difficulty. */
+  get roundsByDifficulty() { return DEFAULT_ROUNDS_BY_DIFFICULTY; }
+
+  get totalRounds() {
+    return this.roundsByDifficulty[this.difficulty]
+      ?? this.roundsByDifficulty.Medium
+      ?? 5;
+  }
+
+  get gameName() { return 'base'; }
 
   render() {
     this.topBar = createTopBar({
@@ -175,11 +191,13 @@ export class BaseGame extends Component {
   _finish() {
     this._clearHintTimer();
     // Fire-and-forget - the Win screen doesn't block on the server response.
-    this.context.services.progress.recordSession(this.lessonId, this.stars);
+    this.context.services.progress.recordSession(
+      this.lessonId, this.stars, this.difficulty);
     this.context.router.navigate('win', {
       stars: this.stars,
       playedGame: this.gameName,
       lessonId: this.lessonId,
+      difficulty: this.difficulty,
     });
   }
 }

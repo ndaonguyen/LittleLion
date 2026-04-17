@@ -62,30 +62,88 @@ export class HomeScreen extends Component {
 
   _renderLessons(lessons) {
     clear(this._lessonGrid);
-    const { progress } = this.context.services;
+    this._cardByLesson = new Map();
 
     lessons.forEach((lesson, i) => {
-      const best = progress.getBestStars(lesson.id);
       const meta = LESSON_META[lesson.id] ?? DEFAULT_META;
-
-      const card = el('button', {
-        class: 'lesson-card',
-        style: {
-          background: meta.color,
-          animationDelay: `${i * 0.05}s`,
-        },
-        onclick: () => this.context.router.navigate('gamePicker', { lessonId: lesson.id }),
-      }, [
-        el('div', { class: 'lesson-card__emoji' }, [meta.emoji]),
-        el('div', { class: 'lesson-card__body' }, [
-          el('div', { class: 'lesson-card__title' }, [lesson.title]),
-          el('div', { class: 'lesson-card__sub' }, [`${lesson.itemCount} words`]),
-        ]),
-        el('div', { class: 'lesson-card__score' },
-          best > 0 ? [`⭐ ${best}`] : ['✨']),
-      ]);
+      const card = this._buildLessonCard(lesson, meta, i);
+      this._cardByLesson.set(lesson.id, card);
       this._lessonGrid.appendChild(card);
     });
+  }
+
+  _buildLessonCard(lesson, meta, index) {
+    const { progress, difficulty } = this.context.services;
+    const currentDifficulty = difficulty.get(lesson.id);
+    const best = progress.getBestStars(lesson.id, currentDifficulty);
+
+    // Score pill - updates when difficulty dots are tapped
+    const scorePill = el('div', { class: 'lesson-card__score' },
+      best > 0 ? [`⭐ ${best}`] : ['✨']);
+
+    // Difficulty dots
+    const dotsRow = this._buildDifficultyDots(lesson.id, currentDifficulty, scorePill);
+
+    const card = el('button', {
+      class: 'lesson-card',
+      style: {
+        background: meta.color,
+        animationDelay: `${index * 0.05}s`,
+      },
+      onclick: (e) => {
+        // Ignore clicks that bubbled up from the dots row
+        if (e.target.closest('.difficulty-dots')) return;
+        const chosen = difficulty.get(lesson.id);
+        this.context.router.navigate('gamePicker', {
+          lessonId: lesson.id,
+          difficulty: chosen,
+        });
+      },
+    }, [
+      el('div', { class: 'lesson-card__emoji' }, [meta.emoji]),
+      el('div', { class: 'lesson-card__body' }, [
+        el('div', { class: 'lesson-card__title' }, [lesson.title]),
+        el('div', { class: 'lesson-card__sub' }, [`${lesson.itemCount} words`]),
+        dotsRow,
+      ]),
+      scorePill,
+    ]);
+
+    return card;
+  }
+
+  _buildDifficultyDots(lessonId, currentDifficulty, scorePill) {
+    const { difficulty, progress } = this.context.services;
+
+    const row = el('div', { class: 'difficulty-dots', role: 'radiogroup', 'aria-label': 'Difficulty' });
+
+    ['Easy', 'Medium', 'Hard'].forEach(level => {
+      const isActive = level === currentDifficulty;
+      const dot = el('button', {
+        class: `difficulty-dot difficulty-dot--${level.toLowerCase()}${isActive ? ' difficulty-dot--active' : ''}`,
+        type: 'button',
+        role: 'radio',
+        'aria-checked': String(isActive),
+        'aria-label': level,
+        title: level,
+        onclick: (e) => {
+          e.stopPropagation();
+          difficulty.set(lessonId, level);
+
+          // Update dots visually
+          row.querySelectorAll('.difficulty-dot').forEach(d =>
+            d.classList.remove('difficulty-dot--active'));
+          dot.classList.add('difficulty-dot--active');
+
+          // Update the score pill to reflect the new difficulty's best-stars
+          const newBest = progress.getBestStars(lessonId, level);
+          scorePill.textContent = newBest > 0 ? `⭐ ${newBest}` : '✨';
+        },
+      });
+      row.appendChild(dot);
+    });
+
+    return row;
   }
 
   _buildHeader() {

@@ -15,6 +15,12 @@ export class GamePickerScreen extends Component {
   constructor(context, params) {
     super(context);
     this.lessonId = params?.lessonId ?? 'animals';
+    // Prefer the difficulty that was explicitly passed in the nav params;
+    // fall back to whatever the child has set on the lesson card's dots.
+    this.difficulty =
+      params?.difficulty ??
+      context.services.difficulty?.get(this.lessonId) ??
+      'Medium';
   }
 
   render() {
@@ -27,7 +33,9 @@ export class GamePickerScreen extends Component {
         }, ['←']),
         el('div', { style: { flex: 1 } }, [
           el('h1', { class: 'home__title', style: { fontSize: '32px' } }, ['Pick a game']),
-          el('p',  { class: 'home__subtitle' }, [this._humanTitle()]),
+          el('p',  { class: 'home__subtitle' }, [
+            `${this._humanTitle()} · ${this.difficulty}`,
+          ]),
         ]),
       ]),
 
@@ -36,7 +44,10 @@ export class GamePickerScreen extends Component {
           el('button', {
             class: 'game-card',
             style: { background: g.color, animationDelay: `${i * 0.08}s` },
-            onclick: () => this.context.router.navigate(g.id, { lessonId: this.lessonId }),
+            onclick: () => this.context.router.navigate(g.id, {
+              lessonId: this.lessonId,
+              difficulty: this.difficulty,
+            }),
           }, [
             el('div', { class: 'game-card__emoji' }, [g.emoji]),
             el('div', { class: 'game-card__body' }, [

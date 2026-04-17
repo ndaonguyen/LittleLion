@@ -10,6 +10,7 @@ export class WinScreen extends Component {
     this.stars      = params.stars ?? 0;
     this.playedGame = params.playedGame ?? 'tap';
     this.lessonId   = params.lessonId ?? 'animals';
+    this.difficulty = params.difficulty ?? 'Medium';
   }
 
   render() {
@@ -33,7 +34,10 @@ export class WinScreen extends Component {
         }, ['Home']),
         el('button', {
           class: 'btn btn--primary',
-          onclick: () => this.context.router.navigate(this.playedGame, { lessonId: this.lessonId }),
+          onclick: () => this.context.router.navigate(this.playedGame, {
+            lessonId: this.lessonId,
+            difficulty: this.difficulty,
+          }),
         }, ['Play again →']),
       ]),
     ]);

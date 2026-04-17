@@ -3,6 +3,7 @@ using LittleLion.Application.Progress.Commands;
 using LittleLion.Application.Progress.Dtos;
 using LittleLion.Application.Progress.Queries;
 using LittleLion.Domain.Common;
+using LittleLion.Domain.Progress;
 
 namespace LittleLion.Api.Endpoints;
 
@@ -41,7 +42,19 @@ public static class ProgressEndpoints
         ICommandHandler<RecordSessionCommand, Result<RecordSessionResultDto>> handler,
         CancellationToken ct)
     {
-        var cmd = new RecordSessionCommand(request.LessonId, request.StarsEarned);
+        // Legacy clients that don't send a difficulty default to Medium,
+        // matching the RecordSessionCommand default.
+        var difficulty = Difficulty.Medium;
+        if (!string.IsNullOrWhiteSpace(request.Difficulty))
+        {
+            if (!Enum.TryParse<Difficulty>(request.Difficulty, ignoreCase: true, out difficulty))
+                return Results.BadRequest(new
+                {
+                    error = $"Unknown difficulty '{request.Difficulty}'. Expected Easy, Medium, or Hard.",
+                });
+        }
+
+        var cmd = new RecordSessionCommand(request.LessonId, request.StarsEarned, difficulty);
         var result = await handler.HandleAsync(cmd, ct);
 
         return result.IsSuccess
@@ -49,6 +62,12 @@ public static class ProgressEndpoints
             : Results.BadRequest(new { error = result.Error });
     }
 
-    /// <summary>Request body for POST /api/progress/sessions.</summary>
-    public sealed record RecordSessionRequest(string LessonId, int StarsEarned);
+    /// <summary>
+    /// Request body for POST /api/progress/sessions.
+    /// Difficulty is optional and case-insensitive; omitted = Medium.
+    /// </summary>
+    public sealed record RecordSessionRequest(
+        string LessonId,
+        int StarsEarned,
+        string? Difficulty = null);
 }

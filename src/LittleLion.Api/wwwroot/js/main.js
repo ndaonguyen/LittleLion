@@ -14,6 +14,7 @@ import { LessonService }      from './services/LessonService.js';
 import { ProgressService }    from './services/ProgressService.js';
 import { MediaService }       from './services/MediaService.js';
 import { RewardService }      from './services/RewardService.js';
+import { DifficultyService }  from './services/DifficultyService.js';
 
 import { HomeScreen }        from './screens/HomeScreen.js';
 import { GamePickerScreen }  from './screens/GamePickerScreen.js';
@@ -29,12 +30,13 @@ function bootstrap() {
   const api = new ApiClient();
 
   const services = {
-    audio:    new AudioService(),
-    sfx:      new SoundEffectService(),
-    lessons:  new LessonService(api),
-    progress: new ProgressService(api, bus),
-    media:    new MediaService(),
-    rewards:  new RewardService(api),
+    audio:      new AudioService(),
+    sfx:        new SoundEffectService(),
+    lessons:    new LessonService(api),
+    progress:   new ProgressService(api, bus),
+    media:      new MediaService(),
+    rewards:    new RewardService(api),
+    difficulty: new DifficultyService(bus),
   };
 
   // Kick off initial loads in parallel - UI renders before these resolve

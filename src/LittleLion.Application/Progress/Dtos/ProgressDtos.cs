@@ -2,6 +2,7 @@ namespace LittleLion.Application.Progress.Dtos;
 
 public sealed record LessonProgressDto(
     string LessonId,
+    string Difficulty,
     int BestStars,
     int TotalPlays,
     DateTimeOffset LastPlayedAt);
