@@ -1,0 +1,27 @@
+## Build output
+bin/
+obj/
+out/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+*.user
+*.userosscache
+*.suo
+.vs/
+
+## VS Code
+.vscode/
+
+## macOS / Windows
+.DS_Store
+Thumbs.db
+
+## Logs and temp
+*.log
+*.tmp
+*.swp
+
+## Progress data (runtime-generated, not checked in)
+src/LittleLion.Api/Data/progress.json
