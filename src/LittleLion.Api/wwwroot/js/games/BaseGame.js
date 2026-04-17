@@ -116,11 +116,11 @@ export class BaseGame extends Component {
   /** Subclasses call this to award a star and advance. */
   completeRound() {
     this.stars += 1;
+    this.round += 1;
     this.noteCorrect();
     this._updateTopBar();
 
     setTimeout(() => {
-      this.round += 1;
       if (this.round >= this.totalRounds) {
         this._finish();
       } else {
