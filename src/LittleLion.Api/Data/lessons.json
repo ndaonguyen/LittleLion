@@ -4,21 +4,370 @@
     "title": "Animals",
     "theme": "jungle",
     "items": [
-      { "id": "dog",      "word": "Dog",      "emoji": "🐶", "color": "#FFB84C", "fluentName": "Dog face" },
-      { "id": "cat",      "word": "Cat",      "emoji": "🐱", "color": "#FF6B9D", "fluentName": "Cat face" },
-      { "id": "bird",     "word": "Bird",     "emoji": "🐦", "color": "#4ECDC4", "fluentName": "Bird" },
-      { "id": "fish",     "word": "Fish",     "emoji": "🐠", "color": "#5B9EFF", "fluentName": "Tropical fish" },
-      { "id": "pig",      "word": "Pig",      "emoji": "🐷", "color": "#FFB3D9", "fluentName": "Pig face" },
-      { "id": "cow",      "word": "Cow",      "emoji": "🐮", "color": "#A78BFA", "fluentName": "Cow face" },
-      { "id": "duck",     "word": "Duck",     "emoji": "🦆", "color": "#FF8C42", "fluentName": "Duck" },
-      { "id": "lion",     "word": "Lion",     "emoji": "🦁", "color": "#FFD93D", "fluentName": "Lion" },
-      { "id": "horse",    "word": "Horse",    "emoji": "🐴", "color": "#D97B28", "fluentName": "Horse face" },
-      { "id": "sheep",    "word": "Sheep",    "emoji": "🐑", "color": "#E4E4E7", "fluentName": "Ewe" },
-      { "id": "rabbit",   "word": "Rabbit",   "emoji": "🐰", "color": "#FFB3D9", "fluentName": "Rabbit face" },
-      { "id": "bear",     "word": "Bear",     "emoji": "🐻", "color": "#8B5A2B", "fluentName": "Bear" },
-      { "id": "elephant", "word": "Elephant", "emoji": "🐘", "color": "#94A3B8", "fluentName": "Elephant" },
-      { "id": "tiger",    "word": "Tiger",    "emoji": "🐯", "color": "#F97316", "fluentName": "Tiger face" },
-      { "id": "monkey",   "word": "Monkey",   "emoji": "🐵", "color": "#A16207", "fluentName": "Monkey face" }
+      {
+        "id": "dog",
+        "word": "Dog",
+        "emoji": "🐶",
+        "color": "#FFB84C",
+        "fluentName": "Dog face"
+      },
+      {
+        "id": "cat",
+        "word": "Cat",
+        "emoji": "🐱",
+        "color": "#FF6B9D",
+        "fluentName": "Cat face"
+      },
+      {
+        "id": "bird",
+        "word": "Bird",
+        "emoji": "🐦",
+        "color": "#4ECDC4",
+        "fluentName": "Bird"
+      },
+      {
+        "id": "fish",
+        "word": "Fish",
+        "emoji": "🐠",
+        "color": "#5B9EFF",
+        "fluentName": "Tropical fish"
+      },
+      {
+        "id": "pig",
+        "word": "Pig",
+        "emoji": "🐷",
+        "color": "#FFB3D9",
+        "fluentName": "Pig face"
+      },
+      {
+        "id": "cow",
+        "word": "Cow",
+        "emoji": "🐮",
+        "color": "#A78BFA",
+        "fluentName": "Cow face"
+      },
+      {
+        "id": "duck",
+        "word": "Duck",
+        "emoji": "🦆",
+        "color": "#FF8C42",
+        "fluentName": "Duck"
+      },
+      {
+        "id": "lion",
+        "word": "Lion",
+        "emoji": "🦁",
+        "color": "#FFD93D",
+        "fluentName": "Lion"
+      },
+      {
+        "id": "horse",
+        "word": "Horse",
+        "emoji": "🐴",
+        "color": "#D97B28",
+        "fluentName": "Horse face"
+      },
+      {
+        "id": "sheep",
+        "word": "Sheep",
+        "emoji": "🐑",
+        "color": "#E4E4E7",
+        "fluentName": "Ewe"
+      },
+      {
+        "id": "rabbit",
+        "word": "Rabbit",
+        "emoji": "🐰",
+        "color": "#FFB3D9",
+        "fluentName": "Rabbit face"
+      },
+      {
+        "id": "bear",
+        "word": "Bear",
+        "emoji": "🐻",
+        "color": "#8B5A2B",
+        "fluentName": "Bear"
+      },
+      {
+        "id": "elephant",
+        "word": "Elephant",
+        "emoji": "🐘",
+        "color": "#94A3B8",
+        "fluentName": "Elephant"
+      },
+      {
+        "id": "tiger",
+        "word": "Tiger",
+        "emoji": "🐯",
+        "color": "#F97316",
+        "fluentName": "Tiger face"
+      },
+      {
+        "id": "monkey",
+        "word": "Monkey",
+        "emoji": "🐵",
+        "color": "#A16207",
+        "fluentName": "Monkey face"
+      }
+    ]
+  },
+  {
+    "id": "family",
+    "title": "Family",
+    "theme": "home-warm",
+    "items": [
+      {
+        "id": "mom",
+        "word": "Mom",
+        "emoji": "👩",
+        "color": "#EC4899",
+        "fluentName": "Woman"
+      },
+      {
+        "id": "dad",
+        "word": "Dad",
+        "emoji": "👨",
+        "color": "#3B82F6",
+        "fluentName": "Man"
+      },
+      {
+        "id": "baby",
+        "word": "Baby",
+        "emoji": "👶",
+        "color": "#FBCFE8",
+        "fluentName": "Baby"
+      },
+      {
+        "id": "sister",
+        "word": "Sister",
+        "emoji": "👧",
+        "color": "#F472B6",
+        "fluentName": "Girl"
+      },
+      {
+        "id": "brother",
+        "word": "Brother",
+        "emoji": "👦",
+        "color": "#60A5FA",
+        "fluentName": "Boy"
+      },
+      {
+        "id": "grandma",
+        "word": "Grandma",
+        "emoji": "👵",
+        "color": "#A78BFA",
+        "fluentName": "Old woman"
+      },
+      {
+        "id": "grandpa",
+        "word": "Grandpa",
+        "emoji": "👴",
+        "color": "#94A3B8",
+        "fluentName": "Old man"
+      },
+      {
+        "id": "family",
+        "word": "Family",
+        "emoji": "👨‍👩‍👧",
+        "color": "#FFD93D",
+        "fluentName": "Family: man, woman, girl"
+      },
+      {
+        "id": "baby-boy",
+        "word": "Son",
+        "emoji": "🧒",
+        "color": "#FB923C",
+        "fluentName": "Child"
+      },
+      {
+        "id": "aunt",
+        "word": "Aunt",
+        "emoji": "🧑‍🦰",
+        "color": "#DC2626",
+        "fluentName": "Person: red hair"
+      },
+      {
+        "id": "uncle",
+        "word": "Uncle",
+        "emoji": "🧑‍🦳",
+        "color": "#71717A",
+        "fluentName": "Person: white hair"
+      },
+      {
+        "id": "cousin",
+        "word": "Cousin",
+        "emoji": "🧑",
+        "color": "#22C55E",
+        "fluentName": "Person"
+      }
+    ]
+  },
+  {
+    "id": "food",
+    "title": "Food",
+    "theme": "kitchen",
+    "items": [
+      {
+        "id": "bread",
+        "word": "Bread",
+        "emoji": "🍞",
+        "color": "#F59E0B",
+        "fluentName": "Bread"
+      },
+      {
+        "id": "rice",
+        "word": "Rice",
+        "emoji": "🍚",
+        "color": "#F4F4F5",
+        "fluentName": "Cooked rice"
+      },
+      {
+        "id": "milk",
+        "word": "Milk",
+        "emoji": "🥛",
+        "color": "#E0F2FE",
+        "fluentName": "Glass of milk"
+      },
+      {
+        "id": "cheese",
+        "word": "Cheese",
+        "emoji": "🧀",
+        "color": "#FACC15",
+        "fluentName": "Cheese wedge"
+      },
+      {
+        "id": "egg",
+        "word": "Egg",
+        "emoji": "🥚",
+        "color": "#FEF3C7",
+        "fluentName": "Egg"
+      },
+      {
+        "id": "pizza",
+        "word": "Pizza",
+        "emoji": "🍕",
+        "color": "#DC2626",
+        "fluentName": "Pizza"
+      },
+      {
+        "id": "noodles",
+        "word": "Noodles",
+        "emoji": "🍜",
+        "color": "#F97316",
+        "fluentName": "Steaming bowl"
+      },
+      {
+        "id": "soup",
+        "word": "Soup",
+        "emoji": "🥣",
+        "color": "#FB923C",
+        "fluentName": "Bowl with spoon"
+      },
+      {
+        "id": "sandwich",
+        "word": "Sandwich",
+        "emoji": "🥪",
+        "color": "#EAB308",
+        "fluentName": "Sandwich"
+      },
+      {
+        "id": "cookie",
+        "word": "Cookie",
+        "emoji": "🍪",
+        "color": "#92400E",
+        "fluentName": "Cookie"
+      },
+      {
+        "id": "cake",
+        "word": "Cake",
+        "emoji": "🍰",
+        "color": "#FBCFE8",
+        "fluentName": "Shortcake"
+      },
+      {
+        "id": "icecream",
+        "word": "Ice Cream",
+        "emoji": "🍦",
+        "color": "#E0E7FF",
+        "fluentName": "Soft ice cream"
+      }
+    ]
+  },
+  {
+    "id": "numbers",
+    "title": "Numbers",
+    "theme": "counting",
+    "items": [
+      {
+        "id": "one",
+        "word": "One",
+        "emoji": "1️⃣",
+        "color": "#EF4444",
+        "fluentName": "Keycap: 1"
+      },
+      {
+        "id": "two",
+        "word": "Two",
+        "emoji": "2️⃣",
+        "color": "#F97316",
+        "fluentName": "Keycap: 2"
+      },
+      {
+        "id": "three",
+        "word": "Three",
+        "emoji": "3️⃣",
+        "color": "#FACC15",
+        "fluentName": "Keycap: 3"
+      },
+      {
+        "id": "four",
+        "word": "Four",
+        "emoji": "4️⃣",
+        "color": "#22C55E",
+        "fluentName": "Keycap: 4"
+      },
+      {
+        "id": "five",
+        "word": "Five",
+        "emoji": "5️⃣",
+        "color": "#14B8A6",
+        "fluentName": "Keycap: 5"
+      },
+      {
+        "id": "six",
+        "word": "Six",
+        "emoji": "6️⃣",
+        "color": "#3B82F6",
+        "fluentName": "Keycap: 6"
+      },
+      {
+        "id": "seven",
+        "word": "Seven",
+        "emoji": "7️⃣",
+        "color": "#6366F1",
+        "fluentName": "Keycap: 7"
+      },
+      {
+        "id": "eight",
+        "word": "Eight",
+        "emoji": "8️⃣",
+        "color": "#A855F7",
+        "fluentName": "Keycap: 8"
+      },
+      {
+        "id": "nine",
+        "word": "Nine",
+        "emoji": "9️⃣",
+        "color": "#EC4899",
+        "fluentName": "Keycap: 9"
+      },
+      {
+        "id": "ten",
+        "word": "Ten",
+        "emoji": "🔟",
+        "color": "#F43F5E",
+        "fluentName": "Keycap: 10"
+      }
     ]
   },
   {
@@ -26,18 +375,90 @@
     "title": "Colors",
     "theme": "rainbow",
     "items": [
-      { "id": "red",    "word": "Red",    "emoji": "🍎", "color": "#EF4444", "fluentName": "Red apple" },
-      { "id": "blue",   "word": "Blue",   "emoji": "🌊", "color": "#3B82F6", "fluentName": "Water wave" },
-      { "id": "yellow", "word": "Yellow", "emoji": "🍌", "color": "#FACC15", "fluentName": "Banana" },
-      { "id": "green",  "word": "Green",  "emoji": "🍃", "color": "#22C55E", "fluentName": "Leaf fluttering in wind" },
-      { "id": "purple", "word": "Purple", "emoji": "🍇", "color": "#A855F7", "fluentName": "Grapes" },
-      { "id": "orange", "word": "Orange", "emoji": "🥕", "color": "#F97316", "fluentName": "Carrot" },
-      { "id": "pink",   "word": "Pink",   "emoji": "🌸", "color": "#EC4899", "fluentName": "Cherry blossom" },
-      { "id": "brown",  "word": "Brown",  "emoji": "🧸", "color": "#92400E", "fluentName": "Teddy bear" },
-      { "id": "black",  "word": "Black",  "emoji": "🐜", "color": "#27272A", "fluentName": "Ant" },
-      { "id": "white",  "word": "White",  "emoji": "⛄", "color": "#F4F4F5", "fluentName": "Snowman" },
-      { "id": "gray",   "word": "Gray",   "emoji": "🐘", "color": "#71717A", "fluentName": "Elephant" },
-      { "id": "gold",   "word": "Gold",   "emoji": "🥇", "color": "#EAB308", "fluentName": "1st place medal" }
+      {
+        "id": "red",
+        "word": "Red",
+        "emoji": "🍎",
+        "color": "#EF4444",
+        "fluentName": "Red apple"
+      },
+      {
+        "id": "blue",
+        "word": "Blue",
+        "emoji": "🌊",
+        "color": "#3B82F6",
+        "fluentName": "Water wave"
+      },
+      {
+        "id": "yellow",
+        "word": "Yellow",
+        "emoji": "🍌",
+        "color": "#FACC15",
+        "fluentName": "Banana"
+      },
+      {
+        "id": "green",
+        "word": "Green",
+        "emoji": "🍃",
+        "color": "#22C55E",
+        "fluentName": "Leaf fluttering in wind"
+      },
+      {
+        "id": "purple",
+        "word": "Purple",
+        "emoji": "🍇",
+        "color": "#A855F7",
+        "fluentName": "Grapes"
+      },
+      {
+        "id": "orange",
+        "word": "Orange",
+        "emoji": "🥕",
+        "color": "#F97316",
+        "fluentName": "Carrot"
+      },
+      {
+        "id": "pink",
+        "word": "Pink",
+        "emoji": "🌸",
+        "color": "#EC4899",
+        "fluentName": "Cherry blossom"
+      },
+      {
+        "id": "brown",
+        "word": "Brown",
+        "emoji": "🧸",
+        "color": "#92400E",
+        "fluentName": "Teddy bear"
+      },
+      {
+        "id": "black",
+        "word": "Black",
+        "emoji": "🐜",
+        "color": "#27272A",
+        "fluentName": "Ant"
+      },
+      {
+        "id": "white",
+        "word": "White",
+        "emoji": "⛄",
+        "color": "#F4F4F5",
+        "fluentName": "Snowman"
+      },
+      {
+        "id": "gray",
+        "word": "Gray",
+        "emoji": "🐘",
+        "color": "#71717A",
+        "fluentName": "Elephant"
+      },
+      {
+        "id": "gold",
+        "word": "Gold",
+        "emoji": "🥇",
+        "color": "#EAB308",
+        "fluentName": "1st place medal"
+      }
     ]
   },
   {
@@ -45,43 +466,370 @@
     "title": "Fruits",
     "theme": "orchard",
     "items": [
-      { "id": "apple",       "word": "Apple",       "emoji": "🍎", "color": "#EF4444", "fluentName": "Red apple" },
-      { "id": "banana",      "word": "Banana",      "emoji": "🍌", "color": "#FACC15", "fluentName": "Banana" },
-      { "id": "grapes",      "word": "Grapes",      "emoji": "🍇", "color": "#A855F7", "fluentName": "Grapes" },
-      { "id": "orange-fruit","word": "Orange",      "emoji": "🍊", "color": "#F97316", "fluentName": "Tangerine" },
-      { "id": "strawberry",  "word": "Strawberry",  "emoji": "🍓", "color": "#EC4899", "fluentName": "Strawberry" },
-      { "id": "watermelon",  "word": "Watermelon",  "emoji": "🍉", "color": "#10B981", "fluentName": "Watermelon" },
-      { "id": "mango",       "word": "Mango",       "emoji": "🥭", "color": "#F59E0B", "fluentName": "Mango" },
-      { "id": "pineapple",   "word": "Pineapple",   "emoji": "🍍", "color": "#FDE047", "fluentName": "Pineapple" },
-      { "id": "peach",       "word": "Peach",       "emoji": "🍑", "color": "#FCA5A5", "fluentName": "Peach" },
-      { "id": "pear",        "word": "Pear",        "emoji": "🍐", "color": "#84CC16", "fluentName": "Pear" },
-      { "id": "cherry",      "word": "Cherry",      "emoji": "🍒", "color": "#DC2626", "fluentName": "Cherries" },
-      { "id": "lemon",       "word": "Lemon",       "emoji": "🍋", "color": "#FACC15", "fluentName": "Lemon" },
-      { "id": "coconut",     "word": "Coconut",     "emoji": "🥥", "color": "#92400E", "fluentName": "Coconut" },
-      { "id": "kiwi",        "word": "Kiwi",        "emoji": "🥝", "color": "#65A30D", "fluentName": "Kiwi fruit" },
-      { "id": "dragonfruit", "word": "Dragon Fruit","emoji": "🐉", "color": "#E11D48", "fluentName": "Dragon" }
+      {
+        "id": "apple",
+        "word": "Apple",
+        "emoji": "🍎",
+        "color": "#EF4444",
+        "fluentName": "Red apple"
+      },
+      {
+        "id": "banana",
+        "word": "Banana",
+        "emoji": "🍌",
+        "color": "#FACC15",
+        "fluentName": "Banana"
+      },
+      {
+        "id": "grapes",
+        "word": "Grapes",
+        "emoji": "🍇",
+        "color": "#A855F7",
+        "fluentName": "Grapes"
+      },
+      {
+        "id": "orange-fruit",
+        "word": "Orange",
+        "emoji": "🍊",
+        "color": "#F97316",
+        "fluentName": "Tangerine"
+      },
+      {
+        "id": "strawberry",
+        "word": "Strawberry",
+        "emoji": "🍓",
+        "color": "#EC4899",
+        "fluentName": "Strawberry"
+      },
+      {
+        "id": "watermelon",
+        "word": "Watermelon",
+        "emoji": "🍉",
+        "color": "#10B981",
+        "fluentName": "Watermelon"
+      },
+      {
+        "id": "mango",
+        "word": "Mango",
+        "emoji": "🥭",
+        "color": "#F59E0B",
+        "fluentName": "Mango"
+      },
+      {
+        "id": "pineapple",
+        "word": "Pineapple",
+        "emoji": "🍍",
+        "color": "#FDE047",
+        "fluentName": "Pineapple"
+      },
+      {
+        "id": "peach",
+        "word": "Peach",
+        "emoji": "🍑",
+        "color": "#FCA5A5",
+        "fluentName": "Peach"
+      },
+      {
+        "id": "pear",
+        "word": "Pear",
+        "emoji": "🍐",
+        "color": "#84CC16",
+        "fluentName": "Pear"
+      },
+      {
+        "id": "cherry",
+        "word": "Cherry",
+        "emoji": "🍒",
+        "color": "#DC2626",
+        "fluentName": "Cherries"
+      },
+      {
+        "id": "lemon",
+        "word": "Lemon",
+        "emoji": "🍋",
+        "color": "#FACC15",
+        "fluentName": "Lemon"
+      },
+      {
+        "id": "coconut",
+        "word": "Coconut",
+        "emoji": "🥥",
+        "color": "#92400E",
+        "fluentName": "Coconut"
+      },
+      {
+        "id": "kiwi",
+        "word": "Kiwi",
+        "emoji": "🥝",
+        "color": "#65A30D",
+        "fluentName": "Kiwi fruit"
+      },
+      {
+        "id": "dragonfruit",
+        "word": "Dragon Fruit",
+        "emoji": "🐉",
+        "color": "#E11D48",
+        "fluentName": "Dragon"
+      }
     ]
   },
   {
-    "id": "vehicles",
-    "title": "Vehicles",
-    "theme": "road",
+    "id": "toys",
+    "title": "Toys",
+    "theme": "playroom-bright",
     "items": [
-      { "id": "car",        "word": "Car",        "emoji": "🚗", "color": "#EF4444", "fluentName": "Automobile" },
-      { "id": "bus",        "word": "Bus",        "emoji": "🚌", "color": "#FACC15", "fluentName": "Bus" },
-      { "id": "plane",      "word": "Plane",      "emoji": "✈️", "color": "#5B9EFF", "fluentName": "Airplane" },
-      { "id": "bike",       "word": "Bike",       "emoji": "🚲", "color": "#4ECDC4", "fluentName": "Bicycle" },
-      { "id": "train",      "word": "Train",      "emoji": "🚂", "color": "#A855F7", "fluentName": "Locomotive" },
-      { "id": "boat",       "word": "Boat",       "emoji": "⛵", "color": "#22C55E", "fluentName": "Sailboat" },
-      { "id": "truck",      "word": "Truck",      "emoji": "🚚", "color": "#FF8C42", "fluentName": "Delivery truck" },
-      { "id": "helicopter", "word": "Helicopter", "emoji": "🚁", "color": "#FF6B9D", "fluentName": "Helicopter" },
-      { "id": "taxi",       "word": "Taxi",       "emoji": "🚕", "color": "#FDE047", "fluentName": "Taxi" },
-      { "id": "police-car", "word": "Police Car", "emoji": "🚓", "color": "#1E40AF", "fluentName": "Police car" },
-      { "id": "fire-truck", "word": "Fire Truck", "emoji": "🚒", "color": "#DC2626", "fluentName": "Fire engine" },
-      { "id": "ambulance",  "word": "Ambulance",  "emoji": "🚑", "color": "#F4F4F5", "fluentName": "Ambulance" },
-      { "id": "ship",       "word": "Ship",       "emoji": "🚢", "color": "#0EA5E9", "fluentName": "Ship" },
-      { "id": "rocket",     "word": "Rocket",     "emoji": "🚀", "color": "#7C3AED", "fluentName": "Rocket" },
-      { "id": "tractor",    "word": "Tractor",    "emoji": "🚜", "color": "#65A30D", "fluentName": "Tractor" }
+      {
+        "id": "ball",
+        "word": "Ball",
+        "emoji": "⚽",
+        "color": "#FFD93D",
+        "fluentName": "Soccer ball"
+      },
+      {
+        "id": "doll",
+        "word": "Doll",
+        "emoji": "🪆",
+        "color": "#FF6B9D",
+        "fluentName": "Nesting dolls"
+      },
+      {
+        "id": "blocks",
+        "word": "Blocks",
+        "emoji": "🧱",
+        "color": "#DC2626",
+        "fluentName": "Brick"
+      },
+      {
+        "id": "teddy",
+        "word": "Teddy",
+        "emoji": "🧸",
+        "color": "#92400E",
+        "fluentName": "Teddy bear"
+      },
+      {
+        "id": "kite",
+        "word": "Kite",
+        "emoji": "🪁",
+        "color": "#60A5FA",
+        "fluentName": "Kite"
+      },
+      {
+        "id": "robot",
+        "word": "Robot",
+        "emoji": "🤖",
+        "color": "#94A3B8",
+        "fluentName": "Robot"
+      },
+      {
+        "id": "puzzle",
+        "word": "Puzzle",
+        "emoji": "🧩",
+        "color": "#22C55E",
+        "fluentName": "Puzzle piece"
+      },
+      {
+        "id": "drum",
+        "word": "Drum",
+        "emoji": "🥁",
+        "color": "#F59E0B",
+        "fluentName": "Drum"
+      },
+      {
+        "id": "dice",
+        "word": "Dice",
+        "emoji": "🎲",
+        "color": "#EF4444",
+        "fluentName": "Game die"
+      },
+      {
+        "id": "balloon",
+        "word": "Balloon",
+        "emoji": "🎈",
+        "color": "#EC4899",
+        "fluentName": "Balloon"
+      },
+      {
+        "id": "yoyo",
+        "word": "Yo-yo",
+        "emoji": "🪀",
+        "color": "#A855F7",
+        "fluentName": "Yo-yo"
+      },
+      {
+        "id": "crayon",
+        "word": "Crayon",
+        "emoji": "🖍️",
+        "color": "#F97316",
+        "fluentName": "Crayon"
+      }
+    ]
+  },
+  {
+    "id": "actions",
+    "title": "Actions",
+    "theme": "motion",
+    "items": [
+      {
+        "id": "run",
+        "word": "Run",
+        "emoji": "🏃",
+        "color": "#EF4444",
+        "fluentName": "Person running"
+      },
+      {
+        "id": "jump",
+        "word": "Jump",
+        "emoji": "🤸",
+        "color": "#F97316",
+        "fluentName": "Person cartwheeling"
+      },
+      {
+        "id": "eat",
+        "word": "Eat",
+        "emoji": "🍽️",
+        "color": "#FACC15",
+        "fluentName": "Fork and knife with plate"
+      },
+      {
+        "id": "sleep",
+        "word": "Sleep",
+        "emoji": "😴",
+        "color": "#6366F1",
+        "fluentName": "Sleeping face"
+      },
+      {
+        "id": "read",
+        "word": "Read",
+        "emoji": "📖",
+        "color": "#3B82F6",
+        "fluentName": "Open book"
+      },
+      {
+        "id": "dance",
+        "word": "Dance",
+        "emoji": "💃",
+        "color": "#EC4899",
+        "fluentName": "Woman dancing"
+      },
+      {
+        "id": "sing",
+        "word": "Sing",
+        "emoji": "🎤",
+        "color": "#A855F7",
+        "fluentName": "Microphone"
+      },
+      {
+        "id": "walk",
+        "word": "Walk",
+        "emoji": "🚶",
+        "color": "#22C55E",
+        "fluentName": "Person walking"
+      },
+      {
+        "id": "swim",
+        "word": "Swim",
+        "emoji": "🏊",
+        "color": "#14B8A6",
+        "fluentName": "Person swimming"
+      },
+      {
+        "id": "drink",
+        "word": "Drink",
+        "emoji": "🥤",
+        "color": "#F43F5E",
+        "fluentName": "Cup with straw"
+      },
+      {
+        "id": "laugh",
+        "word": "Laugh",
+        "emoji": "😂",
+        "color": "#FDE047",
+        "fluentName": "Face with tears of joy"
+      },
+      {
+        "id": "cry",
+        "word": "Cry",
+        "emoji": "😢",
+        "color": "#60A5FA",
+        "fluentName": "Crying face"
+      }
+    ]
+  },
+  {
+    "id": "feelings",
+    "title": "Feelings",
+    "theme": "heart",
+    "items": [
+      {
+        "id": "happy",
+        "word": "Happy",
+        "emoji": "😊",
+        "color": "#FACC15",
+        "fluentName": "Smiling face with smiling eyes"
+      },
+      {
+        "id": "sad",
+        "word": "Sad",
+        "emoji": "😢",
+        "color": "#60A5FA",
+        "fluentName": "Crying face"
+      },
+      {
+        "id": "angry",
+        "word": "Angry",
+        "emoji": "😠",
+        "color": "#DC2626",
+        "fluentName": "Angry face"
+      },
+      {
+        "id": "scared",
+        "word": "Scared",
+        "emoji": "😨",
+        "color": "#A855F7",
+        "fluentName": "Fearful face"
+      },
+      {
+        "id": "tired",
+        "word": "Tired",
+        "emoji": "😩",
+        "color": "#6B7280",
+        "fluentName": "Weary face"
+      },
+      {
+        "id": "love",
+        "word": "Love",
+        "emoji": "😍",
+        "color": "#EC4899",
+        "fluentName": "Smiling face with heart-eyes"
+      },
+      {
+        "id": "surprised",
+        "word": "Surprised",
+        "emoji": "😲",
+        "color": "#F59E0B",
+        "fluentName": "Astonished face"
+      },
+      {
+        "id": "silly",
+        "word": "Silly",
+        "emoji": "🤪",
+        "color": "#A855F7",
+        "fluentName": "Zany face"
+      },
+      {
+        "id": "proud",
+        "word": "Proud",
+        "emoji": "😎",
+        "color": "#F97316",
+        "fluentName": "Smiling face with sunglasses"
+      },
+      {
+        "id": "shy",
+        "word": "Shy",
+        "emoji": "🫣",
+        "color": "#FBCFE8",
+        "fluentName": "Face with peeking eye"
+      }
     ]
   },
   {
@@ -89,21 +837,111 @@
     "title": "My Body",
     "theme": "playroom",
     "items": [
-      { "id": "eye",     "word": "Eye",     "emoji": "👁️", "color": "#5B9EFF", "fluentName": "Eye" },
-      { "id": "ear",     "word": "Ear",     "emoji": "👂", "color": "#FFB3D9", "fluentName": "Ear" },
-      { "id": "nose",    "word": "Nose",    "emoji": "👃", "color": "#FFB84C", "fluentName": "Nose" },
-      { "id": "mouth",   "word": "Mouth",   "emoji": "👄", "color": "#EF4444", "fluentName": "Mouth" },
-      { "id": "hand",    "word": "Hand",    "emoji": "✋", "color": "#FF8C42", "fluentName": "Raised hand" },
-      { "id": "foot",    "word": "Foot",    "emoji": "🦶", "color": "#A78BFA", "fluentName": "Foot" },
-      { "id": "hair",    "word": "Hair",    "emoji": "👩", "color": "#78350F", "fluentName": "Woman" },
-      { "id": "tooth",   "word": "Tooth",   "emoji": "🦷", "color": "#F4F4F5", "fluentName": "Tooth" },
-      { "id": "tongue",  "word": "Tongue",  "emoji": "👅", "color": "#EC4899", "fluentName": "Tongue" },
-      { "id": "knee",    "word": "Knee",    "emoji": "🦵", "color": "#FDBA74", "fluentName": "Leg" },
-      { "id": "elbow",   "word": "Elbow",   "emoji": "💪", "color": "#F59E0B", "fluentName": "Flexed biceps" },
-      { "id": "finger",  "word": "Finger",  "emoji": "☝️", "color": "#FFD6A5", "fluentName": "Index pointing up" },
-      { "id": "tummy",   "word": "Tummy",   "emoji": "🤰", "color": "#FBCFE8", "fluentName": "Pregnant woman" },
-      { "id": "back",    "word": "Back",    "emoji": "🧍", "color": "#A3A3A3", "fluentName": "Person standing" },
-      { "id": "head",    "word": "Head",    "emoji": "🧠", "color": "#F87171", "fluentName": "Brain" }
+      {
+        "id": "eye",
+        "word": "Eye",
+        "emoji": "👁️",
+        "color": "#5B9EFF",
+        "fluentName": "Eye"
+      },
+      {
+        "id": "ear",
+        "word": "Ear",
+        "emoji": "👂",
+        "color": "#FFB3D9",
+        "fluentName": "Ear"
+      },
+      {
+        "id": "nose",
+        "word": "Nose",
+        "emoji": "👃",
+        "color": "#FFB84C",
+        "fluentName": "Nose"
+      },
+      {
+        "id": "mouth",
+        "word": "Mouth",
+        "emoji": "👄",
+        "color": "#EF4444",
+        "fluentName": "Mouth"
+      },
+      {
+        "id": "hand",
+        "word": "Hand",
+        "emoji": "✋",
+        "color": "#FF8C42",
+        "fluentName": "Raised hand"
+      },
+      {
+        "id": "foot",
+        "word": "Foot",
+        "emoji": "🦶",
+        "color": "#A78BFA",
+        "fluentName": "Foot"
+      },
+      {
+        "id": "hair",
+        "word": "Hair",
+        "emoji": "👩",
+        "color": "#78350F",
+        "fluentName": "Woman"
+      },
+      {
+        "id": "tooth",
+        "word": "Tooth",
+        "emoji": "🦷",
+        "color": "#F4F4F5",
+        "fluentName": "Tooth"
+      },
+      {
+        "id": "tongue",
+        "word": "Tongue",
+        "emoji": "👅",
+        "color": "#EC4899",
+        "fluentName": "Tongue"
+      },
+      {
+        "id": "knee",
+        "word": "Knee",
+        "emoji": "🦵",
+        "color": "#FDBA74",
+        "fluentName": "Leg"
+      },
+      {
+        "id": "elbow",
+        "word": "Elbow",
+        "emoji": "💪",
+        "color": "#F59E0B",
+        "fluentName": "Flexed biceps"
+      },
+      {
+        "id": "finger",
+        "word": "Finger",
+        "emoji": "☝️",
+        "color": "#FFD6A5",
+        "fluentName": "Index pointing up"
+      },
+      {
+        "id": "tummy",
+        "word": "Tummy",
+        "emoji": "🤰",
+        "color": "#FBCFE8",
+        "fluentName": "Pregnant woman"
+      },
+      {
+        "id": "back",
+        "word": "Back",
+        "emoji": "🧍",
+        "color": "#A3A3A3",
+        "fluentName": "Person standing"
+      },
+      {
+        "id": "head",
+        "word": "Head",
+        "emoji": "🧠",
+        "color": "#F87171",
+        "fluentName": "Brain"
+      }
     ]
   },
   {
@@ -111,18 +949,566 @@
     "title": "Clothes",
     "theme": "closet",
     "items": [
-      { "id": "shirt",    "word": "Shirt",    "emoji": "👕", "color": "#4ECDC4", "fluentName": "T-shirt" },
-      { "id": "pants",    "word": "Pants",    "emoji": "👖", "color": "#5B9EFF", "fluentName": "Jeans" },
-      { "id": "shoes",    "word": "Shoes",    "emoji": "👟", "color": "#2B2A33", "fluentName": "Running shoe" },
-      { "id": "hat",      "word": "Hat",      "emoji": "🎩", "color": "#A78BFA", "fluentName": "Top hat" },
-      { "id": "socks",    "word": "Socks",    "emoji": "🧦", "color": "#FF6B9D", "fluentName": "Socks" },
-      { "id": "jacket",   "word": "Jacket",   "emoji": "🧥", "color": "#EF4444", "fluentName": "Coat" },
-      { "id": "dress",    "word": "Dress",    "emoji": "👗", "color": "#EC4899", "fluentName": "Dress" },
-      { "id": "scarf",    "word": "Scarf",    "emoji": "🧣", "color": "#DC2626", "fluentName": "Scarf" },
-      { "id": "gloves",   "word": "Gloves",   "emoji": "🧤", "color": "#84CC16", "fluentName": "Gloves" },
-      { "id": "pajamas",  "word": "Pajamas",  "emoji": "🩳", "color": "#60A5FA", "fluentName": "Shorts" },
-      { "id": "boots",    "word": "Boots",    "emoji": "🥾", "color": "#78350F", "fluentName": "Hiking boot" },
-      { "id": "glasses",  "word": "Glasses",  "emoji": "👓", "color": "#334155", "fluentName": "Glasses" }
+      {
+        "id": "shirt",
+        "word": "Shirt",
+        "emoji": "👕",
+        "color": "#4ECDC4",
+        "fluentName": "T-shirt"
+      },
+      {
+        "id": "pants",
+        "word": "Pants",
+        "emoji": "👖",
+        "color": "#5B9EFF",
+        "fluentName": "Jeans"
+      },
+      {
+        "id": "shoes",
+        "word": "Shoes",
+        "emoji": "👟",
+        "color": "#2B2A33",
+        "fluentName": "Running shoe"
+      },
+      {
+        "id": "hat",
+        "word": "Hat",
+        "emoji": "🎩",
+        "color": "#A78BFA",
+        "fluentName": "Top hat"
+      },
+      {
+        "id": "socks",
+        "word": "Socks",
+        "emoji": "🧦",
+        "color": "#FF6B9D",
+        "fluentName": "Socks"
+      },
+      {
+        "id": "jacket",
+        "word": "Jacket",
+        "emoji": "🧥",
+        "color": "#EF4444",
+        "fluentName": "Coat"
+      },
+      {
+        "id": "dress",
+        "word": "Dress",
+        "emoji": "👗",
+        "color": "#EC4899",
+        "fluentName": "Dress"
+      },
+      {
+        "id": "scarf",
+        "word": "Scarf",
+        "emoji": "🧣",
+        "color": "#DC2626",
+        "fluentName": "Scarf"
+      },
+      {
+        "id": "gloves",
+        "word": "Gloves",
+        "emoji": "🧤",
+        "color": "#84CC16",
+        "fluentName": "Gloves"
+      },
+      {
+        "id": "pajamas",
+        "word": "Pajamas",
+        "emoji": "🩳",
+        "color": "#60A5FA",
+        "fluentName": "Shorts"
+      },
+      {
+        "id": "boots",
+        "word": "Boots",
+        "emoji": "🥾",
+        "color": "#78350F",
+        "fluentName": "Hiking boot"
+      },
+      {
+        "id": "glasses",
+        "word": "Glasses",
+        "emoji": "👓",
+        "color": "#334155",
+        "fluentName": "Glasses"
+      }
+    ]
+  },
+  {
+    "id": "house",
+    "title": "House",
+    "theme": "blueprint",
+    "items": [
+      {
+        "id": "kitchen",
+        "word": "Kitchen",
+        "emoji": "🍳",
+        "color": "#F97316",
+        "fluentName": "Cooking"
+      },
+      {
+        "id": "bedroom",
+        "word": "Bedroom",
+        "emoji": "🛏️",
+        "color": "#A78BFA",
+        "fluentName": "Bed"
+      },
+      {
+        "id": "bathroom",
+        "word": "Bathroom",
+        "emoji": "🛁",
+        "color": "#60A5FA",
+        "fluentName": "Bathtub"
+      },
+      {
+        "id": "garden",
+        "word": "Garden",
+        "emoji": "🌷",
+        "color": "#22C55E",
+        "fluentName": "Tulip"
+      },
+      {
+        "id": "door",
+        "word": "Door",
+        "emoji": "🚪",
+        "color": "#92400E",
+        "fluentName": "Door"
+      },
+      {
+        "id": "window",
+        "word": "Window",
+        "emoji": "🪟",
+        "color": "#E0F2FE",
+        "fluentName": "Window"
+      },
+      {
+        "id": "chair",
+        "word": "Chair",
+        "emoji": "🪑",
+        "color": "#D97706",
+        "fluentName": "Chair"
+      },
+      {
+        "id": "bed",
+        "word": "Bed",
+        "emoji": "🛌",
+        "color": "#FDE68A",
+        "fluentName": "Person in bed"
+      },
+      {
+        "id": "lamp",
+        "word": "Lamp",
+        "emoji": "💡",
+        "color": "#FACC15",
+        "fluentName": "Light bulb"
+      },
+      {
+        "id": "stairs",
+        "word": "Stairs",
+        "emoji": "🪜",
+        "color": "#78350F",
+        "fluentName": "Ladder"
+      },
+      {
+        "id": "key",
+        "word": "Key",
+        "emoji": "🔑",
+        "color": "#EAB308",
+        "fluentName": "Key"
+      },
+      {
+        "id": "clock",
+        "word": "Clock",
+        "emoji": "🕐",
+        "color": "#71717A",
+        "fluentName": "One o clock"
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "title": "Nature",
+    "theme": "forest",
+    "items": [
+      {
+        "id": "tree",
+        "word": "Tree",
+        "emoji": "🌳",
+        "color": "#16A34A",
+        "fluentName": "Deciduous tree"
+      },
+      {
+        "id": "flower",
+        "word": "Flower",
+        "emoji": "🌻",
+        "color": "#FACC15",
+        "fluentName": "Sunflower"
+      },
+      {
+        "id": "rock",
+        "word": "Rock",
+        "emoji": "🪨",
+        "color": "#78716C",
+        "fluentName": "Rock"
+      },
+      {
+        "id": "river",
+        "word": "River",
+        "emoji": "🏞️",
+        "color": "#0EA5E9",
+        "fluentName": "National park"
+      },
+      {
+        "id": "mountain",
+        "word": "Mountain",
+        "emoji": "⛰️",
+        "color": "#57534E",
+        "fluentName": "Mountain"
+      },
+      {
+        "id": "grass",
+        "word": "Grass",
+        "emoji": "🌱",
+        "color": "#84CC16",
+        "fluentName": "Seedling"
+      },
+      {
+        "id": "leaf",
+        "word": "Leaf",
+        "emoji": "🍃",
+        "color": "#22C55E",
+        "fluentName": "Leaf fluttering in wind"
+      },
+      {
+        "id": "stick",
+        "word": "Stick",
+        "emoji": "🪵",
+        "color": "#92400E",
+        "fluentName": "Wood"
+      },
+      {
+        "id": "sand",
+        "word": "Sand",
+        "emoji": "🏖️",
+        "color": "#FDE68A",
+        "fluentName": "Beach with umbrella"
+      },
+      {
+        "id": "shell",
+        "word": "Shell",
+        "emoji": "🐚",
+        "color": "#FBCFE8",
+        "fluentName": "Spiral shell"
+      },
+      {
+        "id": "feather",
+        "word": "Feather",
+        "emoji": "🪶",
+        "color": "#CBD5E1",
+        "fluentName": "Feather"
+      },
+      {
+        "id": "mushroom",
+        "word": "Mushroom",
+        "emoji": "🍄",
+        "color": "#DC2626",
+        "fluentName": "Mushroom"
+      }
+    ]
+  },
+  {
+    "id": "bugs",
+    "title": "Bugs",
+    "theme": "garden",
+    "items": [
+      {
+        "id": "ant",
+        "word": "Ant",
+        "emoji": "🐜",
+        "color": "#1E293B",
+        "fluentName": "Ant"
+      },
+      {
+        "id": "bee",
+        "word": "Bee",
+        "emoji": "🐝",
+        "color": "#FACC15",
+        "fluentName": "Honeybee"
+      },
+      {
+        "id": "butterfly",
+        "word": "Butterfly",
+        "emoji": "🦋",
+        "color": "#60A5FA",
+        "fluentName": "Butterfly"
+      },
+      {
+        "id": "spider",
+        "word": "Spider",
+        "emoji": "🕷️",
+        "color": "#475569",
+        "fluentName": "Spider"
+      },
+      {
+        "id": "ladybug",
+        "word": "Ladybug",
+        "emoji": "🐞",
+        "color": "#DC2626",
+        "fluentName": "Lady beetle"
+      },
+      {
+        "id": "snail",
+        "word": "Snail",
+        "emoji": "🐌",
+        "color": "#D97706",
+        "fluentName": "Snail"
+      },
+      {
+        "id": "caterpillar",
+        "word": "Caterpillar",
+        "emoji": "🐛",
+        "color": "#84CC16",
+        "fluentName": "Bug"
+      },
+      {
+        "id": "cricket",
+        "word": "Cricket",
+        "emoji": "🦗",
+        "color": "#16A34A",
+        "fluentName": "Cricket"
+      },
+      {
+        "id": "dragonfly",
+        "word": "Dragonfly",
+        "emoji": "🪰",
+        "color": "#14B8A6",
+        "fluentName": "Fly"
+      },
+      {
+        "id": "worm",
+        "word": "Worm",
+        "emoji": "🪱",
+        "color": "#EC4899",
+        "fluentName": "Worm"
+      },
+      {
+        "id": "beetle",
+        "word": "Beetle",
+        "emoji": "🪲",
+        "color": "#059669",
+        "fluentName": "Beetle"
+      },
+      {
+        "id": "mosquito",
+        "word": "Mosquito",
+        "emoji": "🦟",
+        "color": "#6B7280",
+        "fluentName": "Mosquito"
+      }
+    ]
+  },
+  {
+    "id": "sea",
+    "title": "Sea Animals",
+    "theme": "ocean",
+    "items": [
+      {
+        "id": "shark",
+        "word": "Shark",
+        "emoji": "🦈",
+        "color": "#64748B",
+        "fluentName": "Shark"
+      },
+      {
+        "id": "whale",
+        "word": "Whale",
+        "emoji": "🐋",
+        "color": "#2563EB",
+        "fluentName": "Whale"
+      },
+      {
+        "id": "crab",
+        "word": "Crab",
+        "emoji": "🦀",
+        "color": "#DC2626",
+        "fluentName": "Crab"
+      },
+      {
+        "id": "octopus",
+        "word": "Octopus",
+        "emoji": "🐙",
+        "color": "#EC4899",
+        "fluentName": "Octopus"
+      },
+      {
+        "id": "starfish",
+        "word": "Starfish",
+        "emoji": "⭐",
+        "color": "#FACC15",
+        "fluentName": "Star"
+      },
+      {
+        "id": "jellyfish",
+        "word": "Jellyfish",
+        "emoji": "🪼",
+        "color": "#A78BFA",
+        "fluentName": "Jellyfish"
+      },
+      {
+        "id": "seahorse",
+        "word": "Seahorse",
+        "emoji": "🐎",
+        "color": "#F59E0B",
+        "fluentName": "Horse"
+      },
+      {
+        "id": "dolphin",
+        "word": "Dolphin",
+        "emoji": "🐬",
+        "color": "#60A5FA",
+        "fluentName": "Dolphin"
+      },
+      {
+        "id": "turtle",
+        "word": "Turtle",
+        "emoji": "🐢",
+        "color": "#16A34A",
+        "fluentName": "Turtle"
+      },
+      {
+        "id": "lobster",
+        "word": "Lobster",
+        "emoji": "🦞",
+        "color": "#F43F5E",
+        "fluentName": "Lobster"
+      },
+      {
+        "id": "squid",
+        "word": "Squid",
+        "emoji": "🦑",
+        "color": "#C026D3",
+        "fluentName": "Squid"
+      },
+      {
+        "id": "shrimp",
+        "word": "Shrimp",
+        "emoji": "🦐",
+        "color": "#FB7185",
+        "fluentName": "Shrimp"
+      }
+    ]
+  },
+  {
+    "id": "vehicles",
+    "title": "Vehicles",
+    "theme": "road",
+    "items": [
+      {
+        "id": "car",
+        "word": "Car",
+        "emoji": "🚗",
+        "color": "#EF4444",
+        "fluentName": "Automobile"
+      },
+      {
+        "id": "bus",
+        "word": "Bus",
+        "emoji": "🚌",
+        "color": "#FACC15",
+        "fluentName": "Bus"
+      },
+      {
+        "id": "plane",
+        "word": "Plane",
+        "emoji": "✈️",
+        "color": "#5B9EFF",
+        "fluentName": "Airplane"
+      },
+      {
+        "id": "bike",
+        "word": "Bike",
+        "emoji": "🚲",
+        "color": "#4ECDC4",
+        "fluentName": "Bicycle"
+      },
+      {
+        "id": "train",
+        "word": "Train",
+        "emoji": "🚂",
+        "color": "#A855F7",
+        "fluentName": "Locomotive"
+      },
+      {
+        "id": "boat",
+        "word": "Boat",
+        "emoji": "⛵",
+        "color": "#22C55E",
+        "fluentName": "Sailboat"
+      },
+      {
+        "id": "truck",
+        "word": "Truck",
+        "emoji": "🚚",
+        "color": "#FF8C42",
+        "fluentName": "Delivery truck"
+      },
+      {
+        "id": "helicopter",
+        "word": "Helicopter",
+        "emoji": "🚁",
+        "color": "#FF6B9D",
+        "fluentName": "Helicopter"
+      },
+      {
+        "id": "taxi",
+        "word": "Taxi",
+        "emoji": "🚕",
+        "color": "#FDE047",
+        "fluentName": "Taxi"
+      },
+      {
+        "id": "police-car",
+        "word": "Police Car",
+        "emoji": "🚓",
+        "color": "#1E40AF",
+        "fluentName": "Police car"
+      },
+      {
+        "id": "fire-truck",
+        "word": "Fire Truck",
+        "emoji": "🚒",
+        "color": "#DC2626",
+        "fluentName": "Fire engine"
+      },
+      {
+        "id": "ambulance",
+        "word": "Ambulance",
+        "emoji": "🚑",
+        "color": "#F4F4F5",
+        "fluentName": "Ambulance"
+      },
+      {
+        "id": "ship",
+        "word": "Ship",
+        "emoji": "🚢",
+        "color": "#0EA5E9",
+        "fluentName": "Ship"
+      },
+      {
+        "id": "rocket",
+        "word": "Rocket",
+        "emoji": "🚀",
+        "color": "#7C3AED",
+        "fluentName": "Rocket"
+      },
+      {
+        "id": "tractor",
+        "word": "Tractor",
+        "emoji": "🚜",
+        "color": "#65A30D",
+        "fluentName": "Tractor"
+      }
     ]
   },
   {
@@ -130,18 +1516,90 @@
     "title": "Weather",
     "theme": "sky",
     "items": [
-      { "id": "sun",     "word": "Sun",     "emoji": "☀️", "color": "#FACC15", "fluentName": "Sun" },
-      { "id": "rain",    "word": "Rain",    "emoji": "🌧️", "color": "#5B9EFF", "fluentName": "Cloud with rain" },
-      { "id": "cloud",   "word": "Cloud",   "emoji": "☁️", "color": "#A7A3AF", "fluentName": "Cloud" },
-      { "id": "snow",    "word": "Snow",    "emoji": "❄️", "color": "#87CEEB", "fluentName": "Snowflake" },
-      { "id": "wind",    "word": "Wind",    "emoji": "💨", "color": "#4ECDC4", "fluentName": "Dashing away" },
-      { "id": "rainbow", "word": "Rainbow", "emoji": "🌈", "color": "#FF6B9D", "fluentName": "Rainbow" },
-      { "id": "storm",   "word": "Storm",   "emoji": "⛈️", "color": "#475569", "fluentName": "Cloud with lightning and rain" },
-      { "id": "fog",     "word": "Fog",     "emoji": "🌫️", "color": "#94A3B8", "fluentName": "Fog" },
-      { "id": "hot",     "word": "Hot",     "emoji": "🥵", "color": "#DC2626", "fluentName": "Hot face" },
-      { "id": "cold",    "word": "Cold",    "emoji": "🥶", "color": "#0EA5E9", "fluentName": "Cold face" },
-      { "id": "night",   "word": "Night",   "emoji": "🌙", "color": "#1E293B", "fluentName": "Crescent moon" },
-      { "id": "star",    "word": "Star",    "emoji": "⭐", "color": "#FDE047", "fluentName": "Star" }
+      {
+        "id": "sun",
+        "word": "Sun",
+        "emoji": "☀️",
+        "color": "#FACC15",
+        "fluentName": "Sun"
+      },
+      {
+        "id": "rain",
+        "word": "Rain",
+        "emoji": "🌧️",
+        "color": "#5B9EFF",
+        "fluentName": "Cloud with rain"
+      },
+      {
+        "id": "cloud",
+        "word": "Cloud",
+        "emoji": "☁️",
+        "color": "#A7A3AF",
+        "fluentName": "Cloud"
+      },
+      {
+        "id": "snow",
+        "word": "Snow",
+        "emoji": "❄️",
+        "color": "#87CEEB",
+        "fluentName": "Snowflake"
+      },
+      {
+        "id": "wind",
+        "word": "Wind",
+        "emoji": "💨",
+        "color": "#4ECDC4",
+        "fluentName": "Dashing away"
+      },
+      {
+        "id": "rainbow",
+        "word": "Rainbow",
+        "emoji": "🌈",
+        "color": "#FF6B9D",
+        "fluentName": "Rainbow"
+      },
+      {
+        "id": "storm",
+        "word": "Storm",
+        "emoji": "⛈️",
+        "color": "#475569",
+        "fluentName": "Cloud with lightning and rain"
+      },
+      {
+        "id": "fog",
+        "word": "Fog",
+        "emoji": "🌫️",
+        "color": "#94A3B8",
+        "fluentName": "Fog"
+      },
+      {
+        "id": "hot",
+        "word": "Hot",
+        "emoji": "🥵",
+        "color": "#DC2626",
+        "fluentName": "Hot face"
+      },
+      {
+        "id": "cold",
+        "word": "Cold",
+        "emoji": "🥶",
+        "color": "#0EA5E9",
+        "fluentName": "Cold face"
+      },
+      {
+        "id": "night",
+        "word": "Night",
+        "emoji": "🌙",
+        "color": "#1E293B",
+        "fluentName": "Crescent moon"
+      },
+      {
+        "id": "star",
+        "word": "Star",
+        "emoji": "⭐",
+        "color": "#FDE047",
+        "fluentName": "Star"
+      }
     ]
   }
 ]
