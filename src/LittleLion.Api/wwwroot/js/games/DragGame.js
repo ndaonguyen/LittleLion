@@ -53,8 +53,8 @@ export class DragGame extends BaseGame {
         if (matched.size === items.length) {
           setTimeout(() => {
             this.round = this.totalRounds;
-            this.context.services.progress.addStars(this.stars);
-            this.context.router.navigate('win', { stars: this.stars, playedGame: 'drag' });
+            this.context.services.progress.recordSession(this.lessonId, this.stars);
+            this.context.router.navigate('win', { stars: this.stars, playedGame: 'drag', lessonId: this.lessonId });
           }, 900);
         }
       } else if (slot) {

@@ -84,10 +84,13 @@ export class BaseGame extends Component {
   }
 
   _finish() {
-    this.context.services.progress.addStars(this.stars);
+    // Fire-and-forget - the Win screen doesn't block on the server response.
+    // ProgressService falls back to optimistic local update if the call fails.
+    this.context.services.progress.recordSession(this.lessonId, this.stars);
     this.context.router.navigate('win', {
       stars: this.stars,
       playedGame: this.gameName,
+      lessonId: this.lessonId,
     });
   }
 }

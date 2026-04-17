@@ -6,8 +6,9 @@ const CONFETTI_COLORS = ['#FFB84C', '#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', 
 export class WinScreen extends Component {
   constructor(context, params) {
     super(context);
-    this.stars = params.stars ?? 0;
+    this.stars      = params.stars ?? 0;
     this.playedGame = params.playedGame ?? 'tap';
+    this.lessonId   = params.lessonId ?? 'animals';
   }
 
   render() {
@@ -28,7 +29,7 @@ export class WinScreen extends Component {
         }, ['Home']),
         el('button', {
           class: 'btn btn--primary',
-          onclick: () => this.context.router.navigate(this.playedGame),
+          onclick: () => this.context.router.navigate(this.playedGame, { lessonId: this.lessonId }),
         }, ['Play again →']),
       ]),
     ]);

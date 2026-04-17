@@ -18,6 +18,22 @@ export class ApiClient {
     return response.json();
   }
 
+  async post(path, body) {
+    const response = await fetch(`${this.baseUrl}${path}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body ?? {}),
+    });
+    if (!response.ok) {
+      const errorBody = await this._safeReadError(response);
+      throw new ApiError(response.status, errorBody);
+    }
+    return response.json();
+  }
+
   async _safeReadError(response) {
     try { return await response.json(); }
     catch { return { error: response.statusText }; }
