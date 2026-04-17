@@ -9,7 +9,7 @@ export class BalloonGame extends BaseGame {
   // Balloon rounds take longer than tap rounds, so fewer per session.
   get roundsByDifficulty() { return { Easy: 3, Medium: 5, Hard: 6 }; }
   get balloonCount() {
-    return { Easy: 3, Medium: 4, Hard: 5 }[this.difficulty] ?? 4;
+    return { Easy: 3, Medium: 5, Hard: 8 }[this.difficulty] ?? 5;
   }
   /** Seconds for a balloon to rise across the screen - lower = faster = harder */
   get baseRiseSeconds() {
@@ -45,19 +45,27 @@ export class BalloonGame extends BaseGame {
       el('span', {}, [`Pop the ${target.word.toLowerCase()}!`]),
     ]);
 
-    const field = el('div', { class: 'balloon-field' });
+    // Crowded mode shrinks balloon bodies ~20% when we have 7+ on screen
+    // so they don't overlap horribly on narrow phones.
+    const fieldClass = n >= 7 ? 'balloon-field balloon-field--crowded' : 'balloon-field';
+    const field = el('div', { class: fieldClass });
     const { media } = this.context.services;
 
     let correctBalloon = null;
+    // Distribute horizontal positions proportionally to the balloon count
+    // so 3 balloons spread wide, 8 balloons pack closer, none go off-screen.
+    const span = 84; // percent of field width to occupy (leave 8% edges)
+    const slotWidth = n > 1 ? span / (n - 1) : 0;
     choices.forEach((item, idx) => {
       // Rise speed derived from difficulty; small jitter so balloons don't sync
       const duration = this.baseRiseSeconds + Math.random() * 2;
       const swayName = `balloon-sway-${idx % 3}`;
+      const leftBase = n === 1 ? 50 : 8 + idx * slotWidth;
 
       const balloon = el('button', {
         class: 'balloon',
         style: {
-          left: `${8 + idx * 22 + Math.random() * 4}%`,
+          left: `${leftBase + Math.random() * 2}%`,
           animationName: `balloon-rise, ${swayName}`,
           animationDuration: `${duration}s, ${2.1 + Math.random()}s`,
           animationTimingFunction: 'linear, ease-in-out',

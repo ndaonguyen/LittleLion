@@ -6,10 +6,10 @@ import { createVocabVisual } from '../screens/VocabVisual.js';
 export class TapGame extends BaseGame {
   get gameName() { return 'tap'; }
 
-  // Easy: 3 rounds of 3 options. Medium: 5 of 4 (legacy). Hard: 7 of 6.
+  // Easy: 3 rounds of 3 options. Medium: 5 of 5. Hard: 7 of 8.
   get roundsByDifficulty() { return { Easy: 3, Medium: 5, Hard: 7 }; }
   get optionCount() {
-    return { Easy: 3, Medium: 4, Hard: 6 }[this.difficulty] ?? 4;
+    return { Easy: 3, Medium: 5, Hard: 8 }[this.difficulty] ?? 5;
   }
 
   renderRound() {
