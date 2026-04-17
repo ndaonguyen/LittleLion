@@ -61,6 +61,23 @@ export class BaseGame extends Component {
 
   get gameName() { return 'base'; }
 
+  /**
+   * Background color to use for a tile or balloon for a given vocab item.
+   *
+   * Defaults to item.color. For the Colors lesson on Hard, we return a
+   * neutral cream so the tile color doesn't give away the answer - the
+   * child has to rely on the object (apple, banana, leaf...) and the
+   * spoken word, not on matching tile-color to card-color.
+   *
+   * Easy and Medium keep the colorful tiles as training wheels.
+   */
+  tileBackground(item) {
+    if (this.lessonId === 'colors' && this.difficulty === 'Hard') {
+      return '#FEF3C7'; // soft cream, same as hero banner on home
+    }
+    return item.color;
+  }
+
   render() {
     this.topBar = createTopBar({
       onHome: () => this.context.router.navigate('home'),

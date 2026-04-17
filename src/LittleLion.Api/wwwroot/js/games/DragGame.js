@@ -147,7 +147,7 @@ export class DragGame extends BaseGame {
         const tile = el('div', {
           class: 'tile tile--entering',
           style: {
-            background: item.color,
+            background: this.tileBackground(item),
             animationDelay: `${idx * 90}ms`,
           },
           dataset: { slot: item.id },

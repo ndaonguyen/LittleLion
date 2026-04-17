@@ -97,11 +97,11 @@ export class BalloonGame extends BaseGame {
         el('div', {
           class: 'balloon__body',
           style: {
-            background: `radial-gradient(circle at 30% 30%, ${item.color}dd, ${item.color})`,
+            background: `radial-gradient(circle at 30% 30%, ${this.tileBackground(item)}dd, ${this.tileBackground(item)})`,
             color: item.color,
           },
         }, [createVocabVisual(item, media, { size: 'small' })]),
-        el('div', { class: 'balloon__tie', style: { color: item.color } }),
+        el('div', { class: 'balloon__tie', style: { color: this.tileBackground(item) } }),
         el('div', { class: 'balloon__string' }),
       ]);
       if (item.id === target.id) correctBalloon = balloon;
