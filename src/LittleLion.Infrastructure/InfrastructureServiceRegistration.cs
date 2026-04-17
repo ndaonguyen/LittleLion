@@ -1,10 +1,12 @@
 using LittleLion.Application.Common;
 using LittleLion.Application.Lessons.Abstractions;
 using LittleLion.Application.Progress.Abstractions;
+using LittleLion.Application.Rewards.Abstractions;
 using LittleLion.Infrastructure.Configuration;
 using LittleLion.Infrastructure.Lessons.Audio;
 using LittleLion.Infrastructure.Lessons.Persistence;
 using LittleLion.Infrastructure.Progress.Persistence;
+using LittleLion.Infrastructure.Rewards.Persistence;
 using LittleLion.Infrastructure.Time;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,8 @@ public static class InfrastructureServiceRegistration
             configuration.GetSection(LessonStorageOptions.SectionName));
         services.Configure<ProgressStorageOptions>(
             configuration.GetSection(ProgressStorageOptions.SectionName));
+        services.Configure<RewardCatalogOptions>(
+            configuration.GetSection(RewardCatalogOptions.SectionName));
 
         // Lessons - singleton because lessons.json is static
         services.AddSingleton<ILessonRepository, JsonFileLessonRepository>();
@@ -32,6 +36,9 @@ public static class InfrastructureServiceRegistration
 
         // Progress - singleton so the SemaphoreSlim serializes writes across requests
         services.AddSingleton<IProgressRepository, JsonFileProgressRepository>();
+
+        // Rewards - catalog is static content, singleton is fine
+        services.AddSingleton<IRewardCatalog, JsonFileRewardCatalog>();
 
         // Clock
         services.AddSingleton<IClock, SystemClock>();
