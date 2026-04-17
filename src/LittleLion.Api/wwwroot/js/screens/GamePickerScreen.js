@@ -18,10 +18,10 @@ export class GamePickerScreen extends Component {
     super(context);
     this.lessonId = params?.lessonId ?? 'animals';
     // Prefer the difficulty that was explicitly passed in the nav params;
-    // fall back to whatever the child has set on the lesson card's dots.
+    // fall back to the global difficulty set from the home screen's picker.
     this.difficulty =
       params?.difficulty ??
-      context.services.difficulty?.get(this.lessonId) ??
+      context.services.difficulty?.get() ??
       'Medium';
   }
 
