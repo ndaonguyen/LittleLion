@@ -128,6 +128,11 @@ export class DragGame extends BaseGame {
 
     const startDrag = (e, wordId) => {
       if (matched.has(wordId)) return;
+      // IMPORTANT: do NOT call e.preventDefault() here. The chip's
+      // onclick handler depends on the browser synthesizing a click
+      // after pointerup for tap-without-drag gestures - that's how
+      // the speech-on-tap feature works. preventDefault on pointerdown
+      // suppresses the click synthesis on iOS Safari.
       draggingId = wordId;
       const item = items.find(i => i.id === wordId);
 
@@ -158,23 +163,27 @@ export class DragGame extends BaseGame {
     );
 
     // Word chips
-    // Each chip speaks its word on pointerdown - lets a non-reader play
-    // by ear. Speaking always fires, even at the start of a drag: the
-    // child still hears the word while moving the chip. Cheap, additive,
-    // and works whether they tap to listen first or drag immediately.
+    // Each chip speaks its word on CLICK (not pointerdown). Speech
+    // synthesis on touch devices is gated by a 'user activation' event,
+    // and pointerdown at the start of a drag often does NOT count as
+    // one - especially on iOS Safari. Click only fires on a clean
+    // tap-and-release, which is always treated as user activation.
+    //
+    // Trade-off: speech does NOT fire during a drag-start. That's fine -
+    // the child either taps to listen (click fires, speech plays) or
+    // drags to match (pointerdown fires, drag works, no speech). Both
+    // flows feel natural; trying to do both at once was the bug.
     const chipsWrapper = el('div', { class: 'drag-words' },
       wordOrder.map(wordId => {
         const item = items.find(i => i.id === wordId);
         const chip = el('div', {
           class: 'word-chip',
-          onpointerdown: (e) => {
-            // Don't speak if this chip is already matched - re-tapping
-            // a 'used' chip after a correct match should stay silent.
-            if (!chip.classList.contains('word-chip--used')) {
-              audio.speak(item.word);
-            }
-            startDrag(e, wordId);
+          onclick: () => {
+            // Skip if already matched - re-tapping a green chip stays silent
+            if (chip.classList.contains('word-chip--used')) return;
+            audio.speak(item.word);
           },
+          onpointerdown: (e) => startDrag(e, wordId),
         }, [item.word]);
         chipById.set(wordId, chip);
         return chip;
