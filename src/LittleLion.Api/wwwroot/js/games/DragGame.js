@@ -158,12 +158,23 @@ export class DragGame extends BaseGame {
     );
 
     // Word chips
+    // Each chip speaks its word on pointerdown - lets a non-reader play
+    // by ear. Speaking always fires, even at the start of a drag: the
+    // child still hears the word while moving the chip. Cheap, additive,
+    // and works whether they tap to listen first or drag immediately.
     const chipsWrapper = el('div', { class: 'drag-words' },
       wordOrder.map(wordId => {
         const item = items.find(i => i.id === wordId);
         const chip = el('div', {
           class: 'word-chip',
-          onpointerdown: (e) => startDrag(e, wordId),
+          onpointerdown: (e) => {
+            // Don't speak if this chip is already matched - re-tapping
+            // a 'used' chip after a correct match should stay silent.
+            if (!chip.classList.contains('word-chip--used')) {
+              audio.speak(item.word);
+            }
+            startDrag(e, wordId);
+          },
         }, [item.word]);
         chipById.set(wordId, chip);
         return chip;
@@ -171,7 +182,7 @@ export class DragGame extends BaseGame {
     );
 
     this.bodyContainer.append(
-      el('p', { class: 'game__prompt' }, ['Drag the word to the animal']),
+      el('p', { class: 'game__prompt' }, ['Tap the word to hear, then drag to the picture']),
       tilesWrapper,
       chipsWrapper,
     );
