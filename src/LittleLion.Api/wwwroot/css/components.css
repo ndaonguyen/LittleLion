@@ -85,6 +85,29 @@
   font-size: 18px;
 }
 
+/* Difficulty badge - colored emoji circle in a small pill. The emoji
+   itself (🟢/🟡/🔴) carries the color signal; we vary the font-size
+   per level so 'bigger = harder' reads at a glance. The pill chrome
+   matches the stars pill for visual consistency. */
+.topbar__difficulty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-soft);
+  /* Width matches a square pill; padding gives the emoji breathing room.
+     Width stays constant across levels so layout doesn't jump - only the
+     emoji inside grows/shrinks. */
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.topbar__difficulty--easy   { font-size: 14px; }
+.topbar__difficulty--medium { font-size: 18px; }
+.topbar__difficulty--hard   { font-size: 22px; }
+
 /* ---------- Primary sound button (tap to hear word) ---------- */
 .sound-button {
   display: inline-flex;

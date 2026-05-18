@@ -1,20 +1,21 @@
 import { el } from '../core/DomHelpers.js';
 
 /**
- * Reusable top bar (back + home + progress + stars).
+ * Reusable top bar (back + home + progress + [difficulty?] + stars).
  *
- * Layout: [← back?] [🏠 home] ----progress---- [⭐ 0]
+ * Layout: [← back?] [🏠 home] ----progress---- [🟢/🟡/🔴]? [⭐ 0]
  *
  * The back button is optional - pass { onBack } to show it, omit to
- * hide. Home is always shown. Game screens pass onBack so the child
- * can return to the Game Picker for the same lesson without bouncing
- * all the way to home. Other screens (Home, Sticker Book) only pass
- * onHome or their own navigation.
+ * hide. Home is always shown. The difficulty badge is also optional -
+ * pass { difficulty: 'Easy' | 'Medium' | 'Hard' } to show a small
+ * colored dot indicating the current level. Game screens pass it so
+ * the parent can see at a glance what level their kid is on; Home /
+ * Sticker Book / Game Picker omit it.
  *
  * Returns { element, update } so consumers can refresh progress/stars
  * without rebuilding the DOM.
  */
-export function createTopBar({ onBack, onHome }) {
+export function createTopBar({ onBack, onHome, difficulty }) {
   const fill = el('div', { class: 'topbar__progress-fill' });
   const starsLabel = el('span', {}, ['0']);
 
@@ -35,6 +36,21 @@ export function createTopBar({ onBack, onHome }) {
       onclick: onHome,
     }, ['🏠']),
     el('div', { class: 'topbar__progress' }, [fill]),
+  );
+
+  // Difficulty badge - emoji circle sized by difficulty. 4yo can read
+  // 'bigger and redder = harder' without needing to read the word.
+  if (difficulty) {
+    const emoji = { Easy: '🟢', Medium: '🟡', Hard: '🔴' }[difficulty] ?? '🟡';
+    const sizeClass = `topbar__difficulty--${difficulty.toLowerCase()}`;
+    children.push(el('div', {
+      class: `topbar__difficulty ${sizeClass}`,
+      'aria-label': `Difficulty: ${difficulty}`,
+      title: difficulty,
+    }, [emoji]));
+  }
+
+  children.push(
     el('div', { class: 'topbar__stars' }, ['⭐', starsLabel]),
   );
 

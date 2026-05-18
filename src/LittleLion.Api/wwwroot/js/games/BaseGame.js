@@ -85,6 +85,7 @@ export class BaseGame extends Component {
         difficulty: this.difficulty,
       }),
       onHome: () => this.context.router.navigate('home'),
+      difficulty: this.difficulty,
     });
 
     this.bodyContainer = el('div', { class: 'game__body' });
