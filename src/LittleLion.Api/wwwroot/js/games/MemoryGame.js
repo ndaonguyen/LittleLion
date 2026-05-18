@@ -12,8 +12,11 @@ import { createVocabVisual } from '../screens/VocabVisual.js';
  *   - Mismatch: both flip back after a brief delay so the child has time
  *     to memorize them for later
  *
- * Single-round game: one round == all pairs matched. Stars = pairs matched,
- * so a 3-pair Easy game caps at 3 stars, Medium 5, Hard 6.
+ * Single-round game: one round == all pairs matched. Stars = pairs matched.
+ *
+ * Easy: 3 pairs. Medium: 5 pairs. Hard: user-pickable between 6/8/10/12 pairs
+ * (capped by lesson vocabulary size). Hard's pair picker is rendered as
+ * inline pills above the grid, only when difficulty === 'Hard'.
  *
  * Deliberately does NOT call noteWrong() on mismatches - memory games
  * naturally produce many 'wrong' taps and that's the point, not a
@@ -23,13 +26,33 @@ export class MemoryGame extends BaseGame {
   get gameName()    { return 'memory'; }
   get totalRounds() { return 1; }
 
+  /** Pair counts the user can pick from at Hard difficulty. */
+  static HARD_PAIR_OPTIONS = [6, 8, 10, 12];
+
+  constructor(context, params) {
+    super(context, params);
+    // User-selected pair count for Hard mode. Defaults to the smallest
+    // option (6, same as before this feature). Easy/Medium ignore this.
+    this._hardPairs = 6;
+  }
+
   get pairCount() {
-    return { Easy: 3, Medium: 5, Hard: 6 }[this.difficulty] ?? 5;
+    if (this.difficulty === 'Hard') return this._hardPairs;
+    return { Easy: 3, Medium: 5 }[this.difficulty] ?? 5;
   }
 
   /** How long mismatched cards stay visible before flipping back. */
   get flipBackMs() {
     return { Easy: 1500, Medium: 1200, Hard: 1000 }[this.difficulty] ?? 1200;
+  }
+
+  /**
+   * Which hard-pair-count options are available for the current lesson?
+   * Filters out counts larger than the vocab size - e.g. a 10-item
+   * lesson (Numbers, Feelings) can't have 12 pairs.
+   */
+  get availableHardPairCounts() {
+    return MemoryGame.HARD_PAIR_OPTIONS.filter(n => n <= this.vocab.length);
   }
 
   renderRound() {
@@ -139,15 +162,58 @@ export class MemoryGame extends BaseGame {
       }
     };
 
-    // Grid sizing: build a grid CSS class based on pair count so 3/5/6 pairs
-    // each get a visually-pleasing layout (2x3, 2x5, 3x4 respectively).
+    // Grid sizing: build a grid CSS class based on pair count so 3/5/6/8/10/12 pairs
+    // each get a visually-pleasing layout. See memory-grid--pairs-N rules in CSS.
     const gridClass = `memory-grid memory-grid--pairs-${n}`;
     const gridEl = el('div', { class: gridClass }, cardEls.map(c => c.el));
 
-    this.bodyContainer.append(
+    const children = [
       el('p', { class: 'game__prompt' }, ['Find the matching pairs']),
-      gridEl,
-    );
+    ];
+    if (this.difficulty === 'Hard') {
+      children.push(this._buildHardPairPicker());
+    }
+    children.push(gridEl);
+    this.bodyContainer.append(...children);
+  }
+
+  /**
+   * Pill picker for the number of pairs at Hard. Tapping a pill updates
+   * _hardPairs and re-renders the round. Counts that exceed the lesson's
+   * vocab size are silently omitted (e.g. 12-pair option won't show on
+   * the Numbers lesson which only has 10 items).
+   */
+  _buildHardPairPicker() {
+    const row = el('div', {
+      class: 'memory-pair-picker',
+      role: 'radiogroup',
+      'aria-label': 'Number of pairs',
+    });
+
+    this.availableHardPairCounts.forEach(count => {
+      const isActive = count === this._hardPairs;
+      const pill = el('button', {
+        class: `memory-pair-picker__pill${isActive ? ' memory-pair-picker__pill--active' : ''}`,
+        type: 'button',
+        role: 'radio',
+        'aria-checked': String(isActive),
+        onclick: () => {
+          if (count === this._hardPairs) return;
+          this._hardPairs = count;
+          // Re-render the round with the new pair count. _renderRound
+          // clears the bodyContainer for us before re-running renderRound.
+          this._renderRound();
+          // Reset the round's score-tracking too - changing pair count
+          // mid-game restarts the round, so any prior progress on this
+          // round shouldn't bleed in.
+          this.stars = 0;
+          this._updateTopBar();
+        },
+      }, [`${count} pairs`]);
+      row.appendChild(pill);
+    });
+
+    return row;
   }
 
   _onMatch(first, second) {
