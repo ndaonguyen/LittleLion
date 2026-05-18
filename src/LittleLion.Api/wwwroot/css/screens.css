@@ -449,6 +449,22 @@
 .win__stars span:nth-child(5) { animation-delay: 0.4s; }
 
 .win__buttons { display: flex; gap: var(--space-3); }
+
+/* Stacked variant: 3 buttons in a vertical column for the Win screen.
+   Buttons grow to the same width so the visual hierarchy comes from
+   color (primary > secondary > ghost), not shape. */
+.win__buttons--stacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+  width: min(280px, 75vw);
+  margin: 0 auto;
+}
+.win__buttons--stacked .btn {
+  width: 100%;
+  text-align: center;
+}
+
 .btn {
   padding: var(--space-4) var(--space-6);
   border-radius: var(--radius-md);
@@ -464,6 +480,13 @@
   background: linear-gradient(135deg, var(--color-amber), var(--color-pink));
   color: var(--color-white);
   text-shadow: 0 2px 0 rgba(0,0,0,0.15);
+}
+/* Secondary: soft pastel to sit visually between primary (loud gradient)
+   and ghost (plain white). Used for 'Try another game' on the Win screen. */
+.btn--secondary {
+  background: linear-gradient(135deg, #C7D2FE, #DDD6FE);
+  color: #3730A3;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* ---------- Confetti ---------- */

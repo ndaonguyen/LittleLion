@@ -27,11 +27,8 @@ export class WinScreen extends Component {
       el('h2', { class: 'win__title' }, ['Great Job!']),
       el('p',  { class: 'win__subtitle' }, [`You earned ${this.stars} star${this.stars === 1 ? '' : 's'}!`]),
       starRow,
-      el('div', { class: 'win__buttons' }, [
-        el('button', {
-          class: 'btn btn--ghost',
-          onclick: () => this.context.router.navigate('home'),
-        }, ['Home']),
+      el('div', { class: 'win__buttons win__buttons--stacked' }, [
+        // Primary: replay the same game on the same lesson + difficulty
         el('button', {
           class: 'btn btn--primary',
           onclick: () => this.context.router.navigate(this.playedGame, {
@@ -39,6 +36,21 @@ export class WinScreen extends Component {
             difficulty: this.difficulty,
           }),
         }, ['Play again →']),
+        // Secondary: pick a different game for this same lesson - lets the
+        // child stay on the same topic but switch up the activity. Most
+        // natural next-step after a win for a kid who's into the topic.
+        el('button', {
+          class: 'btn btn--secondary',
+          onclick: () => this.context.router.navigate('gamePicker', {
+            lessonId: this.lessonId,
+            difficulty: this.difficulty,
+          }),
+        }, ['Try another game']),
+        // Tertiary: full exit back to home / lesson picker
+        el('button', {
+          class: 'btn btn--ghost',
+          onclick: () => this.context.router.navigate('home'),
+        }, ['Home']),
       ]),
     ]);
 
